@@ -2,24 +2,92 @@ package com.minesweeper.MineSweeper;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Random;
 
-public class SaoLei {
+public class SaoLei implements ActionListener {
     JFrame frame=new JFrame();
     ImageIcon bannerIcon=new ImageIcon("banner.png");//头部图片（可用于reset）
+    ImageIcon guessIcon=new ImageIcon("guess.png");//未开区域的图片
     JButton bannerBtn=new JButton(bannerIcon);
     JLabel label1=new JLabel("待开："+80);
     JLabel label2=new JLabel("已开："+0);
     JLabel label3=new JLabel("用时："+2+"s");
 
+    //数据结构
+    int ROW=20;//行数
+    int COL=20;//列数
+    int[][] data=new int[ROW][COL];//记录每格的数据
+    JButton[][] buttons=new JButton[ROW][COL];//按钮
+    int LeiCount=10;//雷的数量
+    int LeiCode=-1;//-1代表是雷
+    int unopened=ROW*COL;//未开的数量
+    int opened=0;//已开的数量
+
     public SaoLei(){
-        frame.setSize(600,700);
+        frame.setSize(960,960);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
-        setHeader();
+        setHeader();//设置头部
+
+        addLei();//放雷
+
+        setButtons();//设置按钮和未开的图标
 
         frame.setVisible(true);
+    }
+
+    private void addLei(){
+        Random rand=new Random();
+        for (int i = 0; i < LeiCount; ) {
+            int r=rand.nextInt(ROW);//0-19的整数
+            int c=rand.nextInt(COL);
+            if(data[r][c]!=LeiCode){
+                data[r][c]=LeiCode;
+                i++;
+            }
+        }
+
+        //计算周边的雷的数量
+        for (int i = 0; i < ROW; i++) {
+            for (int j = 0; j < COL; j++) {
+
+                if(data[i][j]==LeiCode)
+                    continue;
+
+                int tempCount=0;//周围的雷数
+                if (i>0 && j>0 && data[i-1][j-1] == LeiCode) tempCount++;
+                if (i>0 && data[i-1][j] == LeiCode) tempCount++;
+                if (i>0 && j<19 && data[i-1][j+1] == LeiCode) tempCount++;
+                if (j>0 && data[i][j-1] ==  LeiCode) tempCount++;
+                if (j<19 && data[i][j+1] == LeiCode) tempCount++;
+                if (i<19 && j>0 && data[i+1][j-1] == LeiCode) tempCount++;
+                if (i<19 && data[i+1][j] == LeiCode) tempCount++;
+                if (i<19 && j<19 && data[i+1][j+1] == LeiCode) tempCount++;
+
+                data[i][j]=tempCount;
+            }
+        }
+    }
+
+    public void setButtons(){
+        Container con=new Container();//小容器，可以放入图片和按钮
+        con.setLayout(new GridLayout(ROW,COL));//用于排布相同的容器
+
+        for (int i = 0; i < ROW; i++) {
+            for (int i1 = 0; i1 < COL; i1++) {
+                JButton btn=new JButton(guessIcon);//设置按钮
+                btn.addActionListener(this);
+                //JButton btn=new JButton(data[i][i1]+"");
+                con.add(btn);//将按钮放在容器中
+                buttons[i][i1]=btn;//将按钮放入数据结构中
+            }
+        }
+
+        frame.add(con,BorderLayout.CENTER);//将容器（们）放在中心位置
     }
 
     //设计框体头部
@@ -58,5 +126,42 @@ public class SaoLei {
 
     public static void main(String[] args) {
         new SaoLei();
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        JButton btn=(JButton) e.getSource();
+        for (int i = 0; i < ROW; i++) {
+            for (int i1 = 0; i1 < COL; i1++) {
+                if(btn.equals(buttons[i][i1])){
+                    openCell(i,i1);//打开格子
+                    return;
+                }
+            }
+        }
+    }
+
+    private void openCell(int i,int j){
+        JButton btn=buttons[i][j];
+        if(!btn.isEnabled()) return;
+
+        btn.setIcon(null);//清除icon
+        btn.setEnabled(false);
+        btn.setOpaque(true);//设置不透明
+        btn.setBackground(Color.GREEN);//背景换为绿色
+        btn.setText(data[i][j]+"");//填入数字
+
+        //实现连续打开
+        if(data[i][j] == 0) {
+            if (i>0 && j>0 && data[i-1][j-1] == 0) openCell(i-1, j-1);
+            if (i>0 && data[i-1][j] == 0) openCell(i-1, j);
+            if (i>0 && j<19 && data[i-1][j+1] == 0) openCell(i-1, j+1);
+            if (j>0 && data[i][j-1] == 0) openCell(i, j-1);
+            if (j<19 && data[i][j+1] == 0) openCell(i, j+1);
+            if (i<19 && j>0 && data[i+1][j-1] == 0) openCell(i+1, j-1);
+            if (i<19 && data[i+1][j] == 0) openCell(i+1, j);
+            if (i<19 && j<19 && data[i+1][j+1] == 0) openCell(i+1, j+1);
+        }
     }
 }
