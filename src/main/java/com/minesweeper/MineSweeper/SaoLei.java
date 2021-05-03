@@ -10,7 +10,12 @@ public class SaoLei implements ActionListener {
     JFrame frame=new JFrame();
     ImageIcon bannerIcon=new ImageIcon("banner.png");//头部图片（可用于reset）
     ImageIcon guessIcon=new ImageIcon("guess.png");//未开区域的图片
+    ImageIcon bombIcon=new ImageIcon("bomb.png");
+    ImageIcon failIcon=new ImageIcon("fail.png");
+    ImageIcon winIcon=new ImageIcon("win.png");
+    ImageIcon win_flagIcon=new ImageIcon("win_flag.png");
     JButton bannerBtn=new JButton(bannerIcon);
+
     JLabel label1=new JLabel("待开："+80);
     JLabel label2=new JLabel("已开："+0);
     JLabel label3=new JLabel("用时："+2+"s");
@@ -20,7 +25,7 @@ public class SaoLei implements ActionListener {
     int COL=20;//列数
     int[][] data=new int[ROW][COL];//记录每格的数据
     JButton[][] buttons=new JButton[ROW][COL];//按钮
-    int LeiCount=10;//雷的数量
+    int LeiCount=2;//雷的数量
     int LeiCode=-1;//-1代表是雷
     int unopened=ROW*COL;//未开的数量
     int opened=0;//已开的数量
@@ -80,6 +85,8 @@ public class SaoLei implements ActionListener {
         for (int i = 0; i < ROW; i++) {
             for (int i1 = 0; i1 < COL; i1++) {
                 JButton btn=new JButton(guessIcon);//设置按钮
+                btn.setOpaque(true);
+                btn.setBackground(new Color(244,183,113));//设置背景色
                 btn.addActionListener(this);
                 //JButton btn=new JButton(data[i][i1]+"");
                 con.add(btn);//将按钮放在容器中
@@ -129,18 +136,67 @@ public class SaoLei implements ActionListener {
     }
 
 
-    @Override
+
     public void actionPerformed(ActionEvent e) {
         JButton btn=(JButton) e.getSource();
         for (int i = 0; i < ROW; i++) {
             for (int i1 = 0; i1 < COL; i1++) {
                 if(btn.equals(buttons[i][i1])){
-                    openCell(i,i1);//打开格子
+                    if(data[i][i1]==LeiCode){//判断输赢
+                        lose();
+                    }else{
+                        openCell(i,i1);
+                        checkWin();//判断胜利
+                    }
                     return;
                 }
             }
         }
     }
+
+    private void checkWin(){
+        int count=0;
+        for(int i=0;i<ROW;i++){
+            for(int i1=0;i1<COL;i1++){
+                if(buttons[i][i1].isEnabled()) count++;
+            }
+        }
+        if(count==LeiCount){
+            for(int i=0;i<ROW;i++){
+                for(int i1=0;i1<COL;i1++){
+                    if(buttons[i][i1].isEnabled()){
+                        buttons[i][i1].setIcon(win_flagIcon);
+                    }
+                }
+            }
+            bannerBtn.setIcon(winIcon);
+            JOptionPane.showMessageDialog(frame,"你赢了，Yeah\n点击Banner重新开始","赢了",JOptionPane.PLAIN_MESSAGE);
+        }
+
+    }
+
+    private void lose(){//踩到雷后爆雷
+        bannerBtn.setIcon(failIcon);
+        for(int i=0;i<ROW;i++){
+            for(int i1=0;i1<COL;i1++){
+                if(buttons[i][i1].isEnabled()){
+                    JButton btn=buttons[i][i1];
+                    if(data[i][i1]==LeiCode){
+                        btn.setEnabled(false);
+                        btn.setIcon(bombIcon);
+                        btn.setDisabledIcon(bombIcon);
+                    }else{btn.setIcon(null);//清除icon
+                        btn.setEnabled(false);
+                        btn.setOpaque(true);//设置不透明
+                        btn.setText(data[i][i1]+"");//填入数字
+                    }
+                }
+            }
+        }
+        JOptionPane.showMessageDialog(frame,"可惜你暴雷了！\n你可以点击上面的Banner重新开始","暴雷啦",JOptionPane.PLAIN_MESSAGE);//显示暴雷提示框
+    }
+
+
 
     private void openCell(int i,int j){
         JButton btn=buttons[i][j];
