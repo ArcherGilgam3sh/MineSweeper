@@ -14,11 +14,6 @@ public class SaoLei implements ActionListener {
     ImageIcon failIcon=new ImageIcon("fail.png");
     ImageIcon winIcon=new ImageIcon("win.png");
     ImageIcon win_flagIcon=new ImageIcon("win_flag.png");
-    JButton bannerBtn=new JButton(bannerIcon);
-
-    JLabel label1=new JLabel("待开："+80);
-    JLabel label2=new JLabel("已开："+0);
-    JLabel label3=new JLabel("用时："+2+"s");
 
     //数据结构
     int ROW=20;//行数
@@ -29,6 +24,10 @@ public class SaoLei implements ActionListener {
     int LeiCode=-1;//-1代表是雷
     int unopened=ROW*COL;//未开的数量
     int opened=0;//已开的数量
+    JButton bannerBtn=new JButton(bannerIcon);
+    JLabel label1=new JLabel("待开："+ unopened);
+    JLabel label2=new JLabel("已开："+ opened);
+    JLabel label3=new JLabel("用时："+2+"s");
 
     public SaoLei(){
         frame.setSize(960,960);
@@ -208,6 +207,8 @@ public class SaoLei implements ActionListener {
         btn.setBackground(Color.GREEN);//背景换为绿色
         btn.setText(data[i][j]+"");//填入数字
 
+        addOpenCount();//调用这个方法来更改每一次操作所带来的已开和未开格子数目的变化
+
         //实现连续打开
         if(data[i][j] == 0) {
             if (i>0 && j>0 && data[i-1][j-1] == 0) openCell(i-1, j-1);
@@ -219,5 +220,13 @@ public class SaoLei implements ActionListener {
             if (i<19 && data[i+1][j] == 0) openCell(i+1, j);
             if (i<19 && j<19 && data[i+1][j+1] == 0) openCell(i+1, j+1);
         }
+    }
+
+    private void addOpenCount() {
+        opened++;
+        unopened--;
+        label1.setText("待开：" + unopened);
+        label2.setText("已开：" + opened);
+
     }
 }
