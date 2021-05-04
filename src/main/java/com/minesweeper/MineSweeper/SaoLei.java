@@ -25,7 +25,7 @@ public class SaoLei implements ActionListener {
     int COL=20;//列数
     int[][] data=new int[ROW][COL];//记录每格的数据
     JButton[][] buttons=new JButton[ROW][COL];//按钮
-    int LeiCount=30;//雷的数量
+    int LeiCount=40;//雷的数量
     int LeiCode=-1;//-1代表是雷
     int unopened=ROW*COL;//未开的数量
     int opened=0;//已开的数量
