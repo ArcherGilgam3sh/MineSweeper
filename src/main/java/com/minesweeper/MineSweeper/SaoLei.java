@@ -267,9 +267,9 @@ public class SaoLei implements ActionListener {
         unopened=ROW*COL;//未开的数量
         opened=0;//已开的数量
         seconds = 0;
-        label1=new JLabel("待开："+ unopened);
-        label2=new JLabel("已开："+ opened);
-        label3=new JLabel("用时："+ seconds +"s");
+        label1.setText("待开："+ unopened);
+        label2.setText("已开："+ opened);
+        label3.setText("用时："+ seconds +"s");
 
         addLei();
         timer.start();
