@@ -24,10 +24,12 @@ public class SaoLei implements ActionListener {
     int LeiCode=-1;//-1代表是雷
     int unopened=ROW*COL;//未开的数量
     int opened=0;//已开的数量
+    int seconds = 0;
     JButton bannerBtn=new JButton(bannerIcon);
     JLabel label1=new JLabel("待开："+ unopened);
     JLabel label2=new JLabel("已开："+ opened);
-    JLabel label3=new JLabel("用时："+2+"s");
+    JLabel label3=new JLabel("用时："+ seconds +"s");
+    Timer timer = new Timer(1000,this);
 
     public SaoLei(){
         frame.setSize(960,960);
@@ -40,6 +42,8 @@ public class SaoLei implements ActionListener {
         addLei();//放雷
 
         setButtons();//设置按钮和未开的图标
+
+        timer.start();//别忘了最开始也要开始Timer
 
         frame.setVisible(true);
     }
@@ -102,6 +106,7 @@ public class SaoLei implements ActionListener {
 
         GridBagConstraints c1=new GridBagConstraints(0,0,3,1,1.0,1.0,GridBagConstraints.CENTER,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
         panel.add(bannerBtn,c1);
+        bannerBtn.addActionListener(this);//这个按钮点了之后去找this，也就是actionPerformed方法
 
         label1.setOpaque(true);//设置透明度-不透明
         label1.setBackground(Color.white);//设置背景色
@@ -134,10 +139,20 @@ public class SaoLei implements ActionListener {
         new SaoLei();
     }
 
-
-
     public void actionPerformed(ActionEvent e) {
+        //先判断一下触发这action的是谁
+        if(e.getSource() instanceof Timer) {
+            seconds++;
+            label3.setText("用时：" + seconds + "s");
+            timer.start();//每次++完都要再开始一遍
+            return;
+        }
+
         JButton btn=(JButton) e.getSource();
+        if (btn.equals(bannerBtn)) {
+            restart();
+            return;
+        }
         for (int i = 0; i < ROW; i++) {
             for (int i1 = 0; i1 < COL; i1++) {
                 if(btn.equals(buttons[i][i1])){
@@ -161,6 +176,7 @@ public class SaoLei implements ActionListener {
             }
         }
         if(count==LeiCount){
+            timer.stop();//胜利后时间停止
             for(int i=0;i<ROW;i++){
                 for(int i1=0;i1<COL;i1++){
                     if(buttons[i][i1].isEnabled()){
@@ -175,6 +191,7 @@ public class SaoLei implements ActionListener {
     }
 
     private void lose(){//踩到雷后爆雷
+        timer.stop();//踩雷后时间停止
         bannerBtn.setIcon(failIcon);
         for(int i=0;i<ROW;i++){
             for(int i1=0;i1<COL;i1++){
@@ -194,8 +211,6 @@ public class SaoLei implements ActionListener {
         }
         JOptionPane.showMessageDialog(frame,"可惜你暴雷了！\n你可以点击上面的Banner重新开始","暴雷啦",JOptionPane.PLAIN_MESSAGE);//显示暴雷提示框
     }
-
-
 
     private void openCell(int i,int j){
         JButton btn=buttons[i][j];
@@ -228,5 +243,35 @@ public class SaoLei implements ActionListener {
         label1.setText("待开：" + unopened);
         label2.setText("已开：" + opened);
 
+    }
+
+    /*
+    restart里要干嘛：
+    1.给数据清零
+    2.给按钮恢复状态
+    3.重新启动时钟
+     */
+    private void restart() {
+        //恢复数据和按钮
+        for(int i=0;i<ROW;i++){
+            for(int i1=0;i1<COL;i1++){
+                data[i][i1] = 0;
+                buttons[i][i1].setBackground(new Color(244,183,113));
+                buttons[i][i1].setEnabled(true);
+                buttons[i][i1].setText("");
+                buttons[i][i1].setIcon(guessIcon);
+            }
+        }
+
+        //状态栏恢复
+        unopened=ROW*COL;//未开的数量
+        opened=0;//已开的数量
+        seconds = 0;
+        label1=new JLabel("待开："+ unopened);
+        label2=new JLabel("已开："+ opened);
+        label3=new JLabel("用时："+ seconds +"s");
+
+        addLei();
+        timer.start();
     }
 }
