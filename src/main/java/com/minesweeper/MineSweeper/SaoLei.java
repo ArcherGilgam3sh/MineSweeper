@@ -7,32 +7,35 @@ import java.awt.event.ActionListener;
 import java.util.Random;
 
 public class SaoLei implements ActionListener {
-    JFrame frame=new JFrame();
-    ImageIcon bannerIcon=new ImageIcon("banner.png");//头部图片（可用于reset）
-    ImageIcon guessIcon=new ImageIcon("guess.png");//未开区域的图片
-    ImageIcon bombIcon=new ImageIcon("bomb.png");
-    ImageIcon failIcon=new ImageIcon("fail.png");
-    ImageIcon winIcon=new ImageIcon("win.png");
-    ImageIcon win_flagIcon=new ImageIcon("win_flag.png");
+    JFrame frame = new JFrame();
+    ImageIcon bannerIcon = new ImageIcon("banner.png");//头部图片（可用于reset）
+    ImageIcon guessIcon = new ImageIcon("guess.png");//未开区域的图片
+    ImageIcon bombIcon = new ImageIcon("bomb.png");
+    ImageIcon failIcon = new ImageIcon("fail.png");
+    ImageIcon winIcon = new ImageIcon("win.png");
+    ImageIcon win_flagIcon = new ImageIcon("win_flag.png");
 
     //数据结构
-    int ROW=20;//行数
-    int COL=20;//列数
-    int[][] data=new int[ROW][COL];//记录每格的数据
-    JButton[][] buttons=new JButton[ROW][COL];//按钮
-    int LeiCount=40;//雷的数量
-    int LeiCode=-1;//-1代表是雷
-    int unopened=ROW*COL;//未开的数量
-    int opened=0;//已开的数量
+    int ROW = 20;//行数
+    int COL = 20;//列数
+    int[][] data = new int[ROW][COL];//记录每格的数据
+    JButton[][] buttons = new JButton[ROW][COL];//按钮
+    int LeiCount = 40;//雷的数量
+    int LeiCode = -1;//-1代表是雷
+    int unopened = ROW * COL;//未开的数量
+    int opened = 0;//已开的数量
     int seconds = 0;
-    JButton bannerBtn=new JButton(bannerIcon);
-    JLabel label1=new JLabel("待开："+ unopened);
-    JLabel label2=new JLabel("已开："+ opened);
-    JLabel label3=new JLabel("用时："+ seconds +"s");
-    Timer timer = new Timer(1000,this);
+    int actionCount = 0;
+    int maxAction = 5;
+    int player = 0;
+    JButton bannerBtn = new JButton(bannerIcon);
+    JLabel label1 = new JLabel("待开：" + unopened);
+    JLabel label2 = new JLabel("已开：" + opened);
+    JLabel label3 = new JLabel("用时：" + seconds + "s");
+    Timer timer = new Timer(1000, this);
 
-    public SaoLei(){
-        frame.setSize(960,960);
+    public SaoLei() {
+        frame.setSize(960, 960);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
@@ -48,13 +51,13 @@ public class SaoLei implements ActionListener {
         frame.setVisible(true);
     }
 
-    private void addLei(){
-        Random rand=new Random();
+    private void addLei() {
+        Random rand = new Random();
         for (int i = 0; i < LeiCount; ) {
-            int r=rand.nextInt(ROW);//0-19的整数
-            int c=rand.nextInt(COL);
-            if(data[r][c]!=LeiCode){
-                data[r][c]=LeiCode;
+            int r = rand.nextInt(ROW);//0-19的整数
+            int c = rand.nextInt(COL);
+            if (data[r][c] != LeiCode) {
+                data[r][c] = LeiCode;
                 i++;
             }
         }
@@ -63,49 +66,49 @@ public class SaoLei implements ActionListener {
         for (int i = 0; i < ROW; i++) {
             for (int j = 0; j < COL; j++) {
 
-                if(data[i][j]==LeiCode)
+                if (data[i][j] == LeiCode)
                     continue;
 
-                int tempCount=0;//周围的雷数
-                if (i>0 && j>0 && data[i-1][j-1] == LeiCode) tempCount++;
-                if (i>0 && data[i-1][j] == LeiCode) tempCount++;
-                if (i>0 && j<19 && data[i-1][j+1] == LeiCode) tempCount++;
-                if (j>0 && data[i][j-1] ==  LeiCode) tempCount++;
-                if (j<19 && data[i][j+1] == LeiCode) tempCount++;
-                if (i<19 && j>0 && data[i+1][j-1] == LeiCode) tempCount++;
-                if (i<19 && data[i+1][j] == LeiCode) tempCount++;
-                if (i<19 && j<19 && data[i+1][j+1] == LeiCode) tempCount++;
+                int tempCount = 0;//周围的雷数
+                if (i > 0 && j > 0 && data[i - 1][j - 1] == LeiCode) tempCount++;
+                if (i > 0 && data[i - 1][j] == LeiCode) tempCount++;
+                if (i > 0 && j < 19 && data[i - 1][j + 1] == LeiCode) tempCount++;
+                if (j > 0 && data[i][j - 1] == LeiCode) tempCount++;
+                if (j < 19 && data[i][j + 1] == LeiCode) tempCount++;
+                if (i < 19 && j > 0 && data[i + 1][j - 1] == LeiCode) tempCount++;
+                if (i < 19 && data[i + 1][j] == LeiCode) tempCount++;
+                if (i < 19 && j < 19 && data[i + 1][j + 1] == LeiCode) tempCount++;
 
-                data[i][j]=tempCount;
+                data[i][j] = tempCount;
             }
         }
     }
 
-    public void setButtons(){
-        Container con=new Container();//小容器，可以放入图片和按钮
-        con.setLayout(new GridLayout(ROW,COL));//用于排布相同的容器
+    public void setButtons() {
+        Container con = new Container();//小容器，可以放入图片和按钮
+        con.setLayout(new GridLayout(ROW, COL));//用于排布相同的容器
 
         for (int i = 0; i < ROW; i++) {
             for (int i1 = 0; i1 < COL; i1++) {
-                JButton btn=new JButton(guessIcon);//设置按钮
+                JButton btn = new JButton(guessIcon);//设置按钮
                 btn.setOpaque(true);
-                btn.setBackground(new Color(244,183,113));//设置背景色
+                btn.setBackground(new Color(244, 183, 113));//设置背景色
                 btn.addActionListener(this);
                 //JButton btn=new JButton(data[i][i1]+"");
                 con.add(btn);//将按钮放在容器中
-                buttons[i][i1]=btn;//将按钮放入数据结构中
+                buttons[i][i1] = btn;//将按钮放入数据结构中
             }
         }
 
-        frame.add(con,BorderLayout.CENTER);//将容器（们）放在中心位置
+        frame.add(con, BorderLayout.CENTER);//将容器（们）放在中心位置
     }
 
     //设计框体头部
-    public void setHeader(){
+    public void setHeader() {
         JPanel panel = new JPanel(new GridBagLayout());//设置画布
 
-        GridBagConstraints c1=new GridBagConstraints(0,0,3,1,1.0,1.0,GridBagConstraints.CENTER,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
-        panel.add(bannerBtn,c1);
+        GridBagConstraints c1 = new GridBagConstraints(0, 0, 3, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
+        panel.add(bannerBtn, c1);
         bannerBtn.addActionListener(this);//这个按钮点了之后去找this，也就是actionPerformed方法
 
         label1.setOpaque(true);//设置透明度-不透明
@@ -124,15 +127,15 @@ public class SaoLei implements ActionListener {
         bannerBtn.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
         bannerBtn.setBackground(Color.white);
 
-        GridBagConstraints c2=new GridBagConstraints(0,1,1,1,1.0,1.0,GridBagConstraints.CENTER,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
-        GridBagConstraints c3=new GridBagConstraints(1,1,1,1,1.0,1.0,GridBagConstraints.CENTER,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
-        GridBagConstraints c4=new GridBagConstraints(2,1,1,1,1.0,1.0,GridBagConstraints.CENTER,GridBagConstraints.BOTH,new Insets(0,0,0,0),0,0);
+        GridBagConstraints c2 = new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
+        GridBagConstraints c3 = new GridBagConstraints(1, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
+        GridBagConstraints c4 = new GridBagConstraints(2, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
 
-        panel.add(label1,c2);
-        panel.add(label2,c3);
-        panel.add(label3,c4);
+        panel.add(label1, c2);
+        panel.add(label2, c3);
+        panel.add(label3, c4);
 
-        frame.add(panel,BorderLayout.NORTH);
+        frame.add(panel, BorderLayout.NORTH);
     }
 
     public static void main(String[] args) {
@@ -141,26 +144,38 @@ public class SaoLei implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         //先判断一下触发这action的是谁
-        if(e.getSource() instanceof Timer) {
+        if (e.getSource() instanceof Timer) {
             seconds++;
             label3.setText("用时：" + seconds + "s");
             timer.start();//每次++完都要再开始一遍
             return;
         }
 
-        JButton btn=(JButton) e.getSource();
+        JButton btn = (JButton) e.getSource();
         if (btn.equals(bannerBtn)) {
             restart();
             return;
         }
         for (int i = 0; i < ROW; i++) {
             for (int i1 = 0; i1 < COL; i1++) {
-                if(btn.equals(buttons[i][i1])){
-                    if(data[i][i1]==LeiCode){//判断输赢
+                if (btn.equals(buttons[i][i1])) {
+                    if (data[i][i1] == LeiCode) {//判断输赢
                         lose();
-                    }else{
-                        openCell(i,i1);
+                    } else {
+                        openCell(i, i1);
                         checkWin();//判断胜利
+
+                        /*
+                        此处为尝试加入操作次数统计
+                        以及双人操作的切换
+                         */
+
+                        if (checkActionCount()) {
+                            System.out.println("Player"+(player+1)+"已经操作"+actionCount+"/"+maxAction+"次");
+                        }else{
+                            System.out.println("已经操作"+maxAction+"/"+maxAction+"次");
+                            System.out.println("Player"+(player+1)+"'s turn!");
+                        }
                     }
                     return;
                 }
@@ -168,72 +183,84 @@ public class SaoLei implements ActionListener {
         }
     }
 
-    private void checkWin(){
-        int count=0;
-        for(int i=0;i<ROW;i++){
-            for(int i1=0;i1<COL;i1++){
-                if(buttons[i][i1].isEnabled()) count++;
+    private boolean checkActionCount() {
+        actionCount++;
+        if (actionCount == maxAction) {
+            player = (player == 0) ? 1 : 0;
+            actionCount=0;
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private void checkWin() {
+        int count = 0;
+        for (int i = 0; i < ROW; i++) {
+            for (int i1 = 0; i1 < COL; i1++) {
+                if (buttons[i][i1].isEnabled()) count++;
             }
         }
-        if(count==LeiCount){
+        if (count == LeiCount) {
             timer.stop();//胜利后时间停止
-            for(int i=0;i<ROW;i++){
-                for(int i1=0;i1<COL;i1++){
-                    if(buttons[i][i1].isEnabled()){
+            for (int i = 0; i < ROW; i++) {
+                for (int i1 = 0; i1 < COL; i1++) {
+                    if (buttons[i][i1].isEnabled()) {
                         buttons[i][i1].setIcon(win_flagIcon);
                     }
                 }
             }
             bannerBtn.setIcon(winIcon);
-            JOptionPane.showMessageDialog(frame,"你赢了，Yeah\n点击Banner重新开始","赢了",JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(frame, "你赢了，Yeah\n点击Banner重新开始", "赢了", JOptionPane.PLAIN_MESSAGE);
         }
 
     }
 
-    private void lose(){//踩到雷后爆雷
+    private void lose() {//踩到雷后爆雷
         timer.stop();//踩雷后时间停止
         bannerBtn.setIcon(failIcon);
-        for(int i=0;i<ROW;i++){
-            for(int i1=0;i1<COL;i1++){
-                if(buttons[i][i1].isEnabled()){
-                    JButton btn=buttons[i][i1];
-                    if(data[i][i1]==LeiCode){
+        for (int i = 0; i < ROW; i++) {
+            for (int i1 = 0; i1 < COL; i1++) {
+                if (buttons[i][i1].isEnabled()) {
+                    JButton btn = buttons[i][i1];
+                    if (data[i][i1] == LeiCode) {
                         btn.setEnabled(false);
                         btn.setIcon(bombIcon);
                         btn.setDisabledIcon(bombIcon);
-                    }else{btn.setIcon(null);//清除icon
+                    } else {
+                        btn.setIcon(null);//清除icon
                         btn.setEnabled(false);
                         btn.setOpaque(true);//设置不透明
-                        btn.setText(data[i][i1]+"");//填入数字
+                        btn.setText(data[i][i1] + "");//填入数字
                     }
                 }
             }
         }
-        JOptionPane.showMessageDialog(frame,"可惜你暴雷了！\n你可以点击上面的Banner重新开始","暴雷啦",JOptionPane.PLAIN_MESSAGE);//显示暴雷提示框
+        JOptionPane.showMessageDialog(frame, "可惜你暴雷了！\n你可以点击上面的Banner重新开始", "暴雷啦", JOptionPane.PLAIN_MESSAGE);//显示暴雷提示框
     }
 
-    private void openCell(int i,int j){
-        JButton btn=buttons[i][j];
-        if(!btn.isEnabled()) return;
+    private void openCell(int i, int j) {
+        JButton btn = buttons[i][j];
+        if (!btn.isEnabled()) return;
 
         btn.setIcon(null);//清除icon
         btn.setEnabled(false);
         btn.setOpaque(true);//设置不透明
         btn.setBackground(Color.GREEN);//背景换为绿色
-        btn.setText(data[i][j]+"");//填入数字
+        btn.setText(data[i][j] + "");//填入数字
 
         addOpenCount();//调用这个方法来更改每一次操作所带来的已开和未开格子数目的变化
 
         //实现连续打开
-        if(data[i][j] == 0) {
-            if (i>0 && j>0 && data[i-1][j-1] == 0) openCell(i-1, j-1);
-            if (i>0 && data[i-1][j] == 0) openCell(i-1, j);
-            if (i>0 && j<19 && data[i-1][j+1] == 0) openCell(i-1, j+1);
-            if (j>0 && data[i][j-1] == 0) openCell(i, j-1);
-            if (j<19 && data[i][j+1] == 0) openCell(i, j+1);
-            if (i<19 && j>0 && data[i+1][j-1] == 0) openCell(i+1, j-1);
-            if (i<19 && data[i+1][j] == 0) openCell(i+1, j);
-            if (i<19 && j<19 && data[i+1][j+1] == 0) openCell(i+1, j+1);
+        if (data[i][j] == 0) {
+            if (i > 0 && j > 0 && data[i - 1][j - 1] == 0) openCell(i - 1, j - 1);
+            if (i > 0 && data[i - 1][j] == 0) openCell(i - 1, j);
+            if (i > 0 && j < 19 && data[i - 1][j + 1] == 0) openCell(i - 1, j + 1);
+            if (j > 0 && data[i][j - 1] == 0) openCell(i, j - 1);
+            if (j < 19 && data[i][j + 1] == 0) openCell(i, j + 1);
+            if (i < 19 && j > 0 && data[i + 1][j - 1] == 0) openCell(i + 1, j - 1);
+            if (i < 19 && data[i + 1][j] == 0) openCell(i + 1, j);
+            if (i < 19 && j < 19 && data[i + 1][j + 1] == 0) openCell(i + 1, j + 1);
         }
     }
 
@@ -253,23 +280,27 @@ public class SaoLei implements ActionListener {
      */
     private void restart() {
         //恢复数据和按钮
-        for(int i=0;i<ROW;i++){
-            for(int i1=0;i1<COL;i1++){
+        for (int i = 0; i < ROW; i++) {
+            for (int i1 = 0; i1 < COL; i1++) {
                 data[i][i1] = 0;
-                buttons[i][i1].setBackground(new Color(244,183,113));
+                buttons[i][i1].setBackground(new Color(244, 183, 113));
                 buttons[i][i1].setEnabled(true);
                 buttons[i][i1].setText("");
                 buttons[i][i1].setIcon(guessIcon);
             }
         }
 
+        //操作次数以及player信息恢复
+        player=0;
+        actionCount=0;
+
         //状态栏恢复
-        unopened=ROW*COL;//未开的数量
-        opened=0;//已开的数量
+        unopened = ROW * COL;//未开的数量
+        opened = 0;//已开的数量
         seconds = 0;
-        label1.setText("待开："+ unopened);
-        label2.setText("已开："+ opened);
-        label3.setText("用时："+ seconds +"s");
+        label1.setText("待开：" + unopened);
+        label2.setText("已开：" + opened);
+        label3.setText("用时：" + seconds + "s");
 
         addLei();
         timer.start();
