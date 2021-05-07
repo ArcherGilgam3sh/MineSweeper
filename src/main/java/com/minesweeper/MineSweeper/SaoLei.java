@@ -29,18 +29,29 @@ public class SaoLei implements ActionListener {
     int maxAction = 5;
     int player = 0;
     JButton bannerBtn = new JButton(bannerIcon);
+
+    JButton eastTestBtn = new JButton(bannerIcon);//调试中 ZFH
+    JButton westTestBtn = new JButton(bannerIcon);//调试中 ZFH
+    JButton southTestBtn = new JButton(bannerIcon);//调试中 ZFH
+
     JLabel label1 = new JLabel("待开：" + unopened);
     JLabel label2 = new JLabel("已开：" + opened);
     JLabel label3 = new JLabel("用时：" + seconds + "s");
     Timer timer = new Timer(1000, this);
 
     public SaoLei() {
-        frame.setSize(960, 960);
+        frame.setSize(1340, 1000);//宽度调试中 ZFH
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
         setHeader();//设置头部
+
+        setEast();//调试中 ZFH
+
+        setWest();//调试中 ZFH
+
+        setSouth();//调试中 ZFH
 
         addLei();//放雷
 
@@ -136,6 +147,46 @@ public class SaoLei implements ActionListener {
         panel.add(label3, c4);
 
         frame.add(panel, BorderLayout.NORTH);
+    }
+
+    public void setEast(){
+        JPanel panel = new JPanel(new GridBagLayout());//设置画布
+
+        GridBagConstraints c1 = new GridBagConstraints(0, 0, 3, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
+        panel.add(eastTestBtn, c1);
+        bannerBtn.addActionListener(this);
+
+        bannerBtn.setOpaque(true);
+        bannerBtn.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+        bannerBtn.setBackground(Color.white);
+
+        frame.add(panel, BorderLayout.EAST);
+    }
+
+    public void setWest(){
+        JPanel panel = new JPanel(new GridBagLayout());//设置画布
+        GridBagConstraints c1 = new GridBagConstraints(0, 0, 3, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
+        panel.add(westTestBtn, c1);
+        bannerBtn.addActionListener(this);
+
+        bannerBtn.setOpaque(true);
+        bannerBtn.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+        bannerBtn.setBackground(Color.white);
+
+        frame.add(panel, BorderLayout.WEST);
+    }
+
+    public void setSouth(){
+        JPanel panel = new JPanel(new GridBagLayout());//设置画布
+        GridBagConstraints c1 = new GridBagConstraints(0, 0, 3, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
+        panel.add(southTestBtn, c1);
+        bannerBtn.addActionListener(this);
+
+        bannerBtn.setOpaque(true);
+        bannerBtn.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+        bannerBtn.setBackground(Color.white);
+
+        frame.add(panel, BorderLayout.SOUTH);
     }
 
     public static void main(String[] args) {
