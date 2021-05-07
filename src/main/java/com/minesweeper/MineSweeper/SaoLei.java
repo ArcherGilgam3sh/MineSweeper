@@ -4,9 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Random;
 
-public class SaoLei implements ActionListener {
+public class SaoLei implements ActionListener , MouseListener {
     JFrame frame = new JFrame();
     ImageIcon bannerIcon = new ImageIcon("banner.png");//头部图片（可用于reset）
     ImageIcon guessIcon = new ImageIcon("guess.png");//未开区域的图片
@@ -14,13 +16,14 @@ public class SaoLei implements ActionListener {
     ImageIcon failIcon = new ImageIcon("fail.png");
     ImageIcon winIcon = new ImageIcon("win.png");
     ImageIcon win_flagIcon = new ImageIcon("win_flag.png");
+    ImageIcon flagIcon= new ImageIcon("flag.pnd");
 
     //数据结构
     int ROW = 20;//行数
     int COL = 20;//列数
     int[][] data = new int[ROW][COL];//记录每格的数据
     JButton[][] buttons = new JButton[ROW][COL];//按钮
-    int LeiCount = 199;//雷的数量
+    int LeiCount = 99;//雷的数量
     int LeiCode = -1;//-1代表是雷
     int unopened = ROW * COL;//未开的数量
     int opened = 0;//已开的数量
@@ -124,6 +127,7 @@ public class SaoLei implements ActionListener {
                 btn.setOpaque(true);
                 btn.setBackground(new Color(244, 183, 113));//设置背景色
                 btn.addActionListener(this);
+                btn.addMouseListener(this);
                 //JButton btn=new JButton(data[i][i1]+"");
                 con.add(btn);//将按钮放在容器中
                 buttons[i][i1] = btn;//将按钮放入数据结构中
@@ -244,10 +248,10 @@ public class SaoLei implements ActionListener {
                         clickTimes++;
                         checkWin();//判断胜利
 
-                        /*
-                        此处为尝试加入操作次数统计
-                        以及双人操作的切换
-                         */
+                /*
+                此处为尝试加入操作次数统计
+                以及双人操作的切换
+                 */
 
                         if (checkActionCount()) {
                             System.out.println("Player" + (player + 1) + "已经操作" + actionCount + "/" + maxAction + "次");
@@ -330,7 +334,7 @@ public class SaoLei implements ActionListener {
 
         addOpenCount();//调用这个方法来更改每一次操作所带来的已开和未开格子数目的变化
 
-        //实现连续打开
+        //实现连续打开  然而连续打开的逻辑并不对，还没能实现打开到相邻一层带数字的格子
         if (data[i][j] == 0) {
             if (i > 0 && j > 0 && data[i - 1][j - 1] == 0) openCell(i - 1, j - 1);
             if (i > 0 && data[i - 1][j] == 0) openCell(i - 1, j);
@@ -384,5 +388,54 @@ public class SaoLei implements ActionListener {
 
         addLei();
         timer.start();
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        int c = e.getButton();
+        if (c == MouseEvent.BUTTON3) {
+            Object obj1 = e.getSource();
+
+            int x=0, y=0;
+            for (int i = 0; i < ROW; i++) {
+                for (int i1 = 0; i1 < COL; i1++) {
+                    if(obj1==buttons[i][i1]){
+                        buttons[i][i1].setIcon(null);
+                        buttons[i][i1].setEnabled(false);
+                        buttons[i][i1].setOpaque(true);
+                        buttons[i][i1].setIcon(flagIcon);
+                        buttons[i][i1].setBackground(null);
+
+                        /*
+                        现存问题：图片无法显示，右键后的相关操作未完善
+                        再次点击右键未编辑
+                        右键操作尚未计数
+                        积分系统未完成
+                        ZFH 21.5.8
+                         */
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }
