@@ -20,7 +20,7 @@ public class SaoLei implements ActionListener {
     int COL = 20;//列数
     int[][] data = new int[ROW][COL];//记录每格的数据
     JButton[][] buttons = new JButton[ROW][COL];//按钮
-    int LeiCount = 40;//雷的数量
+    int LeiCount = 199;//雷的数量
     int LeiCode = -1;//-1代表是雷
     int unopened = ROW * COL;//未开的数量
     int opened = 0;//已开的数量
@@ -28,6 +28,7 @@ public class SaoLei implements ActionListener {
     int actionCount = 0;
     int maxAction = 5;
     int player = 0;
+    int clickTimes = 0;//用于判断是否是第一次点击
     JButton bannerBtn = new JButton(bannerIcon);
 
     JButton eastTestBtn = new JButton(bannerIcon);//调试中 ZFH
@@ -67,7 +68,7 @@ public class SaoLei implements ActionListener {
         for (int i = 0; i < LeiCount; ) {
             int r = rand.nextInt(ROW);//0-19的整数
             int c = rand.nextInt(COL);
-            if (data[r][c] != LeiCode) {
+            if (data[r][c] != LeiCode && setTempCount(r, c) != 8) {  //有待改良 目前只能避免3x3雷区的出现 ZFH
                 data[r][c] = LeiCode;
                 i++;
             }
@@ -80,6 +81,7 @@ public class SaoLei implements ActionListener {
                 if (data[i][j] == LeiCode)
                     continue;
 
+                /*
                 int tempCount = 0;//周围的雷数
                 if (i > 0 && j > 0 && data[i - 1][j - 1] == LeiCode) tempCount++;
                 if (i > 0 && data[i - 1][j] == LeiCode) tempCount++;
@@ -90,9 +92,26 @@ public class SaoLei implements ActionListener {
                 if (i < 19 && data[i + 1][j] == LeiCode) tempCount++;
                 if (i < 19 && j < 19 && data[i + 1][j + 1] == LeiCode) tempCount++;
 
+                此部分提取到了方法中  调试中 ZFH
+                 */
+                int tempCount = setTempCount(i, j);
                 data[i][j] = tempCount;
             }
         }
+    }
+
+    private int setTempCount(int i, int j) {
+        int tempCount = 0;//周围的雷数
+        if (i > 0 && j > 0 && data[i - 1][j - 1] == LeiCode) tempCount++;
+        if (i > 0 && data[i - 1][j] == LeiCode) tempCount++;
+        if (i > 0 && j < 19 && data[i - 1][j + 1] == LeiCode) tempCount++;
+        if (j > 0 && data[i][j - 1] == LeiCode) tempCount++;
+        if (j < 19 && data[i][j + 1] == LeiCode) tempCount++;
+        if (i < 19 && j > 0 && data[i + 1][j - 1] == LeiCode) tempCount++;
+        if (i < 19 && data[i + 1][j] == LeiCode) tempCount++;
+        if (i < 19 && j < 19 && data[i + 1][j + 1] == LeiCode) tempCount++;
+
+        return tempCount;
     }
 
     public void setButtons() {
@@ -149,7 +168,7 @@ public class SaoLei implements ActionListener {
         frame.add(panel, BorderLayout.NORTH);
     }
 
-    public void setEast(){
+    public void setEast() {
         JPanel panel = new JPanel(new GridBagLayout());//设置画布
 
         GridBagConstraints c1 = new GridBagConstraints(0, 0, 3, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
@@ -163,7 +182,7 @@ public class SaoLei implements ActionListener {
         frame.add(panel, BorderLayout.EAST);
     }
 
-    public void setWest(){
+    public void setWest() {
         JPanel panel = new JPanel(new GridBagLayout());//设置画布
         GridBagConstraints c1 = new GridBagConstraints(0, 0, 3, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
         panel.add(westTestBtn, c1);
@@ -176,7 +195,7 @@ public class SaoLei implements ActionListener {
         frame.add(panel, BorderLayout.WEST);
     }
 
-    public void setSouth(){
+    public void setSouth() {
         JPanel panel = new JPanel(new GridBagLayout());//设置画布
         GridBagConstraints c1 = new GridBagConstraints(0, 0, 3, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
         panel.add(southTestBtn, c1);
@@ -211,9 +230,18 @@ public class SaoLei implements ActionListener {
             for (int i1 = 0; i1 < COL; i1++) {
                 if (btn.equals(buttons[i][i1])) {
                     if (data[i][i1] == LeiCode) {//判断输赢
-                        lose();
+                        if (clickTimes == 0) {
+                            while(data[i][i1] == LeiCode){
+                                restart();
+                            }
+                            openCell(i,i1);
+                            clickTimes++;
+                        }else{
+                            lose();
+                        }
                     } else {
                         openCell(i, i1);
+                        clickTimes++;
                         checkWin();//判断胜利
 
                         /*
@@ -222,10 +250,10 @@ public class SaoLei implements ActionListener {
                          */
 
                         if (checkActionCount()) {
-                            System.out.println("Player"+(player+1)+"已经操作"+actionCount+"/"+maxAction+"次");
-                        }else{
-                            System.out.println("已经操作"+maxAction+"/"+maxAction+"次");
-                            System.out.println("Player"+(player+1)+"'s turn!");
+                            System.out.println("Player" + (player + 1) + "已经操作" + actionCount + "/" + maxAction + "次");
+                        } else {
+                            System.out.println("已经操作" + maxAction + "/" + maxAction + "次");
+                            System.out.println("Player" + (player + 1) + "'s turn!");
                         }
                     }
                     return;
@@ -238,7 +266,7 @@ public class SaoLei implements ActionListener {
         actionCount++;
         if (actionCount == maxAction) {
             player = (player == 0) ? 1 : 0;
-            actionCount=0;
+            actionCount = 0;
             return false;
         } else {
             return true;
@@ -342,8 +370,9 @@ public class SaoLei implements ActionListener {
         }
 
         //操作次数以及player信息恢复
-        player=0;
-        actionCount=0;
+        player = 0;
+        actionCount = 0;
+        clickTimes = 0;
 
         //状态栏恢复
         unopened = ROW * COL;//未开的数量
