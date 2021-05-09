@@ -8,7 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Random;
 
-public class SaoLei implements ActionListener , MouseListener {
+public class SaoLei implements ActionListener, MouseListener {
     JFrame frame = new JFrame();
     ImageIcon bannerIcon = new ImageIcon("banner.png");//头部图片（可用于reset）
     ImageIcon guessIcon = new ImageIcon("guess.png");//未开区域的图片
@@ -16,14 +16,15 @@ public class SaoLei implements ActionListener , MouseListener {
     ImageIcon failIcon = new ImageIcon("fail.png");
     ImageIcon winIcon = new ImageIcon("win.png");
     ImageIcon win_flagIcon = new ImageIcon("win_flag.png");
-    ImageIcon flagIcon= new ImageIcon("flag3.png");
-    ImageIcon afterOpen= new ImageIcon("afterOpen.png");
-    
+    ImageIcon flagIcon = new ImageIcon("flag3.png");
+    ImageIcon afterOpen = new ImageIcon("afterOpen.png");
+
 
     //数据结构
     int ROW = 20;//行数
     int COL = 20;//列数
     int[][] data = new int[ROW][COL];//记录每格的数据
+    boolean[][] canBeOpen = new boolean[ROW][COL];
     JButton[][] buttons = new JButton[ROW][COL];//按钮
     int LeiCount = 1;//雷的数量
     int LeiCode = -1;//-1代表是雷
@@ -134,6 +135,7 @@ public class SaoLei implements ActionListener , MouseListener {
                 //JButton btn=new JButton(data[i][i1]+"");
                 con.add(btn);//将按钮放在容器中
                 buttons[i][i1] = btn;//将按钮放入数据结构中
+                canBeOpen[i][i1]=true;
             }
         }
 
@@ -142,7 +144,7 @@ public class SaoLei implements ActionListener , MouseListener {
 
     public void setMenu() {
         JMenuBar menuBar = new JMenuBar();
-        Font font1 = new Font("等线",Font.BOLD,20);
+        Font font1 = new Font("等线", Font.BOLD, 20);
         JMenu difficultyMenu = new JMenu("难度设置");
         JMenu cheatingMenu = new JMenu("作弊开关");
         difficultyMenu.setFont(font1);
@@ -150,7 +152,7 @@ public class SaoLei implements ActionListener , MouseListener {
         menuBar.add(difficultyMenu);
         menuBar.add(cheatingMenu);
 
-        Font font2 = new Font("等线",Font.BOLD,17);
+        Font font2 = new Font("等线", Font.BOLD, 17);
         JMenuItem difficulty1 = new JMenuItem("简单难度");
         JMenuItem difficulty2 = new JMenuItem("中等难度");
         JMenuItem difficulty3 = new JMenuItem("困难难度");
@@ -160,8 +162,6 @@ public class SaoLei implements ActionListener , MouseListener {
         difficulty1.setFont(font2);
         difficulty2.setFont(font2);
         difficulty3.setFont(font2);
-
-
 
 
         frame.setJMenuBar(menuBar);
@@ -265,12 +265,12 @@ public class SaoLei implements ActionListener , MouseListener {
                 if (btn.equals(buttons[i][i1])) {
                     if (data[i][i1] == LeiCode) {//判断输赢
                         if (clickTimes == 0) {
-                            while(data[i][i1] == LeiCode){
+                            while (data[i][i1] == LeiCode) {
                                 restart();
                             }
-                            openCell(i,i1);
+                            openCell(i, i1);
                             clickTimes++;
-                        }else{
+                        } else {
                             lose();
                         }
                     } else {
@@ -311,14 +311,14 @@ public class SaoLei implements ActionListener , MouseListener {
         int count = 0;
         for (int i = 0; i < ROW; i++) {
             for (int i1 = 0; i1 < COL; i1++) {
-                if (buttons[i][i1].isEnabled()) count++;
+                if (canBeOpen[i][i1]) count++;
             }
         }
         if (count == LeiCount) {
             timer.stop();//胜利后时间停止
             for (int i = 0; i < ROW; i++) {
                 for (int i1 = 0; i1 < COL; i1++) {
-                    if (buttons[i][i1].isEnabled()) {
+                    if (canBeOpen[i][i1]) {
                         buttons[i][i1].setIcon(win_flagIcon);
                     }
                 }
@@ -334,15 +334,15 @@ public class SaoLei implements ActionListener , MouseListener {
         bannerBtn.setIcon(failIcon);
         for (int i = 0; i < ROW; i++) {
             for (int i1 = 0; i1 < COL; i1++) {
-                if (buttons[i][i1].isEnabled()) {
+                if (canBeOpen[i][i1]) {
                     JButton btn = buttons[i][i1];
                     if (data[i][i1] == LeiCode) {
-                        btn.setEnabled(false);
+                        canBeOpen[i][i1] = false;
                         btn.setIcon(bombIcon);
                         btn.setDisabledIcon(bombIcon);
                     } else {
                         btn.setIcon(null);//清除icon
-                        btn.setEnabled(false);
+                        canBeOpen[i][i1] = false;
                         btn.setOpaque(true);//设置不透明
                         btn.setText(data[i][i1] + "");//填入数字
                     }
@@ -354,13 +354,14 @@ public class SaoLei implements ActionListener , MouseListener {
 
     private void openCell(int i, int j) {
         JButton btn = buttons[i][j];
-        if (!btn.isEnabled()) return;
+        if (!canBeOpen[i][j]) return;
 
         btn.setIcon(null);//清除icon
-        btn.setEnabled(false);
+        canBeOpen[i][j] = false;
         btn.setOpaque(true);//设置不透明
+
         btn.setIcon(afterOpen);//背景换为碎石
-        btn.setText(data[i][j] + "");//填入数字
+        //btn.setText(data[i][j] + "");//填入数字
 
         addOpenCount();//调用这个方法来更改每一次操作所带来的已开和未开格子数目的变化
 
@@ -373,7 +374,7 @@ public class SaoLei implements ActionListener , MouseListener {
             if (j < ROW - 1 && data[i][j + 1] == 0) openCell(i, j + 1);
             if (i < ROW - 1 && j > 0 && data[i + 1][j - 1] == 0) openCell(i + 1, j - 1);
             if (i < ROW - 1 && data[i + 1][j] == 0) openCell(i + 1, j);
-            if (i < ROW - 1 && j < ROW - 1  && data[i + 1][j + 1] == 0) openCell(i + 1, j + 1);
+            if (i < ROW - 1 && j < ROW - 1 && data[i + 1][j + 1] == 0) openCell(i + 1, j + 1);
         }
     }
 
@@ -396,6 +397,7 @@ public class SaoLei implements ActionListener , MouseListener {
         for (int i = 0; i < ROW; i++) {
             for (int i1 = 0; i1 < COL; i1++) {
                 data[i][i1] = 0;
+                canBeOpen[i][i1] = true;
                 buttons[i][i1].setBackground(Color.GRAY);
                 buttons[i][i1].setEnabled(true);
                 buttons[i][i1].setText("");
@@ -426,37 +428,37 @@ public class SaoLei implements ActionListener , MouseListener {
         if (c == MouseEvent.BUTTON3) {
             Object obj1 = e.getSource();
 
-            int x=0, y=0;
+            int x = 0, y = 0;
             for (int i = 0; i < ROW; i++) {
                 for (int i1 = 0; i1 < COL; i1++) {
-                    if(obj1==buttons[i][i1]){
+                    if (obj1 == buttons[i][i1]) {
                         if (data[i][i1] == -1) {
                             buttons[i][i1].setIcon(null);
                             JButton btn = buttons[i][i1];
-                            btn.setEnabled(false);
+                            canBeOpen[i][i1]=false;
                             btn.setOpaque(true);
                             btn.setIcon(flagIcon);
                             btn.setBackground(null);
 
                             JDialog dialog = new JDialog();
                             dialog.setVisible(true);
-                            dialog.setBounds(500,300,500,500);
+                            dialog.setBounds(500, 300, 500, 500);
                             Container container = dialog.getContentPane();
-                            JLabel label = new JLabel("",flagIcon,SwingConstants.CENTER);
+                            JLabel label = new JLabel("", flagIcon, SwingConstants.CENTER);
                             container.add(label);
-                        } else  {
+                        } else {
                             buttons[i][i1].setIcon(null);
                             JButton btn = buttons[i][i1];
-                            btn.setEnabled(false);
+                            canBeOpen[i][i1]=false;
                             btn.setOpaque(true);
                             btn.setIcon(flagIcon);
                             btn.setBackground(null);
 
                             JDialog dialog = new JDialog();
                             dialog.setVisible(true);
-                            dialog.setBounds(500,300,500,500);
+                            dialog.setBounds(500, 300, 500, 500);
                             Container container = dialog.getContentPane();
-                            JLabel label = new JLabel("",bombIcon,SwingConstants.CENTER);
+                            JLabel label = new JLabel("", bombIcon, SwingConstants.CENTER);
                             container.add(label);
                         }
 
