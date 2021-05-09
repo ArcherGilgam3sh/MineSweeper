@@ -396,7 +396,7 @@ public class SaoLei implements ActionListener , MouseListener {
         for (int i = 0; i < ROW; i++) {
             for (int i1 = 0; i1 < COL; i1++) {
                 data[i][i1] = 0;
-                buttons[i][i1].setBackground(new Color(244, 183, 113));
+                buttons[i][i1].setBackground(Color.GRAY);
                 buttons[i][i1].setEnabled(true);
                 buttons[i][i1].setText("");
                 buttons[i][i1].setIcon(guessIcon);
