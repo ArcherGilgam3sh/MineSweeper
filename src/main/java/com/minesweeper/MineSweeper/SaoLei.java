@@ -5,8 +5,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+<<<<<<< Updated upstream
 import java.awt.event.MouseListener;
+=======
+>>>>>>> Stashed changes
 import java.util.Random;
+import java.awt.Button;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.Frame;
 
 public class SaoLei implements ActionListener , MouseListener {
     JFrame frame = new JFrame();
@@ -255,6 +262,7 @@ public class SaoLei implements ActionListener , MouseListener {
             return;
         }
 
+<<<<<<< Updated upstream
         JButton btn = (JButton) e.getSource();
         if (btn.equals(bannerBtn)) {
             restart();
@@ -277,24 +285,61 @@ public class SaoLei implements ActionListener , MouseListener {
                         openCell(i, i1);
                         clickTimes++;
                         checkWin();//判断胜利
+=======
+        final JButton btn = (JButton) e.getSource(); //////
+
+        btn.addMouseListener (new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                if (e.getButton() == e.BUTTON1) {
+                    System.out.println("单击左键");
+                    if (btn.equals(bannerBtn)) {
+                        restart();
+                        return;
+                    }
+                    for (int i = 0; i < ROW; i++) {
+                        for (int i1 = 0; i1 < COL; i1++) {
+                            if (btn.equals(buttons[i][i1])) {
+                                if (data[i][i1] == LeiCode) {//判断输赢
+                                    lose();
+                                } else {
+                                    openCell(i, i1);
+                                    checkWin();//判断胜利
+>>>>>>> Stashed changes
 
                 /*
                 此处为尝试加入操作次数统计
                 以及双人操作的切换
                  */
 
+<<<<<<< Updated upstream
                         if (checkActionCount()) {
                             System.out.println("Player" + (player + 1) + "已经操作" + actionCount + "/" + maxAction + "次");
                         } else {
                             System.out.println("已经操作" + maxAction + "/" + maxAction + "次");
                             System.out.println("Player" + (player + 1) + "'s turn!");
+=======
+                                    if (checkActionCount()) {
+                                        System.out.println("Player" + (player + 1) + "已经操作" + actionCount + "/" + maxAction + "次");
+                                    } else {
+                                        System.out.println("已经操作" + maxAction + "/" + maxAction + "次");
+                                        System.out.println("Player" + (player + 1) + "'s turn!");
+                                    }
+                                }
+                                return;
+                            }
+>>>>>>> Stashed changes
                         }
                     }
-                    return;
+
+
+
+                } else if (e.getButton() == e.BUTTON3) {
+                    System.out.println("单击右键");
                 }
+
+
             }
-        }
-    }
+
 
     private boolean checkActionCount() {
         actionCount++;
@@ -419,6 +464,7 @@ public class SaoLei implements ActionListener , MouseListener {
         addLei();
         timer.start();
     }
+<<<<<<< Updated upstream
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -491,5 +537,9 @@ public class SaoLei implements ActionListener , MouseListener {
     @Override
     public void mouseExited(MouseEvent e) {
 
+=======
+});
+>>>>>>> Stashed changes
     }
 }
+
