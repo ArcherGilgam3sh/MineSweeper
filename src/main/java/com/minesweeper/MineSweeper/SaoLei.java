@@ -16,7 +16,7 @@ public class SaoLei implements ActionListener, MouseListener {
     ImageIcon failIcon = new ImageIcon("fail.png");
     ImageIcon winIcon = new ImageIcon("win.png");
     ImageIcon win_flagIcon = new ImageIcon("win_flag.png");
-    ImageIcon flagIcon = new ImageIcon("flag3.png");
+    ImageIcon flagIcon = new ImageIcon("goldAfterOpen.png");
     ImageIcon afterOpen = new ImageIcon("afterOpen.png");
 
 
@@ -376,6 +376,8 @@ public class SaoLei implements ActionListener, MouseListener {
             if (i < ROW - 1 && data[i + 1][j] == 0) openCell(i + 1, j);
             if (i < ROW - 1 && j < ROW - 1 && data[i + 1][j + 1] == 0) openCell(i + 1, j + 1);
         }
+
+        //***************
     }
 
     private void addOpenCount() {
