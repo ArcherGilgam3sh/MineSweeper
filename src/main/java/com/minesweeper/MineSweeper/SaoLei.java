@@ -139,6 +139,7 @@ public class SaoLei implements ActionListener , MouseListener {
 
         frame.add(con, BorderLayout.CENTER);//将容器（们）放在中心位置
     }
+
     public void setMenu() {
         JMenuBar menuBar = new JMenuBar();
         Font font1 = new Font("等线",Font.BOLD,20);
@@ -149,7 +150,7 @@ public class SaoLei implements ActionListener , MouseListener {
         menuBar.add(difficultyMenu);
         menuBar.add(cheatingMenu);
 
-        Font font2 = new Font("等线",Font.BOLD,15);
+        Font font2 = new Font("等线",Font.BOLD,17);
         JMenuItem difficulty1 = new JMenuItem("简单难度");
         JMenuItem difficulty2 = new JMenuItem("中等难度");
         JMenuItem difficulty3 = new JMenuItem("困难难度");
@@ -444,6 +445,13 @@ public class SaoLei implements ActionListener , MouseListener {
                             JLabel label = new JLabel("",flagIcon,SwingConstants.CENTER);
                             container.add(label);
                         } else  {
+                            buttons[i][i1].setIcon(null);
+                            JButton btn = buttons[i][i1];
+                            btn.setEnabled(false);
+                            btn.setOpaque(true);
+                            btn.setIcon(flagIcon);
+                            btn.setBackground(null);
+
                             JDialog dialog = new JDialog();
                             dialog.setVisible(true);
                             dialog.setBounds(500,300,500,500);
