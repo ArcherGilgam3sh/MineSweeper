@@ -128,7 +128,7 @@ public class SaoLei implements ActionListener , MouseListener {
             for (int i1 = 0; i1 < COL; i1++) {
                 JButton btn = new JButton(guessIcon);//设置按钮
                 btn.setOpaque(true);
-                btn.setBackground(new Color(244, 183, 113));//设置背景色
+                btn.setBackground(Color.GRAY);//设置背景色
                 btn.addActionListener(this);
                 btn.addMouseListener(this);
                 //JButton btn=new JButton(data[i][i1]+"");
