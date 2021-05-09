@@ -17,6 +17,8 @@ public class SaoLei implements ActionListener , MouseListener {
     ImageIcon winIcon = new ImageIcon("win.png");
     ImageIcon win_flagIcon = new ImageIcon("win_flag.png");
     ImageIcon flagIcon= new ImageIcon("flag3.png");
+    ImageIcon afterOpen= new ImageIcon("afterOpen.png");
+    
 
     //数据结构
     int ROW = 20;//行数
@@ -356,7 +358,7 @@ public class SaoLei implements ActionListener , MouseListener {
         btn.setIcon(null);//清除icon
         btn.setEnabled(false);
         btn.setOpaque(true);//设置不透明
-        btn.setBackground(Color.GREEN);//背景换为绿色
+        btn.setIcon(afterOpen);//背景换为碎石
         btn.setText(data[i][j] + "");//填入数字
 
         addOpenCount();//调用这个方法来更改每一次操作所带来的已开和未开格子数目的变化
