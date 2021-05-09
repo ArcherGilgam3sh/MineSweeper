@@ -16,14 +16,14 @@ public class SaoLei implements ActionListener , MouseListener {
     ImageIcon failIcon = new ImageIcon("fail.png");
     ImageIcon winIcon = new ImageIcon("win.png");
     ImageIcon win_flagIcon = new ImageIcon("win_flag.png");
-    ImageIcon flagIcon= new ImageIcon("flag.pnd");
+    ImageIcon flagIcon= new ImageIcon("flag3.png");
 
     //数据结构
     int ROW = 20;//行数
     int COL = 20;//列数
     int[][] data = new int[ROW][COL];//记录每格的数据
     JButton[][] buttons = new JButton[ROW][COL];//按钮
-    int LeiCount = 99;//雷的数量
+    int LeiCount = 1;//雷的数量
     int LeiCode = -1;//-1代表是雷
     int unopened = ROW * COL;//未开的数量
     int opened = 0;//已开的数量
@@ -48,6 +48,7 @@ public class SaoLei implements ActionListener , MouseListener {
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
+        setMenu();//设置菜单
 
         setHeader();//设置头部
 
@@ -107,12 +108,12 @@ public class SaoLei implements ActionListener , MouseListener {
         int tempCount = 0;//周围的雷数
         if (i > 0 && j > 0 && data[i - 1][j - 1] == LeiCode) tempCount++;
         if (i > 0 && data[i - 1][j] == LeiCode) tempCount++;
-        if (i > 0 && j < 19 && data[i - 1][j + 1] == LeiCode) tempCount++;
+        if (i > 0 && j < ROW - 1 && data[i - 1][j + 1] == LeiCode) tempCount++;
         if (j > 0 && data[i][j - 1] == LeiCode) tempCount++;
-        if (j < 19 && data[i][j + 1] == LeiCode) tempCount++;
-        if (i < 19 && j > 0 && data[i + 1][j - 1] == LeiCode) tempCount++;
-        if (i < 19 && data[i + 1][j] == LeiCode) tempCount++;
-        if (i < 19 && j < 19 && data[i + 1][j + 1] == LeiCode) tempCount++;
+        if (j < ROW - 1 && data[i][j + 1] == LeiCode) tempCount++;
+        if (i < ROW - 1 && j > 0 && data[i + 1][j - 1] == LeiCode) tempCount++;
+        if (i < ROW - 1 && data[i + 1][j] == LeiCode) tempCount++;
+        if (i < ROW - 1 && j < ROW - 1 && data[i + 1][j + 1] == LeiCode) tempCount++;
 
         return tempCount;
     }
@@ -135,6 +136,33 @@ public class SaoLei implements ActionListener , MouseListener {
         }
 
         frame.add(con, BorderLayout.CENTER);//将容器（们）放在中心位置
+    }
+    public void setMenu() {
+        JMenuBar menuBar = new JMenuBar();
+        Font font1 = new Font("等线",Font.BOLD,20);
+        JMenu difficultyMenu = new JMenu("难度设置");
+        JMenu cheatingMenu = new JMenu("作弊开关");
+        difficultyMenu.setFont(font1);
+        cheatingMenu.setFont(font1);
+        menuBar.add(difficultyMenu);
+        menuBar.add(cheatingMenu);
+
+        Font font2 = new Font("等线",Font.BOLD,15);
+        JMenuItem difficulty1 = new JMenuItem("简单难度");
+        JMenuItem difficulty2 = new JMenuItem("中等难度");
+        JMenuItem difficulty3 = new JMenuItem("困难难度");
+        difficultyMenu.add(difficulty1);
+        difficultyMenu.add(difficulty2);
+        difficultyMenu.add(difficulty3);
+        difficulty1.setFont(font2);
+        difficulty2.setFont(font2);
+        difficulty3.setFont(font2);
+
+
+
+
+        frame.setJMenuBar(menuBar);
+        frame.setVisible(true);
     }
 
     //设计框体头部
@@ -168,7 +196,6 @@ public class SaoLei implements ActionListener , MouseListener {
         panel.add(label1, c2);
         panel.add(label2, c3);
         panel.add(label3, c4);
-
         frame.add(panel, BorderLayout.NORTH);
     }
 
@@ -338,12 +365,12 @@ public class SaoLei implements ActionListener , MouseListener {
         if (data[i][j] == 0) {
             if (i > 0 && j > 0 && data[i - 1][j - 1] == 0) openCell(i - 1, j - 1);
             if (i > 0 && data[i - 1][j] == 0) openCell(i - 1, j);
-            if (i > 0 && j < 19 && data[i - 1][j + 1] == 0) openCell(i - 1, j + 1);
+            if (i > 0 && j < ROW - 1 && data[i - 1][j + 1] == 0) openCell(i - 1, j + 1);
             if (j > 0 && data[i][j - 1] == 0) openCell(i, j - 1);
-            if (j < 19 && data[i][j + 1] == 0) openCell(i, j + 1);
-            if (i < 19 && j > 0 && data[i + 1][j - 1] == 0) openCell(i + 1, j - 1);
-            if (i < 19 && data[i + 1][j] == 0) openCell(i + 1, j);
-            if (i < 19 && j < 19 && data[i + 1][j + 1] == 0) openCell(i + 1, j + 1);
+            if (j < ROW - 1 && data[i][j + 1] == 0) openCell(i, j + 1);
+            if (i < ROW - 1 && j > 0 && data[i + 1][j - 1] == 0) openCell(i + 1, j - 1);
+            if (i < ROW - 1 && data[i + 1][j] == 0) openCell(i + 1, j);
+            if (i < ROW - 1 && j < ROW - 1  && data[i + 1][j + 1] == 0) openCell(i + 1, j + 1);
         }
     }
 
@@ -400,15 +427,32 @@ public class SaoLei implements ActionListener , MouseListener {
             for (int i = 0; i < ROW; i++) {
                 for (int i1 = 0; i1 < COL; i1++) {
                     if(obj1==buttons[i][i1]){
-                        buttons[i][i1].setIcon(null);
-                        buttons[i][i1].setEnabled(false);
-                        buttons[i][i1].setOpaque(true);
-                        buttons[i][i1].setIcon(flagIcon);
-                        buttons[i][i1].setBackground(null);
+                        if (data[i][i1] == -1) {
+                            buttons[i][i1].setIcon(null);
+                            JButton btn = buttons[i][i1];
+                            btn.setEnabled(false);
+                            btn.setOpaque(true);
+                            btn.setIcon(flagIcon);
+                            btn.setBackground(null);
+
+                            JDialog dialog = new JDialog();
+                            dialog.setVisible(true);
+                            dialog.setBounds(500,300,500,500);
+                            Container container = dialog.getContentPane();
+                            JLabel label = new JLabel("",flagIcon,SwingConstants.CENTER);
+                            container.add(label);
+                        } else  {
+                            JDialog dialog = new JDialog();
+                            dialog.setVisible(true);
+                            dialog.setBounds(500,300,500,500);
+                            Container container = dialog.getContentPane();
+                            JLabel label = new JLabel("",bombIcon,SwingConstants.CENTER);
+                            container.add(label);
+                        }
+
 
                         /*
-                        现存问题：图片无法显示，右键后的相关操作未完善
-                        再次点击右键未编辑
+                        现存问题：右键后的相关操作未完善
                         右键操作尚未计数
                         积分系统未完成
                         ZFH 21.5.8
