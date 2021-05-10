@@ -28,7 +28,7 @@ public class SaoLei implements ActionListener, MouseListener {
     int[][] data = new int[ROW][COL];//记录每格的数据
     boolean[][] canBeOpen = new boolean[ROW][COL];
     JButton[][] buttons = new JButton[ROW][COL];//按钮
-    int LeiCount = 1;//雷的数量
+    int LeiCount = 20;//雷的数量
     int LeiCode = -1;//-1代表是雷
     int unopened = ROW * COL;//未开的数量
     int opened = 0;//已开的数量
@@ -39,6 +39,8 @@ public class SaoLei implements ActionListener, MouseListener {
     int clickTimes = 0;//用于判断是否是第一次点击
     int score1 = 0;//玩家1的分数
     int score2 = 0;//玩家2的分数
+    int brokenPickaxe1 = 0;//玩家1损坏的⛏
+    int brokenPickaxe2 = 0;//玩家1损坏的⛏
     JButton bannerBtn = new JButton(bannerIcon);
 
     JButton eastTestBtn = new JButton(woman);//调试中 ZFH
@@ -222,9 +224,26 @@ public class SaoLei implements ActionListener, MouseListener {
     }
 
     public void setWest() {
+        int skillCD = 3;
         JPanel panel = new JPanel(new GridBagLayout());//设置画布
-        GridBagConstraints c1 = new GridBagConstraints(0, 0, 3, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
+        GridBagConstraints c1 = new GridBagConstraints(0, 0, 4, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
+        GridBagConstraints c2 = new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
+        GridBagConstraints c3 = new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
+        GridBagConstraints c4 = new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
+        GridBagConstraints c5 = new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
+
+        JLabel a = new JLabel();
+        JLabel b = new JLabel();
+        JLabel c = new JLabel();
+        JLabel d = new JLabel();
+
+        a.setText("金子数" + score1);
+        b.setText("当前回合剩余步数" + actionCount);
+        c.setText("损坏镐子：" + brokenPickaxe1);
+        d.setText("技能CD（剩余回合数）" );
+
         panel.add(westTestBtn, c1);
+        panel.add(a, c2);
         bannerBtn.addActionListener(this);
 
         bannerBtn.setOpaque(true);
@@ -232,7 +251,7 @@ public class SaoLei implements ActionListener, MouseListener {
         bannerBtn.setBackground(Color.white);
 
         frame.add(panel, BorderLayout.WEST);
-    }
+    }//调试中 DYK
 
     public void setSouth() {
         JPanel panel = new JPanel(new GridBagLayout());//设置画布
@@ -273,12 +292,28 @@ public class SaoLei implements ActionListener, MouseListener {
                             while (data[i][i1] == LeiCode) {
                                 restart();
                             }
+                            if (canBeOpen[i][i1]) {
+                                if (checkActionCount()) {
+                                    System.out.println("Player" + (player + 1) + "已经操作" + actionCount + "/" + maxAction + "次");
+                                } else {
+                                    System.out.println("已经操作" + maxAction + "/" + maxAction + "次");
+                                    System.out.println("Player" + (player + 1) + "'s turn!");
+                                }
+                            }
                             openCell(i, i1);
                             clickTimes++;
                         } else {
                             lose();
                         }
                     } else {
+                        if (canBeOpen[i][i1]) {
+                            if (checkActionCount()) {
+                                System.out.println("Player" + (player + 1) + "已经操作" + actionCount + "/" + maxAction + "次");
+                            } else {
+                                System.out.println("已经操作" + maxAction + "/" + maxAction + "次");
+                                System.out.println("Player" + (player + 1) + "'s turn!");
+                            }
+                        }
                         openCell(i, i1);
                         clickTimes++;
                         checkWin();//判断胜利
@@ -287,13 +322,15 @@ public class SaoLei implements ActionListener, MouseListener {
                 此处为尝试加入操作次数统计
                 以及双人操作的切换
                  */
-
-                        if (checkActionCount()) {
+                        /*
+                        if (checkActionCount(i,i1)) {
                             System.out.println("Player" + (player + 1) + "已经操作" + actionCount + "/" + maxAction + "次");
                         } else {
                             System.out.println("已经操作" + maxAction + "/" + maxAction + "次");
                             System.out.println("Player" + (player + 1) + "'s turn!");
                         }
+
+                         */
                     }
                     return;
                 }
@@ -306,6 +343,15 @@ public class SaoLei implements ActionListener, MouseListener {
         if (actionCount == maxAction) {
             player = (player == 0) ? 1 : 0;
             actionCount = 0;
+
+            JDialog dialog = new JDialog();
+            dialog.setVisible(true);
+            dialog.setBounds(500, 300, 500, 500);
+            Container container = dialog.getContentPane();
+            JLabel label = new JLabel("请交换玩家", flagIcon, SwingConstants.CENTER);
+            container.add(label);
+
+
             return false;
         } else {
             return true;
@@ -439,7 +485,7 @@ public class SaoLei implements ActionListener, MouseListener {
             for (int i = 0; i < ROW; i++) {
                 for (int i1 = 0; i1 < COL; i1++) {
                     if (obj1 == buttons[i][i1]) {
-                        if (data[i][i1] == -1) {
+                        if (canBeOpen[i][i1] && data[i][i1] == -1) {
                             buttons[i][i1].setIcon(null);
                             JButton btn = buttons[i][i1];
                             canBeOpen[i][i1]=false;
@@ -447,19 +493,26 @@ public class SaoLei implements ActionListener, MouseListener {
                             btn.setIcon(flagIcon);
                             btn.setBackground(null);
 
+                            if (player == 0) score1++;
+                            if (player == 1) score2++;
+
+
                             JDialog dialog = new JDialog();
                             dialog.setVisible(true);
                             dialog.setBounds(500, 300, 500, 500);
                             Container container = dialog.getContentPane();
                             JLabel label = new JLabel("", flagIcon, SwingConstants.CENTER);
                             container.add(label);
-                        } else {
+                        } else if (canBeOpen[i][i1]){
                             buttons[i][i1].setIcon(null);
                             JButton btn = buttons[i][i1];
                             canBeOpen[i][i1]=false;
                             btn.setOpaque(true);
                             btn.setIcon(flagIcon);
                             btn.setBackground(null);
+
+                            if (player == 0) brokenPickaxe1++;
+                            if (player == 1) brokenPickaxe2++;
 
                             JDialog dialog = new JDialog();
                             dialog.setVisible(true);
