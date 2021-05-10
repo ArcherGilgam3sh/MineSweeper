@@ -18,6 +18,8 @@ public class SaoLei implements ActionListener, MouseListener {
     ImageIcon win_flagIcon = new ImageIcon("win_flag.png");
     ImageIcon flagIcon = new ImageIcon("goldAfterOpen.png");
     ImageIcon afterOpen = new ImageIcon("afterOpen.png");
+    ImageIcon man= new ImageIcon("man.png");
+    ImageIcon woman= new ImageIcon("woman.png");
 
 
     //数据结构
@@ -26,7 +28,7 @@ public class SaoLei implements ActionListener, MouseListener {
     int[][] data = new int[ROW][COL];//记录每格的数据
     boolean[][] canBeOpen = new boolean[ROW][COL];
     JButton[][] buttons = new JButton[ROW][COL];//按钮
-    int LeiCount = 50;//雷的数量
+    int LeiCount = 1;//雷的数量
     int LeiCode = -1;//-1代表是雷
     int unopened = ROW * COL;//未开的数量
     int opened = 0;//已开的数量
@@ -39,8 +41,8 @@ public class SaoLei implements ActionListener, MouseListener {
     int score2 = 0;//玩家2的分数
     JButton bannerBtn = new JButton(bannerIcon);
 
-    JButton eastTestBtn = new JButton(bannerIcon);//调试中 ZFH
-    JButton westTestBtn = new JButton(bannerIcon);//调试中 ZFH
+    JButton eastTestBtn = new JButton(woman);//调试中 ZFH
+    JButton westTestBtn = new JButton(man);//调试中 ZFH
     JButton southTestBtn = new JButton(bannerIcon);//调试中 ZFH
 
     JLabel label1 = new JLabel("待开：" + unopened);
@@ -49,7 +51,7 @@ public class SaoLei implements ActionListener, MouseListener {
     Timer timer = new Timer(1000, this);
 
     public SaoLei() {
-        frame.setSize(1340, 1000);//宽度调试中 ZFH
+        frame.setSize(1600, 960);//宽度调试中 ZFH
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
@@ -61,7 +63,7 @@ public class SaoLei implements ActionListener, MouseListener {
 
         setWest();//调试中 ZFH
 
-        setSouth();//调试中 ZFH
+        //setSouth();//调试中 ZFH
 
         addLei();//放雷
 
@@ -103,6 +105,7 @@ public class SaoLei implements ActionListener, MouseListener {
 
                 此部分提取到了方法中  调试中 ZFH
                  */
+
                 int tempCount = setTempCount(i, j);
                 data[i][j] = tempCount;
             }
