@@ -26,15 +26,17 @@ public class SaoLei implements ActionListener, MouseListener {
     int[][] data = new int[ROW][COL];//记录每格的数据
     boolean[][] canBeOpen = new boolean[ROW][COL];
     JButton[][] buttons = new JButton[ROW][COL];//按钮
-    int LeiCount = 1;//雷的数量
+    int LeiCount = 50;//雷的数量
     int LeiCode = -1;//-1代表是雷
     int unopened = ROW * COL;//未开的数量
     int opened = 0;//已开的数量
-    int seconds = 0;
+    int seconds = 0;//计时器的时间
     int actionCount = 0;
     int maxAction = 5;
     int player = 0;
     int clickTimes = 0;//用于判断是否是第一次点击
+    int score1 = 0;//玩家1的分数
+    int score2 = 0;//玩家2的分数
     JButton bannerBtn = new JButton(bannerIcon);
 
     JButton eastTestBtn = new JButton(bannerIcon);//调试中 ZFH
