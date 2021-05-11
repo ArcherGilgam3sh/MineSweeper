@@ -18,6 +18,14 @@ public class SaoLei implements ActionListener, MouseListener {
     ImageIcon win_flagIcon = new ImageIcon("win_flag.png");
     ImageIcon flagIcon = new ImageIcon("goldAfterOpen.png");
     ImageIcon afterOpen = new ImageIcon("afterOpen.png");
+    ImageIcon afterOpen1 = new ImageIcon("1.png");
+    ImageIcon afterOpen2 = new ImageIcon("2.png");
+    ImageIcon afterOpen3 = new ImageIcon("3.png");
+    ImageIcon afterOpen4 = new ImageIcon("4.png");
+    ImageIcon afterOpen5 = new ImageIcon("5.png");
+    ImageIcon afterOpen6 = new ImageIcon("6.png");
+    ImageIcon afterOpen7 = new ImageIcon("7.png");
+    ImageIcon afterOpen8 = new ImageIcon("8.png");
     ImageIcon man= new ImageIcon("man.png");
     ImageIcon woman= new ImageIcon("woman.png");
 
@@ -395,7 +403,27 @@ public class SaoLei implements ActionListener, MouseListener {
                         btn.setIcon(null);//清除icon
                         canBeOpen[i][i1] = false;
                         btn.setOpaque(true);//设置不透明
-                        btn.setText(data[i][i1] + "");//填入数字
+
+                        if(data[i][i1]==0){
+                            btn.setIcon(afterOpen);//背景换为碎石
+                        }else if(data[i][i1]==1){
+                            btn.setIcon(afterOpen1);
+                        }else if(data[i][i1]==2){
+                            btn.setIcon(afterOpen2);
+                        }else if(data[i][i1]==3){
+                            btn.setIcon(afterOpen3);
+                        }else if(data[i][i1]==4){
+                            btn.setIcon(afterOpen4);
+                        }else if(data[i][i1]==5){
+                            btn.setIcon(afterOpen5);
+                        }else if(data[i][i1]==6){
+                            btn.setIcon(afterOpen6);
+                        }else if(data[i][i1]==7){
+                            btn.setIcon(afterOpen7);
+                        }else if(data[i][i1]==8){
+                            btn.setIcon(afterOpen8);
+                        }
+                        //btn.setText(data[i][i1] + "");//填入数字
                     }
                 }
             }
@@ -411,7 +439,26 @@ public class SaoLei implements ActionListener, MouseListener {
         canBeOpen[i][j] = false;
         btn.setOpaque(true);//设置不透明
 
-        btn.setIcon(afterOpen);//背景换为碎石
+        if(data[i][j]==0){
+            btn.setIcon(afterOpen);//背景换为碎石
+        }else if(data[i][j]==1){
+            btn.setIcon(afterOpen1);
+        }else if(data[i][j]==2){
+            btn.setIcon(afterOpen2);
+        }else if(data[i][j]==3){
+            btn.setIcon(afterOpen3);
+        }else if(data[i][j]==4){
+            btn.setIcon(afterOpen4);
+        }else if(data[i][j]==5){
+            btn.setIcon(afterOpen5);
+        }else if(data[i][j]==6){
+            btn.setIcon(afterOpen6);
+        }else if(data[i][j]==7){
+            btn.setIcon(afterOpen7);
+        }else if(data[i][j]==8){
+            btn.setIcon(afterOpen8);
+        }
+
         //btn.setText(data[i][j] + "");//填入数字
 
         addOpenCount();//调用这个方法来更改每一次操作所带来的已开和未开格子数目的变化
@@ -427,6 +474,8 @@ public class SaoLei implements ActionListener, MouseListener {
             if (i < ROW - 1 && data[i + 1][j] == 0) openCell(i + 1, j);
             if (i < ROW - 1 && j < ROW - 1 && data[i + 1][j + 1] == 0) openCell(i + 1, j + 1);
         }
+
+        
 
         //***************
     }
