@@ -36,7 +36,7 @@ public class SaoLei implements ActionListener, MouseListener {
     int[][] data = new int[ROW][COL];//记录每格的数据
     boolean[][] canBeOpen = new boolean[ROW][COL];
     JButton[][] buttons = new JButton[ROW][COL];//按钮
-    int LeiCount = 20;//雷的数量
+    int LeiCount = 10;//雷的数量
     int LeiCode = -1;//-1代表是雷
     int unopened = ROW * COL;//未开的数量
     int opened = 0;//已开的数量
@@ -309,6 +309,7 @@ public class SaoLei implements ActionListener, MouseListener {
                                 }
                             }
                             openCell(i, i1);
+                            openOpenCell();
                             clickTimes++;
                         } else {
                             lose();
@@ -323,6 +324,7 @@ public class SaoLei implements ActionListener, MouseListener {
                             }
                         }
                         openCell(i, i1);
+                        openOpenCell();
                         clickTimes++;
                         checkWin();//判断胜利
 
@@ -475,9 +477,23 @@ public class SaoLei implements ActionListener, MouseListener {
             if (i < ROW - 1 && j < ROW - 1 && data[i + 1][j + 1] == 0) openCell(i + 1, j + 1);
         }
 
-        
+    }
 
-        //***************
+    private void openOpenCell(){
+        for (int k = 0; k < ROW; k++) {
+            for (int l = 0; l < COL; l++) {
+                if(data[k][l]==0&&!canBeOpen[k][l]){
+                    if (k > 0 && l > 0 && data[k - 1][l - 1] != -1) openCell(k - 1, l - 1);
+                    if (k > 0 && data[k - 1][l] != -1) openCell(k - 1, l);
+                    if (k > 0 && l < ROW - 1 && data[k - 1][l + 1] != -1) openCell(k - 1, l + 1);
+                    if (l > 0 && data[k][l - 1] != -1) openCell(k, l - 1);
+                    if (l < ROW - 1 && data[k][l + 1] != -1) openCell(k, l + 1);
+                    if (k < ROW - 1 && l > 0 && data[k + 1][l - 1] != -1) openCell(k + 1, l - 1);
+                    if (k < ROW - 1 && data[k + 1][l] != -1) openCell(k + 1, l);
+                    if (k < ROW - 1 && l < ROW - 1 && data[k + 1][l + 1] != -1) openCell(k + 1, l + 1);
+                }
+            }
+        }
     }
 
     private void addOpenCount() {
