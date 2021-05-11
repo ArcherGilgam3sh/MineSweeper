@@ -250,7 +250,7 @@ public class SaoLei implements ActionListener, MouseListener {
         c.setText("损坏镐子：" + brokenPickaxe1);
         d.setText("技能CD（剩余回合数）" );
 
-        //panel.add(westTestBtn, c1);
+        panel.add(westTestBtn, c1);
         panel.add(a, c2);
         panel.add(a, c2);
         bannerBtn.addActionListener(this);
