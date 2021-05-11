@@ -235,7 +235,7 @@ public class SaoLei implements ActionListener, MouseListener {
         int skillCD = 3;
         JPanel panel = new JPanel(new GridBagLayout());//设置画布
         GridBagConstraints c1 = new GridBagConstraints(0, 0, 4, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
-        GridBagConstraints c2 = new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
+        GridBagConstraints c2 = new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
         GridBagConstraints c3 = new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
         GridBagConstraints c4 = new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
         GridBagConstraints c5 = new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
@@ -250,7 +250,8 @@ public class SaoLei implements ActionListener, MouseListener {
         c.setText("损坏镐子：" + brokenPickaxe1);
         d.setText("技能CD（剩余回合数）" );
 
-        panel.add(westTestBtn, c1);
+        //panel.add(westTestBtn, c1);
+        panel.add(a, c2);
         panel.add(a, c2);
         bannerBtn.addActionListener(this);
 
@@ -567,6 +568,12 @@ public class SaoLei implements ActionListener, MouseListener {
                             Container container = dialog.getContentPane();
                             JLabel label = new JLabel("", flagIcon, SwingConstants.CENTER);
                             container.add(label);
+                            if (checkActionCount()) {
+                                System.out.println("Player" + (player + 1) + "已经操作" + actionCount + "/" + maxAction + "次");
+                            } else {
+                                System.out.println("已经操作" + maxAction + "/" + maxAction + "次");
+                                System.out.println("Player" + (player + 1) + "'s turn!");
+                            }
                         } else if (canBeOpen[i][i1]){
                             buttons[i][i1].setIcon(null);
                             JButton btn = buttons[i][i1];
@@ -584,6 +591,12 @@ public class SaoLei implements ActionListener, MouseListener {
                             Container container = dialog.getContentPane();
                             JLabel label = new JLabel("", bombIcon, SwingConstants.CENTER);
                             container.add(label);
+                            if (checkActionCount()) {
+                                System.out.println("Player" + (player + 1) + "已经操作" + actionCount + "/" + maxAction + "次");
+                            } else {
+                                System.out.println("已经操作" + maxAction + "/" + maxAction + "次");
+                                System.out.println("Player" + (player + 1) + "'s turn!");
+                            }
                         }
 
 
