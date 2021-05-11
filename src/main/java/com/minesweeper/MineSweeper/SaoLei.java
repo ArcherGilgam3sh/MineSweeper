@@ -36,7 +36,7 @@ public class SaoLei implements ActionListener, MouseListener {
     int[][] data = new int[ROW][COL];//记录每格的数据
     boolean[][] canBeOpen = new boolean[ROW][COL];
     JButton[][] buttons = new JButton[ROW][COL];//按钮
-    int LeiCount = 10;//雷的数量
+    int LeiCount = 30;//雷的数量
     int LeiCode = -1;//-1代表是雷
     int unopened = ROW * COL;//未开的数量
     int opened = 0;//已开的数量
@@ -61,7 +61,7 @@ public class SaoLei implements ActionListener, MouseListener {
     Timer timer = new Timer(1000, this);
 
     public SaoLei() {
-        frame.setSize(1600, 960);//宽度调试中 ZFH
+        frame.setSize(1400, 850);//宽度调试中 ZFH
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
