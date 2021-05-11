@@ -464,8 +464,7 @@ public class SaoLei implements ActionListener, MouseListener {
         //btn.setText(data[i][j] + "");//填入数字
 
         addOpenCount();//调用这个方法来更改每一次操作所带来的已开和未开格子数目的变化
-
-        //实现连续打开  然而连续打开的逻辑并不对，还没能实现打开到相邻一层带数字的格子
+        
         if (data[i][j] == 0) {
             if (i > 0 && j > 0 && data[i - 1][j - 1] == 0) openCell(i - 1, j - 1);
             if (i > 0 && data[i - 1][j] == 0) openCell(i - 1, j);
