@@ -59,6 +59,7 @@ public class SaoLei implements ActionListener, MouseListener {
     JLabel label2 = new JLabel("已开：" + opened);
     JLabel label3 = new JLabel("用时：" + seconds + "s");
     Timer timer = new Timer(1000, this);
+    Container con=new Container();
 
     public SaoLei() {
         frame.setSize(1400, 850);//宽度调试中 ZFH
@@ -137,9 +138,10 @@ public class SaoLei implements ActionListener, MouseListener {
     }
 
     public void setButtons() {
-        Container con = new Container();//小容器，可以放入图片和按钮
-        con.setLayout(new GridLayout(ROW, COL));//用于排布相同的容器
+        //Container con = new Container();//小容器，可以放入图片和按钮
+        frame.remove(this.con);
 
+        con.setLayout(new  GridLayout(ROW, COL));//用于排布相同的容器
         for (int i = 0; i < ROW; i++) {
             for (int i1 = 0; i1 < COL; i1++) {
                 JButton btn = new JButton(guessIcon);//设置按钮
@@ -153,7 +155,6 @@ public class SaoLei implements ActionListener, MouseListener {
                 canBeOpen[i][i1]=true;
             }
         }
-
         frame.add(con, BorderLayout.CENTER);//将容器（们）放在中心位置
     }
 
@@ -161,6 +162,7 @@ public class SaoLei implements ActionListener, MouseListener {
         JMenuBar menuBar = new JMenuBar();
         Font font1 = new Font("等线", Font.BOLD, 20);
         JMenu difficultyMenu = new JMenu("难度设置");
+
         JMenu cheatingMenu = new JMenu("作弊开关");
         difficultyMenu.setFont(font1);
         cheatingMenu.setFont(font1);
@@ -171,14 +173,56 @@ public class SaoLei implements ActionListener, MouseListener {
         JMenuItem difficulty1 = new JMenuItem("简单难度");
         JMenuItem difficulty2 = new JMenuItem("中等难度");
         JMenuItem difficulty3 = new JMenuItem("困难难度");
+        JMenuItem cheatingButton =new JMenuItem("确认作弊");
         difficultyMenu.add(difficulty1);
         difficultyMenu.add(difficulty2);
         difficultyMenu.add(difficulty3);
+        cheatingMenu.add(cheatingButton);
         difficulty1.setFont(font2);
         difficulty2.setFont(font2);
         difficulty3.setFont(font2);
+        cheatingButton.setFont(font2);
+        difficulty1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.remove(con);
+                COL=9;
+                ROW=9;
+                LeiCount=10;
 
+                adjustDifficulty();
 
+            }
+        });
+        difficulty2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.remove(con);
+                Container con=new Container();
+                con.setLayout(new GridLayout(ROW,COL));
+             COL=16;
+             ROW=16;
+             LeiCount=40;
+             adjustDifficulty();
+            }
+        });
+        difficulty3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.remove(con);
+                con.setLayout(new GridLayout(ROW,COL));
+            COL=16;
+            ROW=30;
+            LeiCount=99;
+            adjustDifficulty();
+            }
+        });
+        cheatingButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {//todo: 把雷区全部掀开
+
+            }
+        });
         frame.setJMenuBar(menuBar);
         frame.setVisible(true);
     }
@@ -280,12 +324,15 @@ public class SaoLei implements ActionListener, MouseListener {
 
     public void actionPerformed(ActionEvent e) {
         //先判断一下触发这action的是谁
+
         if (e.getSource() instanceof Timer) {
             seconds++;
             label3.setText("用时：" + seconds + "s");
             timer.start();//每次++完都要再开始一遍
             return;
         }
+
+
 
         JButton btn = (JButton) e.getSource();
         if (btn.equals(bannerBtn)) {
@@ -509,8 +556,28 @@ public class SaoLei implements ActionListener, MouseListener {
     2.给按钮恢复状态
     3.重新启动时钟
      */
-    private void restart() {
+    private void adjustDifficulty() {
         //恢复数据和按钮
+        frame.remove(this.con);
+        Container con=new Container();
+        con.setLayout(new GridLayout(ROW,COL));
+        for (int i = 0; i < ROW; i++) {
+            for (int i1 = 0; i1 < COL; i1++) {
+                JButton btn = new JButton(guessIcon);//设置按钮
+                btn.setOpaque(true);
+                btn.setBackground(Color.GRAY);//设置背景色
+                btn.addActionListener(this);
+                btn.addMouseListener(this);
+                //JButton btn=new JButton(data[i][i1]+"");
+                con.add(btn);//将按钮放在容器中
+                buttons[i][i1] = btn;//将按钮放入数据结构中
+                canBeOpen[i][i1]=true;
+            }
+        }
+        frame.add(con,BorderLayout.CENTER);
+
+    }
+    private void restart(){
         for (int i = 0; i < ROW; i++) {
             for (int i1 = 0; i1 < COL; i1++) {
                 data[i][i1] = 0;
@@ -521,7 +588,6 @@ public class SaoLei implements ActionListener, MouseListener {
                 buttons[i][i1].setIcon(guessIcon);
             }
         }
-
         //操作次数以及player信息恢复
         player = 0;
         actionCount = 0;
@@ -618,4 +684,9 @@ public class SaoLei implements ActionListener, MouseListener {
     public void mouseExited(MouseEvent e) {
 
     }
+
+
+
+
+
 }
