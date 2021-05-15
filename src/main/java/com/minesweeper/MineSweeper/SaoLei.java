@@ -34,7 +34,7 @@ public class SaoLei implements ActionListener, MouseListener {
     int ROW = 20;//行数
     int COL = 20;//列数
     int[][] data = new int[ROW][COL];//记录每格的数据
-    boolean[][] canBeOpen = new boolean[ROW][COL];
+    boolean[][] canBeOpen = new boolean[ROW][COL];   //!!!! 改变难度后不会随难度改变，要换位置 zfh
     JButton[][] buttons = new JButton[ROW][COL];//按钮
     int LeiCount = 30;//雷的数量
     int LeiCode = -1;//-1代表是雷
@@ -124,12 +124,12 @@ public class SaoLei implements ActionListener, MouseListener {
         int tempCount = 0;//周围的雷数
         if (i > 0 && j > 0 && data[i - 1][j - 1] == LeiCode) tempCount++;
         if (i > 0 && data[i - 1][j] == LeiCode) tempCount++;
-        if (i > 0 && j < ROW - 1 && data[i - 1][j + 1] == LeiCode) tempCount++;
+        if (i > 0 && j < COL - 1 && data[i - 1][j + 1] == LeiCode) tempCount++;
         if (j > 0 && data[i][j - 1] == LeiCode) tempCount++;
-        if (j < ROW - 1 && data[i][j + 1] == LeiCode) tempCount++;
+        if (j < COL - 1 && data[i][j + 1] == LeiCode) tempCount++;
         if (i < ROW - 1 && j > 0 && data[i + 1][j - 1] == LeiCode) tempCount++;
         if (i < ROW - 1 && data[i + 1][j] == LeiCode) tempCount++;
-        if (i < ROW - 1 && j < ROW - 1 && data[i + 1][j + 1] == LeiCode) tempCount++;
+        if (i < ROW - 1 && j < COL- 1 && data[i + 1][j + 1] == LeiCode) tempCount++;
 
         return tempCount;
     }
@@ -183,12 +183,13 @@ public class SaoLei implements ActionListener, MouseListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.remove(con);
+                Container con=new Container();
+                con.setLayout(new GridLayout(ROW,COL));
                 COL=9;
                 ROW=9;
                 LeiCount=10;
-
                 adjustDifficulty();
-
+                restart();
             }
         });
         difficulty2.addActionListener(new ActionListener() {
@@ -197,10 +198,11 @@ public class SaoLei implements ActionListener, MouseListener {
                 frame.remove(con);
                 Container con=new Container();
                 con.setLayout(new GridLayout(ROW,COL));
-             COL=16;
-             ROW=16;
-             LeiCount=40;
-             adjustDifficulty();
+                COL=16;
+                ROW=16;
+                LeiCount=40;
+                adjustDifficulty();
+                restart();
             }
         });
         difficulty3.addActionListener(new ActionListener() {
@@ -208,10 +210,12 @@ public class SaoLei implements ActionListener, MouseListener {
             public void actionPerformed(ActionEvent e) {
                 frame.remove(con);
                 con.setLayout(new GridLayout(ROW,COL));
-            COL=16;
-            ROW=30;
-            LeiCount=99;
-            adjustDifficulty();
+                COL=16;
+                ROW=30;
+                LeiCount=99;
+                adjustDifficulty();
+                restart();
+
             }
         });
         cheatingButton.addActionListener(new ActionListener() {
@@ -549,12 +553,12 @@ public class SaoLei implements ActionListener, MouseListener {
         if (data[i][j] == 0) {
             if (i > 0 && j > 0 && data[i - 1][j - 1] == 0) openCell(i - 1, j - 1);
             if (i > 0 && data[i - 1][j] == 0) openCell(i - 1, j);
-            if (i > 0 && j < ROW - 1 && data[i - 1][j + 1] == 0) openCell(i - 1, j + 1);
+            if (i > 0 && j < COL - 1 && data[i - 1][j + 1] == 0) openCell(i - 1, j + 1);
             if (j > 0 && data[i][j - 1] == 0) openCell(i, j - 1);
-            if (j < ROW - 1 && data[i][j + 1] == 0) openCell(i, j + 1);
+            if (j < COL - 1 && data[i][j + 1] == 0) openCell(i, j + 1);
             if (i < ROW - 1 && j > 0 && data[i + 1][j - 1] == 0) openCell(i + 1, j - 1);
             if (i < ROW - 1 && data[i + 1][j] == 0) openCell(i + 1, j);
-            if (i < ROW - 1 && j < ROW - 1 && data[i + 1][j + 1] == 0) openCell(i + 1, j + 1);
+            if (i < ROW - 1 && j < COL - 1 && data[i + 1][j + 1] == 0) openCell(i + 1, j + 1);
         }
 
     }
@@ -565,12 +569,12 @@ public class SaoLei implements ActionListener, MouseListener {
                 if(data[k][l]==0&&!canBeOpen[k][l]){
                     if (k > 0 && l > 0 && data[k - 1][l - 1] != -1) openCell(k - 1, l - 1);
                     if (k > 0 && data[k - 1][l] != -1) openCell(k - 1, l);
-                    if (k > 0 && l < ROW - 1 && data[k - 1][l + 1] != -1) openCell(k - 1, l + 1);
+                    if (k > 0 && l < COL - 1 && data[k - 1][l + 1] != -1) openCell(k - 1, l + 1);
                     if (l > 0 && data[k][l - 1] != -1) openCell(k, l - 1);
-                    if (l < ROW - 1 && data[k][l + 1] != -1) openCell(k, l + 1);
+                    if (l < COL - 1 && data[k][l + 1] != -1) openCell(k, l + 1);
                     if (k < ROW - 1 && l > 0 && data[k + 1][l - 1] != -1) openCell(k + 1, l - 1);
                     if (k < ROW - 1 && data[k + 1][l] != -1) openCell(k + 1, l);
-                    if (k < ROW - 1 && l < ROW - 1 && data[k + 1][l + 1] != -1) openCell(k + 1, l + 1);
+                    if (k < ROW - 1 && l < COL - 1 && data[k + 1][l + 1] != -1) openCell(k + 1, l + 1);
                 }
             }
         }
@@ -593,6 +597,9 @@ public class SaoLei implements ActionListener, MouseListener {
     private void adjustDifficulty() {
         //恢复数据和按钮
         frame.remove(this.con);
+        data = new int[ROW][COL];//记录每格的数据
+        buttons =new JButton[ROW][COL];
+        canBeOpen = new boolean[ROW][COL];
         Container con=new Container();
         con.setLayout(new GridLayout(ROW,COL));
         for (int i = 0; i < ROW; i++) {
@@ -614,12 +621,15 @@ public class SaoLei implements ActionListener, MouseListener {
     private void restart(){
         for (int i = 0; i < ROW; i++) {
             for (int i1 = 0; i1 < COL; i1++) {
+
                 data[i][i1] = 0;
                 canBeOpen[i][i1] = true;
                 buttons[i][i1].setBackground(Color.GRAY);
                 buttons[i][i1].setEnabled(true);
                 buttons[i][i1].setText("");
                 buttons[i][i1].setIcon(guessIcon);
+
+
             }
         }
         //操作次数以及player信息恢复
