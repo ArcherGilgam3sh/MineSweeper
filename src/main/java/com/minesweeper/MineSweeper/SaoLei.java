@@ -91,7 +91,7 @@ public class SaoLei implements ActionListener, MouseListener {
 
     private void playMusic() {
         try {
-            AudioInputStream ais = AudioSystem.getAudioInputStream(new File("D:/MineSweeper/Music1.wav"));    //绝对路径
+            AudioInputStream ais = AudioSystem.getAudioInputStream(new File("D:/java project/MineSweeper/Music1.wav"));    //绝对路径
             AudioFormat aif = ais.getFormat();
             final SourceDataLine sdl;
             DataLine.Info info = new DataLine.Info(SourceDataLine.class, aif);
@@ -117,23 +117,42 @@ public class SaoLei implements ActionListener, MouseListener {
         }
     }
 
-    public void pageJumps() {
+    public void setFrame1() {
         JFrame frame1 = new JFrame("Golden Rush");
-        JFrame frame2 = new JFrame("Golden Rush");
-        JFrame frame3 = new JFrame("Golden Rush");
+
+        frame1.setLayout(null);
+
+        JLabel pic = new JLabel(bannerIcon);
+        pic.setBounds(0,0,900,700);//根据图来调整
+        frame1.add(pic);
 
         frame1.setSize(1000, 750);
         frame1.setResizable(false);
         frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame1.setLayout(null);
+        frame1.setLocationRelativeTo(null);
         frame1.setVisible(true);
 
-        JPanel panel = new JPanel();
-        JLabel pic = new JLabel();
-        pic.setIcon(bannerIcon);
-        pic.setBounds(0,0,700,500);
-        panel.add(pic);
-        frame1.add(panel);
+        JButton pvp = new JButton();
+        JButton pve = new JButton();
+        pvp.setBounds(400,500,200,50);
+        pve.setBounds(400,600,200,50);
+        frame1.add(pvp);
+        frame1.add(pve);
+        pvp.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame1.dispose();
+            }
+        });
+        pve.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame1.dispose();
+            }
+        });
+
+
+
     }
 
     public void addLei() {
