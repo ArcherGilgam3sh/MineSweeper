@@ -1,7 +1,7 @@
 package com.minesweeper.MineSweeper;
 
-public class HelloDuanYiKai {
+public class Main {
     public static void main(String[] args) {
-        System.out.println("DuanYiKai is really stupid");
+        new SaoLei();
     }
 }
