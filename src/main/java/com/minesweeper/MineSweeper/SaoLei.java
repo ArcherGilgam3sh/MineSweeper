@@ -63,6 +63,8 @@ public class SaoLei implements ActionListener, MouseListener {
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
+        pageJumps();
+
         setMenu();//设置菜单
 
         setHeader();//设置头部
@@ -81,8 +83,26 @@ public class SaoLei implements ActionListener, MouseListener {
 
         frame.setVisible(true);
     }
+    public void pageJumps() {
+        JFrame frame1 = new JFrame("Golden Rush");
+        JFrame frame2 = new JFrame("Golden Rush");
+        JFrame frame3 = new JFrame("Golden Rush");
 
-    private void addLei() {
+        frame1.setSize(1000, 750);
+        frame1.setResizable(false);
+        frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame1.setLayout(null);
+        frame1.setVisible(true);
+
+        JPanel panel = new JPanel();
+        JLabel pic = new JLabel();
+        pic.setIcon(bannerIcon);
+        pic.setBounds(0,0,700,500);
+        panel.add(pic);
+        frame1.add(panel);
+    }
+
+    public void addLei() {
         Random rand = new Random();
         for (int i = 0; i < LeiCount; ) {
             int r = rand.nextInt(ROW);//0-19的整数
@@ -120,7 +140,7 @@ public class SaoLei implements ActionListener, MouseListener {
         }
     }
 
-    private int setTempCount(int i, int j) {
+    public int setTempCount(int i, int j) {
         int tempCount = 0;//周围的雷数
         if (i > 0 && j > 0 && data[i - 1][j - 1] == LeiCode) tempCount++;
         if (i > 0 && data[i - 1][j] == LeiCode) tempCount++;
@@ -276,18 +296,23 @@ public class SaoLei implements ActionListener, MouseListener {
         GridBagConstraints c1 = new GridBagConstraints(0, 0, 4, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
         GridBagConstraints c2 = new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 1, 1);
         GridBagConstraints c3 = new GridBagConstraints(0, 2, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 1, 1);
-        GridBagConstraints c4 = new GridBagConstraints(1, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 1, 1);
-        GridBagConstraints c5 = new GridBagConstraints(1, 2, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 1, 1);
+        GridBagConstraints c4 = new GridBagConstraints(0, 3, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 1, 1);
+        GridBagConstraints c5 = new GridBagConstraints(0, 4, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 1, 1);
 
         JLabel a = new JLabel();
         JLabel b = new JLabel();
         JLabel c = new JLabel();
         JLabel d = new JLabel();
 
-        a.setText("金子数:" + score1);
-        b.setText("剩余步数:" + actionCount);
+        a.setText("金子数: " + score1);
+        b.setText("剩余步数: " + actionCount);
         c.setText("损坏镐子：" + brokenPickaxe1);
-        d.setText("技能CD（剩余回合数）:" + skillCD );
+        d.setText("技能CD（剩余回合数）: " + skillCD );
+        Font font1 = new Font("等线", Font.BOLD, 17);
+        a.setFont(font1);
+        b.setFont(font1);
+        c.setFont(font1);
+        d.setFont(font1);
 
         panel.add(eastTestBtn, c1);
         panel.add(a, c2);
@@ -316,18 +341,23 @@ public class SaoLei implements ActionListener, MouseListener {
         GridBagConstraints c1 = new GridBagConstraints(0, 0, 4, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
         GridBagConstraints c2 = new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 1, 1);
         GridBagConstraints c3 = new GridBagConstraints(0, 2, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 1, 1);
-        GridBagConstraints c4 = new GridBagConstraints(1, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 1, 1);
-        GridBagConstraints c5 = new GridBagConstraints(1, 2, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 1, 1);
+        GridBagConstraints c4 = new GridBagConstraints(0, 3, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 1, 1);
+        GridBagConstraints c5 = new GridBagConstraints(0, 4, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 1, 1);
 
         JLabel a = new JLabel();
         JLabel b = new JLabel();
         JLabel c = new JLabel();
         JLabel d = new JLabel();
 
-        a.setText("金子数:" + score1);
-        b.setText("剩余步数:" + actionCount);
+        a.setText("金子数: " + score1);
+        b.setText("剩余步数: " + actionCount);
         c.setText("损坏镐子：" + brokenPickaxe1);
-        d.setText("技能CD（剩余回合数）:" + skillCD );
+        d.setText("技能CD（剩余回合数）: " + skillCD );
+        Font font1 = new Font("等线", Font.BOLD, 17);
+        a.setFont(font1);
+        b.setFont(font1);
+        c.setFont(font1);
+        d.setFont(font1);
 
         panel.add(westTestBtn, c1);
         panel.add(a, c2);
@@ -354,10 +384,6 @@ public class SaoLei implements ActionListener, MouseListener {
         bannerBtn.setBackground(Color.white);
 
         frame.add(panel, BorderLayout.SOUTH);
-    }
-
-    public static void main(String[] args) {
-        new SaoLei();
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -433,7 +459,7 @@ public class SaoLei implements ActionListener, MouseListener {
         }
     }
 
-    private boolean checkActionCount() {
+    public boolean checkActionCount() {
         actionCount++;
         if (actionCount == maxAction) {
             player = (player == 0) ? 1 : 0;
@@ -453,7 +479,7 @@ public class SaoLei implements ActionListener, MouseListener {
         }
     }
 
-    private void checkWin() {
+    public void checkWin() {
         int count = 0;
         for (int i = 0; i < ROW; i++) {
             for (int i1 = 0; i1 < COL; i1++) {
@@ -475,7 +501,7 @@ public class SaoLei implements ActionListener, MouseListener {
 
     }
 
-    private void lose() {//踩到雷后爆雷
+    public void lose() {//踩到雷后爆雷
         timer.stop();//踩雷后时间停止
         bannerBtn.setIcon(failIcon);
         for (int i = 0; i < ROW; i++) {
@@ -518,7 +544,7 @@ public class SaoLei implements ActionListener, MouseListener {
         JOptionPane.showMessageDialog(frame, "可惜你暴雷了！\n你可以点击上面的Banner重新开始", "暴雷啦", JOptionPane.PLAIN_MESSAGE);//显示暴雷提示框
     }
 
-    private void openCell(int i, int j) {
+    public void openCell(int i, int j) {
         JButton btn = buttons[i][j];
         if (!canBeOpen[i][j]) return;
 
@@ -563,7 +589,7 @@ public class SaoLei implements ActionListener, MouseListener {
 
     }
 
-    private void openOpenCell(){
+    public void openOpenCell(){
         for (int k = 0; k < ROW; k++) {
             for (int l = 0; l < COL; l++) {
                 if(data[k][l]==0&&!canBeOpen[k][l]){
@@ -580,7 +606,7 @@ public class SaoLei implements ActionListener, MouseListener {
         }
     }
 
-    private void addOpenCount() {
+    public void addOpenCount() {
         opened++;
         unopened--;
         label1.setText("待开：" + unopened);
@@ -618,6 +644,7 @@ public class SaoLei implements ActionListener, MouseListener {
         frame.add(con,BorderLayout.CENTER);
 
     }
+
     private void restart(){
         for (int i = 0; i < ROW; i++) {
             for (int i1 = 0; i1 < COL; i1++) {
@@ -655,7 +682,6 @@ public class SaoLei implements ActionListener, MouseListener {
         if (c == MouseEvent.BUTTON3) {
             Object obj1 = e.getSource();
 
-            int x = 0, y = 0;
             for (int i = 0; i < ROW; i++) {
                 for (int i1 = 0; i1 < COL; i1++) {
                     if (obj1 == buttons[i][i1]) {
