@@ -68,7 +68,7 @@ public class SaoLei implements ActionListener, MouseListener {
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
-        pageJumps();
+        //pageJumps();
 
         setMenu();//设置菜单
 
@@ -91,7 +91,7 @@ public class SaoLei implements ActionListener, MouseListener {
 
     private void playMusic() {
         try {
-            AudioInputStream ais = AudioSystem.getAudioInputStream(new File("D:/java project/MineSweeper/Music1.wav"));    //绝对路径
+            AudioInputStream ais = AudioSystem.getAudioInputStream(new File("D:/MineSweeper/Music1.wav"));    //绝对路径
             AudioFormat aif = ais.getFormat();
             final SourceDataLine sdl;
             DataLine.Info info = new DataLine.Info(SourceDataLine.class, aif);
@@ -294,7 +294,47 @@ public class SaoLei implements ActionListener, MouseListener {
         cheatingButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {//todo: 把雷区全部掀开
+                for (int i = 0; i < ROW; i++) {
+                    for (int i1 = 0; i1 < COL; i1++) {
+                        if (canBeOpen[i][i1]) {
+                            JButton btn = buttons[i][i1];
+                            if (data[i][i1] == LeiCode) {
+                                canBeOpen[i][i1] = false;
+                                btn.setIcon(bombIcon);
+                                btn.setDisabledIcon(bombIcon);
+                            }
+                            /*
+                            else {
+                                btn.setIcon(null);//清除icon
+                                canBeOpen[i][i1] = false;
+                                btn.setOpaque(true);//设置不透明
 
+                                if(data[i][i1]==0){
+                                    btn.setIcon(afterOpen);//背景换为碎石
+                                }else if(data[i][i1]==1){
+                                    btn.setIcon(afterOpen1);
+                                }else if(data[i][i1]==2){
+                                    btn.setIcon(afterOpen2);
+                                }else if(data[i][i1]==3){
+                                    btn.setIcon(afterOpen3);
+                                }else if(data[i][i1]==4){
+                                    btn.setIcon(afterOpen4);
+                                }else if(data[i][i1]==5){
+                                    btn.setIcon(afterOpen5);
+                                }else if(data[i][i1]==6){
+                                    btn.setIcon(afterOpen6);
+                                }else if(data[i][i1]==7){
+                                    btn.setIcon(afterOpen7);
+                                }else if(data[i][i1]==8){
+                                    btn.setIcon(afterOpen8);
+                                }
+                                //btn.setText(data[i][i1] + "");//填入数字
+                            }
+                            全掀开or只掀雷
+                             */
+                        }
+                    }
+                }
             }
         });
         frame.setJMenuBar(menuBar);
