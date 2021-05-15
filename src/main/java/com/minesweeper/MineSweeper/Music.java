@@ -8,7 +8,7 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.SourceDataLine;
 public class Music {
-    static void playMusic() {// 背景音乐播放
+    public static void playMusic() {// 背景音乐播放
         try {
             AudioInputStream ais = AudioSystem.getAudioInputStream(new File("D:/MineSweeper/Music1.wav"));    //绝对路径
             AudioFormat aif = ais.getFormat();
