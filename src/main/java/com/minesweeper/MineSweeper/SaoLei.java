@@ -92,14 +92,15 @@ public class SaoLei implements ActionListener, MouseListener {
         frame1.setResizable(false);
         frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame1.setLayout(null);
-        frame1.setVisible(true);
+        frame1.setLocationRelativeTo(null);
+
 
         JPanel panel = new JPanel();
-        JLabel pic = new JLabel();
-        pic.setIcon(bannerIcon);
+        JLabel pic = new JLabel(bannerIcon);
         pic.setBounds(0,0,700,500);
         panel.add(pic);
         frame1.add(panel);
+        frame1.setVisible(true);
     }
 
     public void addLei() {
