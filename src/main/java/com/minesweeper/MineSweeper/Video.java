@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 
 public class Video extends javax.swing.JFrame implements Runnable {
     public Video() {
@@ -47,7 +48,7 @@ public class Video extends javax.swing.JFrame implements Runnable {
     public void initComponents() {
         jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         jButton1.setText("");
         jButton1.setOpaque(false);
