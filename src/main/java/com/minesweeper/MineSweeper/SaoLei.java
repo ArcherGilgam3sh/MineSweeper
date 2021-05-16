@@ -163,7 +163,10 @@ public class SaoLei implements ActionListener, MouseListener {
         frame2.setVisible(true);
 
         JTextField jt = new JTextField();
-        jt.setBounds();
+        //jt.setBounds();
+
+
+        setFrame3();
     }
 
     public void setFrame3() {
@@ -974,12 +977,18 @@ public class SaoLei implements ActionListener, MouseListener {
                             System.out.println("Player" + (player + 1) + "'s turn!");
                         }
 
+                        Video donttai = new Video();
+                        donttai.setVisible(true);
+                        donttai.run();
+                        donttai.dispose();
+
                         JDialog dialog = new JDialog();
                         dialog.setVisible(true);
                         dialog.setBounds(500, 300, 500, 500);
                         Container container = dialog.getContentPane();
                         JLabel label = new JLabel("", flagIcon, SwingConstants.CENTER);
                         container.add(label);
+                        
                     } else if (canBeOpen[i][i1]){
                         buttons[i][i1].setIcon(null);
                         JButton btn = buttons[i][i1];
@@ -1004,6 +1013,7 @@ public class SaoLei implements ActionListener, MouseListener {
                         Container container = dialog.getContentPane();
                         JLabel label = new JLabel("", bombIcon, SwingConstants.CENTER);
                         container.add(label);
+
                     }
                 }
             }
