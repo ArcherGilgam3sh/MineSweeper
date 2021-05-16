@@ -952,75 +952,70 @@ public class SaoLei implements ActionListener, MouseListener {
         timer.start();
     }
 
+    public void rightClick(Object obj1){
+        for (int i = 0; i < ROW; i++) {
+            for (int i1 = 0; i1 < COL; i1++) {
+                if (obj1 == buttons[i][i1]) {
+                    if (canBeOpen[i][i1] && data[i][i1] == -1) {
+                        buttons[i][i1].setIcon(null);
+                        JButton btn = buttons[i][i1];
+                        canBeOpen[i][i1]=false;
+                        btn.setOpaque(true);
+                        btn.setIcon(flagIcon);
+                        btn.setBackground(null);
+
+                        if (player == 0) score1++;
+                        if (player == 1) score2++;
+
+                        if (checkActionCount()) {
+                            System.out.println("Player" + (player + 1) + "已经操作" + actionCount + "/" + maxAction + "次");
+                        } else {
+                            System.out.println("已经操作" + maxAction + "/" + maxAction + "次");
+                            System.out.println("Player" + (player + 1) + "'s turn!");
+                        }
+
+                        JDialog dialog = new JDialog();
+                        dialog.setVisible(true);
+                        dialog.setBounds(500, 300, 500, 500);
+                        Container container = dialog.getContentPane();
+                        JLabel label = new JLabel("", flagIcon, SwingConstants.CENTER);
+                        container.add(label);
+                    } else if (canBeOpen[i][i1]){
+                        buttons[i][i1].setIcon(null);
+                        JButton btn = buttons[i][i1];
+                        canBeOpen[i][i1]=false;
+                        btn.setOpaque(true);
+                        btn.setIcon(flagIcon);
+                        btn.setBackground(null);
+
+                        if (player == 0) brokenPickaxe1++;
+                        if (player == 1) brokenPickaxe2++;
+
+                        if (checkActionCount()) {
+                            System.out.println("Player" + (player + 1) + "已经操作" + actionCount + "/" + maxAction + "次");
+                        } else {
+                            System.out.println("已经操作" + maxAction + "/" + maxAction + "次");
+                            System.out.println("Player" + (player + 1) + "'s turn!");
+                        }
+
+                        JDialog dialog = new JDialog();
+                        dialog.setVisible(true);
+                        dialog.setBounds(500, 300, 500, 500);
+                        Container container = dialog.getContentPane();
+                        JLabel label = new JLabel("", bombIcon, SwingConstants.CENTER);
+                        container.add(label);
+                    }
+                }
+            }
+        }
+    }
+
     @Override
     public void mouseClicked(MouseEvent e) {
         int c = e.getButton();
         if (c == MouseEvent.BUTTON3) {
             Object obj1 = e.getSource();
-
-            for (int i = 0; i < ROW; i++) {
-                for (int i1 = 0; i1 < COL; i1++) {
-                    if (obj1 == buttons[i][i1]) {
-                        if (canBeOpen[i][i1] && data[i][i1] == -1) {
-                            buttons[i][i1].setIcon(null);
-                            JButton btn = buttons[i][i1];
-                            canBeOpen[i][i1]=false;
-                            btn.setOpaque(true);
-                            btn.setIcon(flagIcon);
-                            btn.setBackground(null);
-
-                            if (player == 0) score1++;
-                            if (player == 1) score2++;
-
-                            if (checkActionCount()) {
-                                System.out.println("Player" + (player + 1) + "已经操作" + actionCount + "/" + maxAction + "次");
-                            } else {
-                                System.out.println("已经操作" + maxAction + "/" + maxAction + "次");
-                                System.out.println("Player" + (player + 1) + "'s turn!");
-                            }
-
-                            JDialog dialog = new JDialog();
-                            dialog.setVisible(true);
-                            dialog.setBounds(500, 300, 500, 500);
-                            Container container = dialog.getContentPane();
-                            JLabel label = new JLabel("", flagIcon, SwingConstants.CENTER);
-                            container.add(label);
-                        } else if (canBeOpen[i][i1]){
-                            buttons[i][i1].setIcon(null);
-                            JButton btn = buttons[i][i1];
-                            canBeOpen[i][i1]=false;
-                            btn.setOpaque(true);
-                            btn.setIcon(flagIcon);
-                            btn.setBackground(null);
-
-                            if (player == 0) brokenPickaxe1++;
-                            if (player == 1) brokenPickaxe2++;
-
-                            if (checkActionCount()) {
-                                System.out.println("Player" + (player + 1) + "已经操作" + actionCount + "/" + maxAction + "次");
-                            } else {
-                                System.out.println("已经操作" + maxAction + "/" + maxAction + "次");
-                                System.out.println("Player" + (player + 1) + "'s turn!");
-                            }
-
-                            JDialog dialog = new JDialog();
-                            dialog.setVisible(true);
-                            dialog.setBounds(500, 300, 500, 500);
-                            Container container = dialog.getContentPane();
-                            JLabel label = new JLabel("", bombIcon, SwingConstants.CENTER);
-                            container.add(label);
-                        }
-
-
-                        /*
-                        现存问题：右键后的相关操作未完善
-                        右键操作尚未计数
-                        积分系统未完成
-                        ZFH 21.5.8
-                         */
-                    }
-                }
-            }
+            rightClick(obj1);
         }
     }
 
@@ -1044,7 +1039,33 @@ public class SaoLei implements ActionListener, MouseListener {
 
     }
 
+    public void RandomOpen(){
+        Random random=new Random();
+        int row=random.nextInt()*ROW;
+        int col=random.nextInt()*COL;
 
+        int left=random.nextInt()*5+1;//1-5
+        int right=5-left;//1-5
+
+        for (int i = 0; i < left; i++) {
+            while(data[row][col]!=LeiCode&&canBeOpen[row][col]){
+                row=random.nextInt()*ROW;
+                col=random.nextInt()*COL;
+            }
+
+            openCell(row,col);
+            openOpenCell();
+        }
+
+        for (int i = 0; i < right; i++) {
+            while(data[row][col]==LeiCode&&canBeOpen[row][col]){
+                row=random.nextInt()*ROW;
+                col=random.nextInt()*COL;
+            }
+
+            rightClick(buttons[row][col]);
+        }
+    }
 
 
 
