@@ -8,10 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Random;
 
 public class SaoLei implements ActionListener, MouseListener {
@@ -531,6 +528,12 @@ public class SaoLei implements ActionListener, MouseListener {
         JMenuItem savingButton = new JMenuItem("确认保存");
         savingMenu.add(savingButton);
         savingButton.setFont(font1);
+        savingButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Save();
+            }
+        });
         frame.setJMenuBar(menuBar);
         frame.setVisible(true);
     }
@@ -1060,8 +1063,8 @@ public class SaoLei implements ActionListener, MouseListener {
 
     public void RandomOpen(){
         Random random=new Random();
-        int row=random.nextInt()*ROW;
-        int col=random.nextInt()*COL;
+        int row=random.nextInt(ROW);
+        int col=random.nextInt(COL);
 
         int left=random.nextInt()*5+1;//1-5
         int right=5-left;//1-5
@@ -1102,6 +1105,38 @@ public class SaoLei implements ActionListener, MouseListener {
             path=fileChooser.getSelectedFile().getPath();
             //此处path为该文件路径
         }
+
+        try{
+            BufferedReader in=new BufferedReader(new FileReader(path));
+            for (int i = 0; i < 20; i++) {
+                for (int j = 0; j < 20; j++) {
+                    data[i][j]=in.read();
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        setButtons();
+
+        try{
+            BufferedReader in=new BufferedReader(new FileReader(path));
+            for (int i = 0; i < ROW; i++) {
+                for (int i1 = 0; i1 < COL; i1++) {
+                    if(in.read()==1){
+                        canBeOpen[i][i1]=true;
+                    }else{
+                        canBeOpen[i][i1]=false;
+                    }
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void Save(){
@@ -1128,7 +1163,6 @@ public class SaoLei implements ActionListener, MouseListener {
                     writer.write(data[i][j]);
                 }
             }
-            writer.write(" ");
             for (int i = 0 ; i < ROW; i++) {
                 for (int j = 0; j < COL; j++) {
                     if(canBeOpen[i][j]){
