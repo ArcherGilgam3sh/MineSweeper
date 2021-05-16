@@ -64,29 +64,8 @@ public class SaoLei implements ActionListener, MouseListener {
         new Thread(()->{while(true) {playMusic();}
         }).start();
 
-        frame.setSize(1400, 850);//宽度调试中 ZFH
-        frame.setResizable(false);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new BorderLayout());
-        //pageJumps();
+        setFrame1();
 
-        setMenu();//设置菜单
-
-        setHeader();//设置头部
-
-        setEast();//调试中 ZFH
-
-        setWest();//调试中 ZFH
-
-        //setSouth();//调试中 ZFH
-
-        addLei();//放雷
-
-        setButtons();//设置按钮和未开的图标
-
-        timer.start();//别忘了最开始也要开始Timer
-
-        frame.setVisible(true);
     }
 
     private void playMusic() {
@@ -123,36 +102,126 @@ public class SaoLei implements ActionListener, MouseListener {
         frame1.setLayout(null);
 
         JLabel pic = new JLabel(bannerIcon);
-        pic.setBounds(0,0,900,700);//根据图来调整
+        pic.setBounds(0,0,100,100);//根据图来调整
         frame1.add(pic);
 
-        frame1.setSize(1000, 750);
+        frame1.setSize(800, 650);
         frame1.setResizable(false);
         frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame1.setLocationRelativeTo(null);
         frame1.setVisible(true);
 
-        JButton pvp = new JButton();
-        JButton pve = new JButton();
-        pvp.setBounds(400,500,200,50);
-        pve.setBounds(400,600,200,50);
+        JButton pvp = new JButton("双人对战");
+        JButton pve = new JButton("人机对战");
+        JButton background = new JButton("背景故事");
+        Font font1 = new Font("等线", Font.BOLD, 20);
+        pvp.setFont(font1);
+        pve.setFont(font1);
+        background.setFont(font1);
+        pvp.setBounds(300,300,200,50);
+        pve.setBounds(300,400,200,50);
+        background.setBounds(300,500,200,50);
         frame1.add(pvp);
         frame1.add(pve);
+        frame1.add(background);
         pvp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame1.dispose();
+                setFrame2();
             }
         });
         pve.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame1.dispose();
+                setFrame2();
+            }
+        });
+        background.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setBackground();
             }
         });
 
 
 
+    }
+
+    public void setFrame2() {
+        JFrame frame2 = new JFrame("Golden Rush");
+        frame2.setLayout(null);
+        frame2.setSize(800, 650);
+        frame2.setResizable(false);
+        frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame2.setLocationRelativeTo(null);
+        frame2.setVisible(true);
+
+        JButton difficulty1 = new JButton("简单难度");
+        JButton difficulty2 = new JButton("中等难度");
+        JButton difficulty3 = new JButton("困难难度");
+        Font font1 = new Font("等线", Font.BOLD, 20);
+        difficulty1.setFont(font1);
+        difficulty2.setFont(font1);
+        difficulty3.setFont(font1);
+        difficulty1.setBounds(300,125,200,50);
+        difficulty2.setBounds(300,275,200,50);
+        difficulty3.setBounds(300,425,200,50);
+
+        frame2.add(difficulty1);
+        frame2.add(difficulty2);
+        frame2.add(difficulty3);
+
+        difficulty1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ROW = 9;
+                COL = 9;
+                LeiCount = 10;
+
+                frame.setSize(1400, 850);//宽度调试中 ZFH
+                frame.setResizable(false);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setLayout(new BorderLayout());
+
+                setMenu();//设置菜单
+
+                setHeader();//设置头部
+
+                setEast();//调试中 ZFH
+
+                setWest();//调试中 ZFH
+
+                //setSouth();//调试中 ZFH
+
+                addLei();//放雷
+
+                setButtons();//设置按钮和未开的图标
+
+                timer.start();//别忘了最开始也要开始Timer
+
+                frame.setVisible(true);
+            }
+        });
+    }
+
+    public void setBackground() {
+        JFrame backgroundFrame = new JFrame("Background");
+        backgroundFrame.setLayout(null);
+        backgroundFrame.setSize(700, 550);
+        backgroundFrame.setResizable(false);
+        backgroundFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        backgroundFrame.setLocationRelativeTo(null);
+        backgroundFrame.setVisible(true);
+
+        JTextField backgroundText = new JTextField();
+        backgroundText.setText("asdfasd");
+        Font font1 = new Font("等线", Font.BOLD, 20);
+        backgroundText.setFont(font1);
+        backgroundText.setBounds(50,30,600,450);
+
+        backgroundFrame.add(backgroundText);
     }
 
     public void addLei() {
@@ -430,7 +499,7 @@ public class SaoLei implements ActionListener, MouseListener {
 
         int skillCD = 3;
         JPanel panel = new JPanel(new GridBagLayout());//设置画布
-        panel.setPreferredSize(new Dimension(300, 200));
+        panel.setPreferredSize(new Dimension(200, 100));
         GridBagConstraints c1 = new GridBagConstraints(0, 0, 4, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
         GridBagConstraints c2 = new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 1, 1);
         GridBagConstraints c3 = new GridBagConstraints(0, 2, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 1, 1);
