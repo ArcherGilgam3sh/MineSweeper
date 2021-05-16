@@ -55,6 +55,7 @@ public class SaoLei implements ActionListener, MouseListener {
     int borderEastWidth;
     int borderHeadHeight;
     int fontSize;
+    int picSize;
     JButton bannerBtn = new JButton(bannerIcon);
     JButton southTestBtn = new JButton(bannerIcon);//调试中 ZFH
 
@@ -163,10 +164,50 @@ public class SaoLei implements ActionListener, MouseListener {
         frame2.setVisible(true);
 
         JTextField jt = new JTextField();
-        //jt.setBounds();
+        jt.setBounds(430,250,100,50);
+        frame2.add(jt);
 
+        Font font1 = new Font("等线", Font.BOLD, 20);
+        JLabel jl = new JLabel("请设置每局限定步数:");
+        jl.setBounds(230,250,200,50);
+        frame2.add(jt);
+        jl.setFont(font1);
+        frame2.add(jl);
 
-        setFrame3();
+        JButton jb = new JButton("确定");
+        jb.setBounds(350,450,100,50);
+        frame2.add(jb);
+        jb.setFont(font1);
+        jb.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String str = jt.getText();
+                if(str.equals(""))
+                {
+                    Object[] options = { "OK ", "CANCEL " };
+                    JOptionPane.showOptionDialog(null, "您还没有输入 ", "提示", JOptionPane.DEFAULT_OPTION,
+                            JOptionPane.WARNING_MESSAGE,null, options, options[0]);
+                }
+                else {
+                    maxAction = Integer.parseInt(str);
+                    frame2.dispose();
+                    setFrame3();
+                }
+            }
+        });
+
+        JButton back = new JButton("back");
+        back.setFont(font1);
+        back.setBounds(10,10,100,50);
+        frame2.add(back);
+        back.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame2.dispose();
+                setFrame1();
+            }
+        });
+
     }
 
     public void setFrame3() {
@@ -209,6 +250,7 @@ public class SaoLei implements ActionListener, MouseListener {
                 borderEastWidth = 160;
                 borderHeadHeight = 100;
                 fontSize = 13;
+                picSize = 3;
 
                 frame.setSize(680, 560);
                 frame.setResizable(false);
@@ -248,6 +290,7 @@ public class SaoLei implements ActionListener, MouseListener {
                 borderEastWidth = 200;
                 borderHeadHeight = 100;
                 fontSize = 15;
+                picSize = 2;
 
                 frame.setSize(1040, 740);
                 frame.setResizable(false);
@@ -287,6 +330,7 @@ public class SaoLei implements ActionListener, MouseListener {
                 borderEastWidth = 250;
                 borderHeadHeight = 100;
                 fontSize = 20;
+                picSize = 2;
 
                 frame.setSize(1700, 740);
                 frame.setResizable(false);
@@ -318,7 +362,7 @@ public class SaoLei implements ActionListener, MouseListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame3.dispose();
-                setFrame1();
+                setFrame2();
             }
         });
     }
@@ -417,66 +461,18 @@ public class SaoLei implements ActionListener, MouseListener {
     public void setMenu() {
         JMenuBar menuBar = new JMenuBar();
         Font font1 = new Font("等线", Font.BOLD, 20);
-        JMenu difficultyMenu = new JMenu("难度设置");
 
         JMenu cheatingMenu = new JMenu("作弊开关");
-        difficultyMenu.setFont(font1);
         cheatingMenu.setFont(font1);
-        menuBar.add(difficultyMenu);
         menuBar.add(cheatingMenu);
 
-        Font font2 = new Font("等线", Font.BOLD, 17);
-        JMenuItem difficulty1 = new JMenuItem("简单难度");
-        JMenuItem difficulty2 = new JMenuItem("中等难度");
-        JMenuItem difficulty3 = new JMenuItem("困难难度");
-        JMenuItem cheatingButton =new JMenuItem("确认作弊");
-        difficultyMenu.add(difficulty1);
-        difficultyMenu.add(difficulty2);
-        difficultyMenu.add(difficulty3);
-        cheatingMenu.add(cheatingButton);
-        difficulty1.setFont(font2);
-        difficulty2.setFont(font2);
-        difficulty3.setFont(font2);
-        cheatingButton.setFont(font2);
-        difficulty1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.remove(con);
-                Container con=new Container();
-                con.setLayout(new GridLayout(ROW,COL));
-                COL=9;
-                ROW=9;
-                LeiCount=10;
-                adjustDifficulty();
-                restart();
-            }
-        });
-        difficulty2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.remove(con);
-                Container con=new Container();
-                con.setLayout(new GridLayout(ROW,COL));
-                COL=16;
-                ROW=16;
-                LeiCount=40;
-                adjustDifficulty();
-                restart();
-            }
-        });
-        difficulty3.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.remove(con);
-                con.setLayout(new GridLayout(ROW,COL));
-                COL=16;
-                ROW=30;
-                LeiCount=99;
-                adjustDifficulty();
-                restart();
+        JMenu savingMenu = new JMenu("保存开关");
+        savingMenu.setFont(font1);
+        menuBar.add(savingMenu);
 
-            }
-        });
+        JMenuItem cheatingButton = new JMenuItem("确认作弊");
+        cheatingMenu.add(cheatingButton);
+        cheatingButton.setFont(font1);
         cheatingButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {//todo: 把雷区全部掀开
@@ -523,6 +519,10 @@ public class SaoLei implements ActionListener, MouseListener {
                 }
             }
         });
+
+        JMenuItem savingButton = new JMenuItem("确认保存");
+        savingMenu.add(savingButton);
+        savingButton.setFont(font1);
         frame.setJMenuBar(menuBar);
         frame.setVisible(true);
     }
@@ -565,7 +565,7 @@ public class SaoLei implements ActionListener, MouseListener {
 
     public void setEast() {
         Image image = woman.getImage();
-        image = image.getScaledInstance(woman.getIconWidth() /3 ,woman.getIconHeight() / 3,Image.SCALE_SMOOTH);
+        image = image.getScaledInstance(woman.getIconWidth() / picSize ,woman.getIconHeight() / picSize,Image.SCALE_SMOOTH);
         woman = new ImageIcon(image);
         JButton eastTestBtn = new JButton(woman);//调试中 ZFH
 
@@ -611,7 +611,7 @@ public class SaoLei implements ActionListener, MouseListener {
 
     public void setWest() {
         Image image = man.getImage();
-        image = image.getScaledInstance(man.getIconWidth() / 3,man.getIconHeight() / 3,Image.SCALE_SMOOTH);
+        image = image.getScaledInstance(man.getIconWidth() / picSize,man.getIconHeight() / picSize,Image.SCALE_SMOOTH);
         man = new ImageIcon(image);
         JButton westTestBtn = new JButton(man);//调试中 ZFHs
 
@@ -687,7 +687,7 @@ public class SaoLei implements ActionListener, MouseListener {
         for (int i = 0; i < ROW; i++) {
             for (int i1 = 0; i1 < COL; i1++) {
                 if (btn.equals(buttons[i][i1])) {
-                    if (data[i][i1] == LeiCode) {//判断输赢
+                    if (data[i][i1] == LeiCode) {
                         if (clickTimes == 0) {
                             while (data[i][i1] == LeiCode) {
                                 restart();
@@ -784,7 +784,6 @@ public class SaoLei implements ActionListener, MouseListener {
 
     public void lose() {//踩到雷后爆雷
         timer.stop();//踩雷后时间停止
-        bannerBtn.setIcon(failIcon);
         for (int i = 0; i < ROW; i++) {
             for (int i1 = 0; i1 < COL; i1++) {
                 if (canBeOpen[i][i1]) {
@@ -822,7 +821,7 @@ public class SaoLei implements ActionListener, MouseListener {
                 }
             }
         }
-        JOptionPane.showMessageDialog(frame, "可惜你暴雷了！\n你可以点击上面的Banner重新开始", "暴雷啦", JOptionPane.PLAIN_MESSAGE);//显示暴雷提示框
+        JOptionPane.showMessageDialog(frame, "可惜你把金子敲碎了 ┭┮﹏┭┮", "可惜了", JOptionPane.PLAIN_MESSAGE);
     }
 
     public void openCell(int i, int j) {
@@ -901,30 +900,6 @@ public class SaoLei implements ActionListener, MouseListener {
     2.给按钮恢复状态
     3.重新启动时钟
      */
-    private void adjustDifficulty() {
-        //恢复数据和按钮
-        frame.remove(this.con);
-        data = new int[ROW][COL];//记录每格的数据
-        buttons =new JButton[ROW][COL];
-        canBeOpen = new boolean[ROW][COL];
-        Container con=new Container();
-        con.setLayout(new GridLayout(ROW,COL));
-        for (int i = 0; i < ROW; i++) {
-            for (int i1 = 0; i1 < COL; i1++) {
-                JButton btn = new JButton(guessIcon);//设置按钮
-                btn.setOpaque(true);
-                btn.setBackground(Color.GRAY);//设置背景色
-                btn.addActionListener(this);
-                btn.addMouseListener(this);
-                //JButton btn=new JButton(data[i][i1]+"");
-                con.add(btn);//将按钮放在容器中
-                buttons[i][i1] = btn;//将按钮放入数据结构中
-                canBeOpen[i][i1]=true;
-            }
-        }
-        frame.add(con,BorderLayout.CENTER);
-
-    }
 
     private void restart(){
         for (int i = 0; i < ROW; i++) {
@@ -967,8 +942,12 @@ public class SaoLei implements ActionListener, MouseListener {
                         btn.setIcon(flagIcon);
                         btn.setBackground(null);
 
-                        if (player == 0) score1++;
-                        if (player == 1) score2++;
+                        if (player == 0) {
+                            score1++;
+                        }
+                        if (player == 1) {
+                            score2++;
+                        }
 
                         if (checkActionCount()) {
                             System.out.println("Player" + (player + 1) + "已经操作" + actionCount + "/" + maxAction + "次");
@@ -980,7 +959,7 @@ public class SaoLei implements ActionListener, MouseListener {
                         Video donttai = new Video();
                         donttai.setVisible(true);
                         donttai.run();
-                        donttai.dispose();
+                        //donttai.dispose();
 
                         JDialog dialog = new JDialog();
                         dialog.setVisible(true);
@@ -994,11 +973,33 @@ public class SaoLei implements ActionListener, MouseListener {
                         JButton btn = buttons[i][i1];
                         canBeOpen[i][i1]=false;
                         btn.setOpaque(true);
-                        btn.setIcon(flagIcon);
+                        if(data[i][i1]==0){
+                            btn.setIcon(afterOpen);//背景换为碎石
+                        }else if(data[i][i1]==1){
+                            btn.setIcon(afterOpen1);
+                        }else if(data[i][i1]==2){
+                            btn.setIcon(afterOpen2);
+                        }else if(data[i][i1]==3){
+                            btn.setIcon(afterOpen3);
+                        }else if(data[i][i1]==4){
+                            btn.setIcon(afterOpen4);
+                        }else if(data[i][i1]==5){
+                            btn.setIcon(afterOpen5);
+                        }else if(data[i][i1]==6){
+                            btn.setIcon(afterOpen6);
+                        }else if(data[i][i1]==7){
+                            btn.setIcon(afterOpen7);
+                        }else if(data[i][i1]==8){
+                            btn.setIcon(afterOpen8);
+                        }
                         btn.setBackground(null);
 
-                        if (player == 0) brokenPickaxe1++;
-                        if (player == 1) brokenPickaxe2++;
+                        if (player == 0) {
+                            brokenPickaxe1++;
+                        }
+                        if (player == 1) {
+                            brokenPickaxe2++;
+                        }
 
                         if (checkActionCount()) {
                             System.out.println("Player" + (player + 1) + "已经操作" + actionCount + "/" + maxAction + "次");
