@@ -2,12 +2,16 @@ package com.minesweeper.MineSweeper;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 
 public class SaoLei implements ActionListener, MouseListener {
@@ -988,7 +992,7 @@ public class SaoLei implements ActionListener, MouseListener {
                         Container container = dialog.getContentPane();
                         JLabel label = new JLabel("", flagIcon, SwingConstants.CENTER);
                         container.add(label);
-                        
+
                     } else if (canBeOpen[i][i1]){
                         buttons[i][i1].setIcon(null);
                         JButton btn = buttons[i][i1];
@@ -1074,6 +1078,65 @@ public class SaoLei implements ActionListener, MouseListener {
             }
 
             rightClick(buttons[row][col]);
+        }
+    }
+
+    public void Read(){
+        String path="";
+        FileSystemView fsv = FileSystemView.getFileSystemView();
+
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(fsv.getHomeDirectory());
+        fileChooser.setDialogTitle("请选择文件...");
+        fileChooser.setApproveButtonText("确定");
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+        int result = fileChooser.showOpenDialog(null);
+
+        if (JFileChooser.APPROVE_OPTION == result) {
+            path=fileChooser.getSelectedFile().getPath();
+            //此处path为该文件路径
+        }
+    }
+
+    public void Save(){
+        String path="";
+        FileSystemView fsv = FileSystemView.getFileSystemView();
+
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(fsv.getHomeDirectory());
+        fileChooser.setDialogTitle("请选择文件...");
+        fileChooser.setApproveButtonText("确定");
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+        int result = fileChooser.showOpenDialog(null);
+
+        if (JFileChooser.APPROVE_OPTION == result) {
+            path=fileChooser.getSelectedFile().getPath();
+            //此处path为该文件路径
+        }
+
+        try{
+            BufferedWriter writer=new BufferedWriter(new FileWriter(path+"/Out.txt"));
+            for (int i = 0; i < ROW; i++) {
+                for (int j = 0; j < COL; j++) {
+                    writer.write(data[i][j]);
+                }
+            }
+            writer.write(" ");
+            for (int i = 0 ; i < ROW; i++) {
+                for (int j = 0; j < COL; j++) {
+                    if(canBeOpen[i][j]){
+                        writer.write(1);
+                    }else{
+                        writer.write(0);
+                    }
+                }
+            }
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
