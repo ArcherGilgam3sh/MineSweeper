@@ -77,9 +77,9 @@ public class SaoLei implements ActionListener, MouseListener {
         new Thread(()->{while(true) {playMusic();}
         }).start();
          */
-        music();
 
         setFrame1();
+        music();
 
     }
 
