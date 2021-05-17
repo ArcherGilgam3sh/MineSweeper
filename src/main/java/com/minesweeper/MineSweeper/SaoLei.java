@@ -1,7 +1,5 @@
 package com.minesweeper.MineSweeper;
 
-import javax.imageio.ImageIO;
-import javax.sound.sampled.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
 import java.applet.Applet;
@@ -11,12 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.ImageObserver;
 import java.io.*;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Random;
 
 public class SaoLei implements ActionListener, MouseListener {
