@@ -815,6 +815,9 @@ public class SaoLei implements ActionListener, MouseListener {
                             while (data[i][i1] == LeiCode) {
                                 restart();
                             }
+                            if(canBeOpen[i][i1]){
+                                checkActionCount();
+                            }
                             openCell(i, i1);
                             try {
                                 shortMusic();
@@ -829,6 +832,9 @@ public class SaoLei implements ActionListener, MouseListener {
                             lose();
                         }
                     } else {
+                        if(canBeOpen[i][i1]){
+                            checkActionCount();
+                        }
                         openCell(i, i1);
                         try {
                             shortMusic();
@@ -1071,6 +1077,8 @@ public class SaoLei implements ActionListener, MouseListener {
                             score2++;
                         }
 
+                        checkActionCount();
+
                         VideoPlayer();
 
                     } else if (canBeOpen[i][i1]) {
@@ -1105,6 +1113,8 @@ public class SaoLei implements ActionListener, MouseListener {
                         if (player == 1) {
                             brokenPickaxe2++;
                         }
+
+                        checkActionCount();
 
                         VideoPlayer();
 
