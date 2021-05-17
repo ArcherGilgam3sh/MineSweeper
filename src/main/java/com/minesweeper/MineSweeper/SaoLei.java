@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 package com.minesweeper.MineSweeper;
 
 import javax.sound.sampled.*;
@@ -1070,3 +1071,5 @@ public class SaoLei implements ActionListener, MouseListener {
 
 
 }
+=======
+>>>>>>> Stashed changes
