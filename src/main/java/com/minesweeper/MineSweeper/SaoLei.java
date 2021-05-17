@@ -141,7 +141,7 @@ public class SaoLei implements ActionListener, MouseListener {
 
         frame1.setLayout(null);
         JPanel imagePanel;
-        ImageIcon background = new ImageIcon("D:\\MineSweeper\\进入界面.png");
+        ImageIcon background = new ImageIcon("D:\\MineSweeper\\进入界面 (1).png");
         JLabel label = new JLabel(background);
         label.setBounds(0, 0, background.getIconWidth(), background.getIconHeight());
         imagePanel = (JPanel) frame1.getContentPane();
@@ -150,9 +150,6 @@ public class SaoLei implements ActionListener, MouseListener {
         frame1.getLayeredPane().setLayout(null);
         frame1.getLayeredPane().add(label, new Integer(Integer.MIN_VALUE));
 
-        JLabel pic = new JLabel(bannerIcon);
-        pic.setBounds(0, 0, 100, 100);//根据图来调整
-        frame1.add(pic);
 
         frame1.setSize(800, 650);
         frame1.setResizable(false);
@@ -208,7 +205,7 @@ public class SaoLei implements ActionListener, MouseListener {
         frame2.setLayout(null);
 
         JPanel imagePanel;
-        ImageIcon background = new ImageIcon("D:\\MineSweeper\\进入界面.png");
+        ImageIcon background = new ImageIcon("D:\\MineSweeper\\进入界面 (1).png");
         JLabel label = new JLabel(background);
         label.setBounds(0, 0, background.getIconWidth(), background.getIconHeight());
         imagePanel = (JPanel) frame2.getContentPane();
@@ -304,7 +301,7 @@ public class SaoLei implements ActionListener, MouseListener {
         frame5.setLayout(null);
 
         JPanel imagePanel;
-        ImageIcon background = new ImageIcon("D:\\MineSweeper\\进入界面.png");
+        ImageIcon background = new ImageIcon("D:\\MineSweeper\\进入界面 (1).png");
         JLabel label = new JLabel(background);
         label.setBounds(0, 0, background.getIconWidth(), background.getIconHeight());
         imagePanel = (JPanel) frame5.getContentPane();
