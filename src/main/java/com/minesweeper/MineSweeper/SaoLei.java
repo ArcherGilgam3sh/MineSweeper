@@ -140,6 +140,15 @@ public class SaoLei implements ActionListener, MouseListener {
         JFrame frame1 = new JFrame("Golden Rush");
 
         frame1.setLayout(null);
+        JPanel imagePanel;
+        ImageIcon background = new ImageIcon("D:\\MineSweeper\\进入界面.png");
+        JLabel label = new JLabel(background);
+        label.setBounds(0, 0, background.getIconWidth(), background.getIconHeight());
+        imagePanel = (JPanel) frame1.getContentPane();
+        imagePanel.setOpaque(false);
+        imagePanel.setLayout(null);
+        frame1.getLayeredPane().setLayout(null);
+        frame1.getLayeredPane().add(label, new Integer(Integer.MIN_VALUE));
 
         JLabel pic = new JLabel(bannerIcon);
         pic.setBounds(0, 0, 100, 100);//根据图来调整
@@ -153,20 +162,20 @@ public class SaoLei implements ActionListener, MouseListener {
 
         JButton pvp = new JButton("双人对战");
         JButton pve = new JButton("人机对战");
-        JButton background = new JButton("背景故事");
+        JButton backgroundButton = new JButton("背景故事");
         JButton loadSaving = new JButton("载入存档");
         Font font1 = new Font("等线", Font.BOLD, 20);
         pvp.setFont(font1);
         pve.setFont(font1);
-        background.setFont(font1);
+        backgroundButton.setFont(font1);
         loadSaving.setFont(font1);
         pvp.setBounds(300, 270, 200, 50);
         pve.setBounds(300, 350, 200, 50);
         loadSaving.setBounds(300, 430, 200, 50);
-        background.setBounds(300, 510, 200, 50);
+        backgroundButton.setBounds(300, 510, 200, 50);
         frame1.add(pvp);
         frame1.add(pve);
-        frame1.add(background);
+        frame1.add(backgroundButton);
         frame1.add(loadSaving);
         pvp.addActionListener(new ActionListener() {
             @Override
@@ -182,7 +191,7 @@ public class SaoLei implements ActionListener, MouseListener {
                 setFrame2();
             }
         });
-        background.addActionListener(new ActionListener() {
+        backgroundButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -197,6 +206,17 @@ public class SaoLei implements ActionListener, MouseListener {
     public void setFrame2() {
         JFrame frame2 = new JFrame("Golden Rush");
         frame2.setLayout(null);
+
+        JPanel imagePanel;
+        ImageIcon background = new ImageIcon("D:\\MineSweeper\\进入界面.png");
+        JLabel label = new JLabel(background);
+        label.setBounds(0, 0, background.getIconWidth(), background.getIconHeight());
+        imagePanel = (JPanel) frame2.getContentPane();
+        imagePanel.setOpaque(false);
+        imagePanel.setLayout(null);
+        frame2.getLayeredPane().setLayout(null);
+        frame2.getLayeredPane().add(label, new Integer(Integer.MIN_VALUE));
+
         frame2.setSize(800, 650);
         frame2.setResizable(false);
         frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -233,7 +253,7 @@ public class SaoLei implements ActionListener, MouseListener {
                 } else {
                     maxAction = Integer.parseInt(str);
                     frame2.dispose();
-                    setFrame3();
+                    setFrame5();
                 }
             }
         });
