@@ -4,6 +4,8 @@ import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +13,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.ImageObserver;
 import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Random;
 
 public class SaoLei implements ActionListener, MouseListener {
@@ -68,14 +72,18 @@ public class SaoLei implements ActionListener, MouseListener {
     Timer timer = new Timer(1000, this);
     Container con=new Container();
 
-    public SaoLei() {
+    public SaoLei() throws MalformedURLException, InterruptedException {
+        /*
         new Thread(()->{while(true) {playMusic();}
         }).start();
+         */
+        music();
 
         setFrame1();
 
     }
 
+    /*
     private void playMusic() {
         try {
             AudioInputStream ais = AudioSystem.getAudioInputStream(new File("D:/MineSweeper/Music1.wav"));    //绝对路径
@@ -93,6 +101,7 @@ public class SaoLei implements ActionListener, MouseListener {
             int nByte = 0;
             final int SIZE = 1024 * 64;
             byte[] buffer = new byte[SIZE];
+
             while (nByte != -1) {
                 nByte = ais.read(buffer, 0, SIZE);
                 sdl.write(buffer, 0, nByte);
@@ -102,6 +111,18 @@ public class SaoLei implements ActionListener, MouseListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+     */
+
+    public void music() throws InterruptedException, MalformedURLException {
+        File file = new File("D:/MineSweeper/Music1.wav");
+        //创建audioclip对象
+        AudioClip audioClip = null;
+        //将file转换为url
+        audioClip = Applet.newAudioClip(file.toURI().toURL());
+        //循环播放	播放一次可以使用audioClip.play
+        audioClip.loop();
+        Thread.sleep(5000);
     }
 
     public void setFrame1() {
@@ -1161,8 +1182,8 @@ public class SaoLei implements ActionListener, MouseListener {
         }
     }
 
-    public void Save(){
-        String path="";
+    public void Save() {
+        String path = "";
         FileSystemView fsv = FileSystemView.getFileSystemView();
 
         JFileChooser fileChooser = new JFileChooser();
@@ -1174,12 +1195,12 @@ public class SaoLei implements ActionListener, MouseListener {
         int result = fileChooser.showOpenDialog(null);
 
         if (JFileChooser.APPROVE_OPTION == result) {
-            path=fileChooser.getSelectedFile().getPath();
+            path = fileChooser.getSelectedFile().getPath();
             //此处path为该文件路径
         }
 
-        try{
-            BufferedWriter writer=new BufferedWriter(new FileWriter(path+"/Out.txt"));
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(path + "/Out.txt"));
             //需要对接！
             writer.write(ROW);
             writer.write(COL);
@@ -1206,11 +1227,11 @@ public class SaoLei implements ActionListener, MouseListener {
                     writer.write(data[i][j]);
                 }
             }
-            for (int i = 0 ; i < ROW; i++) {
+            for (int i = 0; i < ROW; i++) {
                 for (int j = 0; j < COL; j++) {
-                    if(canBeOpen[i][j]){
+                    if (canBeOpen[i][j]) {
                         writer.write(1);
-                    }else{
+                    } else {
                         writer.write(0);
                     }
                 }
@@ -1221,7 +1242,4 @@ public class SaoLei implements ActionListener, MouseListener {
             e.printStackTrace();
         }
     }
-    // /// /// /// /// /// /// /// ///
-
-
 }
