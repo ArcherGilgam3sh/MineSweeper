@@ -1,5 +1,6 @@
 package com.minesweeper.MineSweeper;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
@@ -8,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.ImageObserver;
 import java.io.*;
 import java.util.Random;
 
@@ -970,7 +972,7 @@ public class SaoLei implements ActionListener, MouseListener {
                         Video donttai = new Video();
                         donttai.setVisible(true);
                         donttai.run();
-                        //donttai.dispose();
+                        donttai.dispose();
 
                         JDialog dialog = new JDialog();
                         dialog.setVisible(true);
@@ -1108,8 +1110,28 @@ public class SaoLei implements ActionListener, MouseListener {
 
         try{
             BufferedReader in=new BufferedReader(new FileReader(path));
-            for (int i = 0; i < 20; i++) {
-                for (int j = 0; j < 20; j++) {
+            ROW=in.read();
+            COL=in.read();
+            LeiCount=in.read();
+            unopened=in.read();
+            opened=in.read();
+            seconds=in.read();
+            actionCount=in.read();
+            maxAction=in.read();
+            player=in.read();
+            clickTimes=in.read();
+            score1=in.read();
+            score2=in.read();
+            brokenPickaxe1=in.read();
+            brokenPickaxe2=in.read();
+            borderWestWidth=in.read();
+            borderEastWidth=in.read();
+            borderHeadHeight=in.read();
+            fontSize=in.read();
+            picSize=in.read();
+
+            for (int i = 0; i < ROW; i++) {
+                for (int j = 0; j < COL; j++) {
                     data[i][j]=in.read();
                 }
             }
@@ -1158,6 +1180,27 @@ public class SaoLei implements ActionListener, MouseListener {
 
         try{
             BufferedWriter writer=new BufferedWriter(new FileWriter(path+"/Out.txt"));
+            //需要对接！
+            writer.write(ROW);
+            writer.write(COL);
+            writer.write(LeiCount);
+            writer.write(unopened);
+            writer.write(opened);
+            writer.write(seconds);
+            writer.write(actionCount);
+            writer.write(maxAction);
+            writer.write(player);
+            writer.write(clickTimes);
+            writer.write(score1);
+            writer.write(score2);
+            writer.write(brokenPickaxe1);
+            writer.write(brokenPickaxe2);
+            writer.write(borderWestWidth);
+            writer.write(borderEastWidth);
+            writer.write(borderHeadHeight);
+            writer.write(fontSize);
+            writer.write(picSize);
+
             for (int i = 0; i < ROW; i++) {
                 for (int j = 0; j < COL; j++) {
                     writer.write(data[i][j]);
@@ -1178,7 +1221,7 @@ public class SaoLei implements ActionListener, MouseListener {
             e.printStackTrace();
         }
     }
-
+    // /// /// /// /// /// /// /// ///
 
 
 }
