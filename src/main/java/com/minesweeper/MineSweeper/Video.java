@@ -22,12 +22,10 @@ public class Video extends javax.swing.JFrame implements Runnable {
             @Override
             public boolean imageUpdate(Image img, int infoflags, int x, int y,
                                        int width, int height) {
-                // TODO Auto-generated method stub
                 return false;
             }
         };
         try {
-            //g.drawImage(ImageIO.read(new File(Donttai.class.getResource("1.png").toString())), 20, 20, imageObserver);
             String temp = "";
             if (idx <= 9)
                 temp = path + "10" + idx + ".png";
