@@ -75,9 +75,9 @@ public class SaoLei implements ActionListener, MouseListener {
     int frameWidth;
     int frameHeight;
     int skillCD = 0;
-    Boolean[][] temp=new Boolean[ROW][COL];
     JButton bannerBtn = new JButton(bannerIcon);
     JButton southTestBtn = new JButton(bannerIcon);//调试中 ZFH
+    Boolean isPvE= false;
 
     JLabel label1 = new JLabel("待开：" + unopened);
     JLabel label2 = new JLabel("已开：" + opened);
@@ -201,6 +201,8 @@ public class SaoLei implements ActionListener, MouseListener {
         pve.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                isPvE=true;
+                player=1;
                 frame1.dispose();
                 setFrame2();
             }
@@ -226,39 +228,101 @@ public class SaoLei implements ActionListener, MouseListener {
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setLayout(new BorderLayout());
 
+                player1Icon=character1Icon;
+                player2Icon=character2Icon;
+
                 setMenu();//设置菜单
 
                 setHeader();//设置头部
 
-                setEast();//调试中 ZFH
+                /*
+                if(p1==1){
+                    player1Icon=character1Icon;
+                }else if(p1==2){
+                    player1Icon=character2Icon;
+                }else if(p1==3){
+                    player1Icon=character3Icon;
+                }else if(p1==4){
+                    player1Icon=character4Icon;
+                }
 
-                setWest();//调试中 ZFH
+                if(p2==1){
+                    player2Icon=character1Icon;
+                }else if(p2==2){
+                    player2Icon=character2Icon;
+                }else if(p2==3){
+                    player2Icon=character3Icon;
+                }else if(p2==4){
+                    player2Icon=character4Icon;
+                }
 
-                //setSouth();//调试中 ZFH
-
-
-                setButtons();//设置按钮和未开的图标
+                 */
 
                 for (int i = 0; i < ROW; i++) {
                     for (int i1 = 0; i1 < COL; i1++) {
-                        canBeOpen[i][i1]=temp[i][i1];
-
-                        if(!temp[i][i1]) {
-                            if (data[i][i1] != -1) {
-                                openCell(i,i1);
-                                openOpenCell();
-                            } else {
-                                rightClick(buttons[i][i1]);
-                            }
+                        if(data[i][i1]==65535){
+                            data[i][i1]=-1;
                         }
                     }
                 }
+
+                con=new Container();
+                con.setLayout(new GridLayout(ROW,COL));
+                for (int i = 0; i < ROW; i++) {
+                    for (int i1 = 0; i1 < COL; i1++) {
+                        JButton btn=new JButton();
+                        btn.setOpaque(true);
+                        btn.setBackground(Color.GRAY);//设置背景色
+                        if(canBeOpen[i][i1]){
+                            btn.setIcon(guessIcon);
+                        }else{
+                            if(data[i][i1]==-1){
+                                btn.setIcon(flagIcon);
+                            }else{
+                                if (data[i][i1] == 0) {
+                                    btn.setIcon(afterOpen);//背景换为碎石
+                                } else if (data[i][i1] == 1) {
+                                    btn.setIcon(afterOpen1);
+                                } else if (data[i][i1] == 2) {
+                                    btn.setIcon(afterOpen2);
+                                } else if (data[i][i1] == 3) {
+                                    btn.setIcon(afterOpen3);
+                                } else if (data[i][i1] == 4) {
+                                    btn.setIcon(afterOpen4);
+                                } else if (data[i][i1] == 5) {
+                                    btn.setIcon(afterOpen5);
+                                } else if (data[i][i1] == 6) {
+                                    btn.setIcon(afterOpen6);
+                                } else if (data[i][i1] == 7) {
+                                    btn.setIcon(afterOpen7);
+                                } else if (data[i][i1] == 8) {
+                                    btn.setIcon(afterOpen8);
+                                }
+                            }
+                        }
+                        con.add(btn);
+                        buttons[i][i1]=btn;
+                        setListener(btn);
+                    }
+                }
+                frame.add(con,BorderLayout.CENTER);
+
+
+
+                setEast();//调试中 ZFH
+
+                setWest();//调试中 ZFH
 
                 timer.start();//别忘了最开始也要开始Timer
 
                 frame.setVisible(true);
             }
         });
+    }
+
+    public void setListener(JButton btn){
+        btn.addActionListener(this);
+        btn.addMouseListener(this);
     }
 
     public void setFrame2() {
@@ -1093,23 +1157,41 @@ public class SaoLei implements ActionListener, MouseListener {
     }
 
     public boolean checkActionCount() {
-        actionCount++;
-        if (actionCount == maxAction) {
-            player = (player == 0) ? 1 : 0;
+        if(isPvE){
+            actionCount++;
+            if(actionCount==maxAction){
+                RandomOpen();
+                actionCount=0;
+                JDialog dialog = new JDialog();
+                dialog.setVisible(true);
+                dialog.setBounds(500, 300, 500, 500);
+                Container container = dialog.getContentPane();
+                JLabel label = new JLabel("请交换玩家", flagIcon, SwingConstants.CENTER);
+                container.add(label);
 
-            actionCount = 0;
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            actionCount++;
+            if (actionCount == maxAction) {
+                player = (player == 0) ? 1 : 0;
 
-            JDialog dialog = new JDialog();
-            dialog.setVisible(true);
-            dialog.setBounds(500, 300, 500, 500);
-            Container container = dialog.getContentPane();
-            JLabel label = new JLabel("请交换玩家", flagIcon, SwingConstants.CENTER);
-            container.add(label);
+                actionCount = 0;
+
+                JDialog dialog = new JDialog();
+                dialog.setVisible(true);
+                dialog.setBounds(500, 300, 500, 500);
+                Container container = dialog.getContentPane();
+                JLabel label = new JLabel("请交换玩家", flagIcon, SwingConstants.CENTER);
+                container.add(label);
 
 
-            return false;
-        } else {
-            return true;
+                return false;
+            } else {
+                return true;
+            }
         }
     }
 
@@ -1424,29 +1506,32 @@ public class SaoLei implements ActionListener, MouseListener {
     }
 
     public void RandomOpen() {
-        Random random = new Random();
-        int row = random.nextInt(ROW);
-        int col = random.nextInt(COL);
+        int row = (int)(Math.random()*ROW);
+        int col = (int)(Math.random()*COL);
 
-        int left = random.nextInt(maxAction);//1-5
+        int left = (int)(Math.random()*maxAction)+1;//1-5
         int right = maxAction - left;//1-5
 
         for (int i = 0; i < left; i++) {
+            /*
             while (data[row][col] != LeiCode && canBeOpen[row][col]) {
-                row = random.nextInt() * ROW;
-                col = random.nextInt() * COL;
+                row = (int)Math.random()*ROW;
+                col = (int)Math.random()*COL;
             }
 
+             */
             openCell(row, col);
             openOpenCell();
         }
 
         for (int i = 0; i < right; i++) {
+            /*
             while (data[row][col] == LeiCode && canBeOpen[row][col]) {
-                row = random.nextInt() * ROW;
-                col = random.nextInt() * COL;
+                row = (int)Math.random()*ROW;
+                col = (int)Math.random()*COL;
             }
 
+            */
             rightClick(buttons[row][col]);
         }
     }
@@ -1491,29 +1576,24 @@ public class SaoLei implements ActionListener, MouseListener {
             picSize = in.read();
             frameWidth = in.read();
             frameHeight = in.read();
+            /*
+            p1=in.read();
+            p2=in.read();
 
+             */
 
             for (int i = 0; i < ROW; i++) {
                 for (int j = 0; j < COL; j++) {
                     data[i][j] = in.read();
                 }
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        setButtons();
-
-        try {
-            BufferedReader in = new BufferedReader(new FileReader(path));
             for (int i = 0; i < ROW; i++) {
                 for (int i1 = 0; i1 < COL; i1++) {
-                    if (in.read() == 1) {
-                        temp[i][i1] = true;
+                    int tempInt=in.read();
+                    if (tempInt == 1) {
+                        canBeOpen[i][i1] = true;
                     } else {
-                        temp[i][i1] = false;
+                        canBeOpen[i][i1] = false;
                     }
                 }
             }
@@ -1522,6 +1602,7 @@ public class SaoLei implements ActionListener, MouseListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     public void Save() {
@@ -1565,6 +1646,28 @@ public class SaoLei implements ActionListener, MouseListener {
             writer.write(picSize);
             writer.write(frameWidth);
             writer.write(frameHeight);
+            /*
+            if(player1Icon.getImage().equals(character1Icon)){
+                writer.write(1);
+            }else if(player1Icon.getImage().equals(character2Icon)){
+                writer.write(2);
+            }else if(player1Icon.getImage().equals(character3Icon)){
+                writer.write(3);
+            }else if(player1Icon.getImage().equals(character4Icon)){
+                writer.write(4);
+            }
+
+            if(player2Icon.getImage().equals(character1Icon)){
+                writer.write(1);
+            }else if(player2Icon.getImage().equals(character2Icon)){
+                writer.write(2);
+            }else if(player2Icon.getImage().equals(character3Icon)){
+                writer.write(3);
+            }else if(player2Icon.getImage().equals(character4Icon)){
+                writer.write(4);
+            }
+
+             */
 
             for (int i = 0; i < ROW; i++) {
                 for (int j = 0; j < COL; j++) {
@@ -1585,6 +1688,7 @@ public class SaoLei implements ActionListener, MouseListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     public void VideoPlayer() {
