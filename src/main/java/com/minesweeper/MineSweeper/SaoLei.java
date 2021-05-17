@@ -172,7 +172,7 @@ public class SaoLei implements ActionListener, MouseListener {
 
         Font font1 = new Font("等线", Font.BOLD, 20);
         JLabel jl = new JLabel("请设置每局限定步数(1-5):");
-        jl.setBounds(230,250,200,50);
+        jl.setBounds(180,250,300,50);
         frame2.add(jt);
         jl.setFont(font1);
         frame2.add(jl);
@@ -192,7 +192,7 @@ public class SaoLei implements ActionListener, MouseListener {
                             JOptionPane.WARNING_MESSAGE,null, options, options[0]);
                 } else if (Integer.parseInt(str) > 5 || Integer.parseInt(str) <0) {
                     Object[] options = { "OK ", "CANCEL " };
-                    JOptionPane.showOptionDialog(null, "您的输入正确 ", "提示", JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.showOptionDialog(null, "您的输入不正确 ", "提示", JOptionPane.DEFAULT_OPTION,
                             JOptionPane.WARNING_MESSAGE,null, options, options[0]);
                 }
                 else {
