@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 package com.minesweeper.MineSweeper;
 
 import javax.imageio.ImageIO;
@@ -1269,5 +1268,3 @@ public class SaoLei implements ActionListener, MouseListener {
         }
     }
 }
-=======
->>>>>>> Stashed changes
