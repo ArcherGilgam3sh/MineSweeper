@@ -295,6 +295,13 @@ public class SaoLei implements ActionListener, MouseListener {
 
         JButton character1 = new JButton();
         character1.setBounds(50,200,150,350);
+        character1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                frame3.dispose();
+            }
+        });
 
 
 
