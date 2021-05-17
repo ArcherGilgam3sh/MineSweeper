@@ -60,6 +60,7 @@ public class SaoLei implements ActionListener, MouseListener {
     int seconds = 0;//计时器的时间
     int actionCount = 0;
     int maxAction = 5;
+    int actionLeft = maxAction - actionCount;
     int player = 0;
     int clickTimes = 0;//用于判断是否是第一次点击
     int score1 = 0;//玩家1的分数
@@ -71,12 +72,24 @@ public class SaoLei implements ActionListener, MouseListener {
     int borderHeadHeight;
     int fontSize;
     int picSize;
+    int frameWidth;
+    int frameHeight;
+    int skillCD = 0;
+    Boolean[][] temp=new Boolean[ROW][COL];
     JButton bannerBtn = new JButton(bannerIcon);
     JButton southTestBtn = new JButton(bannerIcon);//调试中 ZFH
 
     JLabel label1 = new JLabel("待开：" + unopened);
     JLabel label2 = new JLabel("已开：" + opened);
     JLabel label3 = new JLabel("用时：" + seconds + "s");
+    JLabel a1 = new JLabel();
+    JLabel b1 = new JLabel();
+    JLabel c11 = new JLabel();
+    JLabel d1 = new JLabel();
+    JLabel a2 = new JLabel();
+    JLabel b2 = new JLabel();
+    JLabel c22 = new JLabel();
+    JLabel d2 = new JLabel();
     Timer timer = new Timer(1000, this);
     Container con = new Container();
 
@@ -202,6 +215,50 @@ public class SaoLei implements ActionListener, MouseListener {
                 }
             }
         });
+        loadSaving.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Read();
+
+                frame.setSize(frameWidth, frameHeight);
+                frame.setResizable(false);
+                frame.setLocationRelativeTo(null);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setLayout(new BorderLayout());
+
+                setMenu();//设置菜单
+
+                setHeader();//设置头部
+
+                setEast();//调试中 ZFH
+
+                setWest();//调试中 ZFH
+
+                //setSouth();//调试中 ZFH
+
+
+                setButtons();//设置按钮和未开的图标
+
+                for (int i = 0; i < ROW; i++) {
+                    for (int i1 = 0; i1 < COL; i1++) {
+                        canBeOpen[i][i1]=temp[i][i1];
+
+                        if(!temp[i][i1]) {
+                            if (data[i][i1] != -1) {
+                                openCell(i,i1);
+                                openOpenCell();
+                            } else {
+                                rightClick(buttons[i][i1]);
+                            }
+                        }
+                    }
+                }
+
+                timer.start();//别忘了最开始也要开始Timer
+
+                frame.setVisible(true);
+            }
+        });
     }
 
     public void setFrame2() {
@@ -230,7 +287,9 @@ public class SaoLei implements ActionListener, MouseListener {
 
         Font font1 = new Font("等线", Font.BOLD, 20);
         JLabel jl = new JLabel("请设置每局限定步数(1-5):");
-        jl.setBounds(180, 250, 300, 50);
+        jl.setOpaque(true);
+        jl.setBackground(Color.WHITE);
+        jl.setBounds(150, 250, 250, 50);
         frame2.add(jt);
         jl.setFont(font1);
         frame2.add(jl);
@@ -276,30 +335,175 @@ public class SaoLei implements ActionListener, MouseListener {
     public void setFrame3() {
         JFrame frame3 = new JFrame("Golden Rush");
         frame3.setLayout(null);
+
+        frame3.setLayout(null);
+        JPanel imagePanel;
+        ImageIcon background = new ImageIcon("D:\\MineSweeper\\进入界面 (1).png");
+        JLabel label = new JLabel(background);
+        label.setBounds(0, 0, background.getIconWidth(), background.getIconHeight());
+        imagePanel = (JPanel) frame3.getContentPane();
+        imagePanel.setOpaque(false);
+        imagePanel.setLayout(null);
+        frame3.getLayeredPane().setLayout(null);
+        frame3.getLayeredPane().add(label, new Integer(Integer.MIN_VALUE));
+
         frame3.setSize(800, 650);
         frame3.setResizable(false);
         frame3.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame3.setLocationRelativeTo(null);
         frame3.setVisible(true);
 
+        Font font1 = new Font("等线", Font.BOLD, 50);
+        JLabel jLabel = new JLabel("player1   请选择你的英雄");
+        jLabel.setBounds(50,25,500,50);
+        jLabel.setOpaque(true);
+        //jLabel.setBackground();
+        jLabel.setFont(font1);
+        frame3.add(jLabel);
+
         JButton character1 = new JButton();
-        character1.setIcon(character1Icon);
-        character1.setBounds(50,200,150,350);
+        ImageIcon newCharacter1Icon = new ImageIcon("圣骑士3.png");
+        character1.setIcon(newCharacter1Icon);
+        character1.setBounds(40,200,150,350);
         character1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 player1Icon = character1Icon;
                 frame3.dispose();
+                setFrame4();
             }
         });
         frame3.add(character1);
 
+        JButton character2 = new JButton();
+        ImageIcon newCharacter2Icon = new ImageIcon("术士3.png");
+        character2.setIcon(newCharacter2Icon);
+        character2.setBounds(230,200,150,350);
+        character2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                player1Icon = character2Icon;
+                frame3.dispose();
+                setFrame4();
+            }
+        });
+        frame3.add(character2);
 
+        JButton character3 = new JButton();
+        ImageIcon newCharacter3Icon = new ImageIcon("牧师3.png");
+        character3.setIcon(newCharacter3Icon);
+        character3.setBounds(420,200,150,350);
+        character3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                player1Icon = character3Icon;
+                frame3.dispose();
+                setFrame4();
+            }
+        });
+        frame3.add(character3);
+
+        JButton character4 = new JButton();
+        ImageIcon newCharacter4Icon = new ImageIcon("盗贼3.png");
+        character4.setIcon(newCharacter4Icon);
+        character4.setBounds(610,200,150,350);
+        character4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                player1Icon = character4Icon;
+                frame3.dispose();
+                setFrame4();
+            }
+        });
+        frame3.add(character4);
+
+
+    }
+
+    public void setFrame4(){
+        JFrame frame3 = new JFrame("Golden Rush");
+        frame3.setLayout(null);
+
+        frame3.setLayout(null);
+        JPanel imagePanel;
+        ImageIcon background = new ImageIcon("D:\\MineSweeper\\进入界面 (1).png");
+        JLabel label = new JLabel(background);
+        label.setBounds(0, 0, background.getIconWidth(), background.getIconHeight());
+        imagePanel = (JPanel) frame3.getContentPane();
+        imagePanel.setOpaque(false);
+        imagePanel.setLayout(null);
+        frame3.getLayeredPane().setLayout(null);
+        frame3.getLayeredPane().add(label, new Integer(Integer.MIN_VALUE));
+
+        frame3.setSize(800, 650);
+        frame3.setResizable(false);
+        frame3.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame3.setLocationRelativeTo(null);
+        frame3.setVisible(true);
+
+        Font font1 = new Font("等线", Font.BOLD, 50);
+        JLabel jLabel = new JLabel("player2   请选择你的英雄");
+        jLabel.setBounds(50,25,500,50);
+        jLabel.setOpaque(true);
+        //jLabel.setBackground();
+        jLabel.setFont(font1);
+        frame3.add(jLabel);
+
+        JButton character1 = new JButton();
+        ImageIcon newCharacter1Icon = new ImageIcon("圣骑士3.png");
+        character1.setIcon(newCharacter1Icon);
+        character1.setBounds(40,200,150,350);
+        character1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                player2Icon = character1Icon;
+                frame3.dispose();
+                setFrame5();
+            }
+        });
+        frame3.add(character1);
 
         JButton character2 = new JButton();
-        JButton character3 = new JButton();
-        JButton character4 = new JButton();
+        ImageIcon newCharacter2Icon = new ImageIcon("术士3.png");
+        character2.setIcon(newCharacter2Icon);
+        character2.setBounds(230,200,150,350);
+        character2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                player2Icon = character2Icon;
+                frame3.dispose();
+                setFrame5();
+            }
+        });
+        frame3.add(character2);
 
+        JButton character3 = new JButton();
+        ImageIcon newCharacter3Icon = new ImageIcon("牧师3.png");
+        character3.setIcon(newCharacter3Icon);
+        character3.setBounds(420,200,150,350);
+        character3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                player2Icon = character3Icon;
+                frame3.dispose();
+                setFrame5();
+            }
+        });
+        frame3.add(character3);
+
+        JButton character4 = new JButton();
+        ImageIcon newCharacter4Icon = new ImageIcon("盗贼3.png");
+        character4.setIcon(newCharacter4Icon);
+        character4.setBounds(610,200,150,350);
+        character4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                player2Icon = character4Icon;
+                frame3.dispose();
+                setFrame5();
+            }
+        });
+        frame3.add(character4);
 
     }
 
@@ -355,8 +559,10 @@ public class SaoLei implements ActionListener, MouseListener {
                 borderHeadHeight = 100;
                 fontSize = 13;
                 picSize = 3;
+                frameWidth = 680;
+                frameHeight = 560;
 
-                frame.setSize(680, 560);
+                frame.setSize(frameWidth, frameHeight);
                 frame.setResizable(false);
                 frame.setLocationRelativeTo(null);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -395,8 +601,10 @@ public class SaoLei implements ActionListener, MouseListener {
                 borderHeadHeight = 100;
                 fontSize = 15;
                 picSize = 2;
+                frameWidth = 1040;
+                frameHeight = 740;
 
-                frame.setSize(1040, 740);
+                frame.setSize(frameWidth, frameHeight);
                 frame.setResizable(false);
                 frame.setLocationRelativeTo(null);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -435,8 +643,10 @@ public class SaoLei implements ActionListener, MouseListener {
                 borderHeadHeight = 100;
                 fontSize = 20;
                 picSize = 2;
+                frameWidth = 1700;
+                frameHeight = 740;
 
-                frame.setSize(1700, 740);
+                frame.setSize(frameWidth, frameHeight);
                 frame.setResizable(false);
                 frame.setLocationRelativeTo(null);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -689,13 +899,12 @@ public class SaoLei implements ActionListener, MouseListener {
     }
 
     public void setEast() {
-        Image image = character2Icon.getImage();
-        image = image.getScaledInstance(character2Icon.getIconWidth() / picSize, character2Icon.getIconHeight() / picSize, Image.SCALE_SMOOTH);
-        character2Icon = new ImageIcon(image);
-        JButton eastTestBtn = new JButton(character2Icon);//调试中 ZFH
+        Image image = player2Icon.getImage();
+        image = image.getScaledInstance(player2Icon.getIconWidth() / picSize, player2Icon.getIconHeight() / picSize, Image.SCALE_SMOOTH);
+        player2Icon = new ImageIcon(image);
+        JButton eastTestBtn = new JButton(player2Icon);//调试中 ZFH
 
 
-        int skillCD = 3;
         JPanel panel = new JPanel(new GridBagLayout());//设置画布
         panel.setPreferredSize(new Dimension(borderEastWidth, 200));
 
@@ -705,26 +914,22 @@ public class SaoLei implements ActionListener, MouseListener {
         GridBagConstraints c4 = new GridBagConstraints(0, 3, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 1, 1);
         GridBagConstraints c5 = new GridBagConstraints(0, 4, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 1, 1);
 
-        JLabel a = new JLabel();
-        JLabel b = new JLabel();
-        JLabel c = new JLabel();
-        JLabel d = new JLabel();
 
-        a.setText("金子数: " + score1);
-        b.setText("剩余步数: " + actionCount);
-        c.setText("损坏镐子：" + brokenPickaxe1);
-        d.setText("技能CD（剩余回合数）: " + skillCD);
+        a1.setText("金子数: " + score1);
+        b1.setText("剩余步数: " + 0);
+        c11.setText("损坏镐子：" + brokenPickaxe1);
+        d1.setText("技能CD（剩余回合数）: " + skillCD);
         Font font1 = new Font("等线", Font.BOLD, fontSize);
-        a.setFont(font1);
-        b.setFont(font1);
-        c.setFont(font1);
-        d.setFont(font1);
+        a1.setFont(font1);
+        b1.setFont(font1);
+        c11.setFont(font1);
+        d1.setFont(font1);
 
         panel.add(eastTestBtn, c1);
-        panel.add(a, c2);
-        panel.add(b, c3);
-        panel.add(c, c4);
-        panel.add(d, c5);
+        panel.add(a1, c2);
+        panel.add(b1, c3);
+        panel.add(c11, c4);
+        panel.add(d1, c5);
         bannerBtn.addActionListener(this);
 
         bannerBtn.setOpaque(true);
@@ -735,13 +940,12 @@ public class SaoLei implements ActionListener, MouseListener {
     }
 
     public void setWest() {
-        Image image = character1Icon.getImage();
-        image = image.getScaledInstance(character1Icon.getIconWidth() / picSize, character1Icon.getIconHeight() / picSize, Image.SCALE_SMOOTH);
-        character1Icon = new ImageIcon(image);
-        JButton westTestBtn = new JButton(character1Icon);//调试中 ZFHs
+        Image image = player1Icon.getImage();
+        image = image.getScaledInstance(player1Icon.getIconWidth() / picSize, player1Icon.getIconHeight() / picSize, Image.SCALE_SMOOTH);
+        player1Icon = new ImageIcon(image);
+        JButton westTestBtn = new JButton(player1Icon);//调试中 ZFH
 
 
-        int skillCD = 3;
         JPanel panel = new JPanel(new GridBagLayout());//设置画布
         panel.setPreferredSize(new Dimension(borderWestWidth, 100));
         GridBagConstraints c1 = new GridBagConstraints(0, 0, 4, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
@@ -750,26 +954,21 @@ public class SaoLei implements ActionListener, MouseListener {
         GridBagConstraints c4 = new GridBagConstraints(0, 3, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 1, 1);
         GridBagConstraints c5 = new GridBagConstraints(0, 4, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 1, 1);
 
-        JLabel a = new JLabel();
-        JLabel b = new JLabel();
-        JLabel c = new JLabel();
-        JLabel d = new JLabel();
-
-        a.setText("金子数: " + score1);
-        b.setText("剩余步数: " + actionCount);
-        c.setText("损坏镐子：" + brokenPickaxe1);
-        d.setText("技能CD（剩余回合数）: " + skillCD);
+        a2.setText("金子数: " + score1);
+        b2.setText("剩余步数: " + 0);
+        c22.setText("损坏镐子：" + brokenPickaxe1);
+        d2.setText("技能CD（剩余回合数）: " + skillCD);
         Font font1 = new Font("等线", Font.BOLD, fontSize);
-        a.setFont(font1);
-        b.setFont(font1);
-        c.setFont(font1);
-        d.setFont(font1);
+        a2.setFont(font1);
+        b2.setFont(font1);
+        c22.setFont(font1);
+        d2.setFont(font1);
 
         panel.add(westTestBtn, c1);
-        panel.add(a, c2);
-        panel.add(b, c3);
-        panel.add(c, c4);
-        panel.add(d, c5);
+        panel.add(a2, c2);
+        panel.add(b2, c3);
+        panel.add(c22, c4);
+        panel.add(d2, c5);
         bannerBtn.addActionListener(this);
 
         bannerBtn.setOpaque(true);
@@ -817,6 +1016,19 @@ public class SaoLei implements ActionListener, MouseListener {
                             }
                             if(canBeOpen[i][i1]){
                                 checkActionCount();
+                                actionLeft = maxAction - actionCount;
+                                if (player == 0){
+                                    if(actionCount == 0) {
+                                        b1.setText("剩余步数: " + 0);
+                                    }
+                                    b2.setText("剩余步数: " + actionLeft);
+                                }
+                                if (player == 1) {
+                                    if(actionCount == 0) {
+                                        b2.setText("剩余步数: " + 0);
+                                    }
+                                    b1.setText("剩余步数: " + actionLeft);
+                                }
                             }
                             openCell(i, i1);
                             try {
@@ -834,6 +1046,19 @@ public class SaoLei implements ActionListener, MouseListener {
                     } else {
                         if(canBeOpen[i][i1]){
                             checkActionCount();
+                            actionLeft = maxAction - actionCount;
+                            if (player == 0){
+                                if(actionCount == 0) {
+                                    b1.setText("剩余步数: " + 0);
+                                }
+                                b2.setText("剩余步数: " + actionLeft);
+                            }
+                            if (player == 1) {
+                                if(actionCount == 0) {
+                                    b2.setText("剩余步数: " + 0);
+                                }
+                                b1.setText("剩余步数: " + actionLeft);
+                            }
                         }
                         openCell(i, i1);
                         try {
@@ -871,6 +1096,7 @@ public class SaoLei implements ActionListener, MouseListener {
         actionCount++;
         if (actionCount == maxAction) {
             player = (player == 0) ? 1 : 0;
+
             actionCount = 0;
 
             JDialog dialog = new JDialog();
@@ -1045,6 +1271,10 @@ public class SaoLei implements ActionListener, MouseListener {
         player = 0;
         actionCount = 0;
         clickTimes = 0;
+        score1 = 0;
+        score2 = 0;
+        brokenPickaxe1 = 0;
+        brokenPickaxe2 = 0;
 
         //状态栏恢复
         unopened = ROW * COL;//未开的数量
@@ -1053,6 +1283,15 @@ public class SaoLei implements ActionListener, MouseListener {
         label1.setText("待开：" + unopened);
         label2.setText("已开：" + opened);
         label3.setText("用时：" + seconds + "s");
+
+        a1.setText("金子数: " + score1);
+        b1.setText("剩余步数: " + 0);
+        c11.setText("损坏镐子：" + brokenPickaxe1);
+        d1.setText("技能CD（剩余回合数）: " + skillCD);
+        a2.setText("金子数: " + score1);
+        b2.setText("剩余步数: " + 0);
+        c22.setText("损坏镐子：" + brokenPickaxe1);
+        d2.setText("技能CD（剩余回合数）: " + skillCD);
 
         addLei();
         timer.start();
@@ -1072,12 +1311,28 @@ public class SaoLei implements ActionListener, MouseListener {
 
                         if (player == 0) {
                             score1++;
+                            a2.setText("金子数: " + score1);
                         }
                         if (player == 1) {
                             score2++;
+                            a1.setText("金子数: " + score1);
                         }
 
+
                         checkActionCount();
+                        actionLeft = maxAction - actionCount;
+                        if (player == 0){
+                            if(actionCount == 0) {
+                                b1.setText("剩余步数: " + 0);
+                            }
+                            b2.setText("剩余步数: " + actionLeft);
+                        }
+                        if (player == 1) {
+                            if(actionCount == 0) {
+                                b2.setText("剩余步数: " + 0);
+                            }
+                            b1.setText("剩余步数: " + actionLeft);
+                        }
 
                         VideoPlayer();
 
@@ -1109,12 +1364,27 @@ public class SaoLei implements ActionListener, MouseListener {
 
                         if (player == 0) {
                             brokenPickaxe1++;
+                            c22.setText("损坏镐子：" + brokenPickaxe1);
                         }
                         if (player == 1) {
                             brokenPickaxe2++;
+                            c11.setText("损坏镐子：" + brokenPickaxe1);
                         }
 
                         checkActionCount();
+                        actionLeft = maxAction - actionCount;
+                        if (player == 0){
+                            if(actionCount == 0) {
+                                b1.setText("剩余步数: " + 0);
+                            }
+                            b2.setText("剩余步数: " + actionLeft);
+                        }
+                        if (player == 1) {
+                            if(actionCount == 0) {
+                                b2.setText("剩余步数: " + 0);
+                            }
+                            b1.setText("剩余步数: " + actionLeft);
+                        }
 
                         VideoPlayer();
 
@@ -1219,6 +1489,9 @@ public class SaoLei implements ActionListener, MouseListener {
             borderHeadHeight = in.read();
             fontSize = in.read();
             picSize = in.read();
+            frameWidth = in.read();
+            frameHeight = in.read();
+
 
             for (int i = 0; i < ROW; i++) {
                 for (int j = 0; j < COL; j++) {
@@ -1238,9 +1511,9 @@ public class SaoLei implements ActionListener, MouseListener {
             for (int i = 0; i < ROW; i++) {
                 for (int i1 = 0; i1 < COL; i1++) {
                     if (in.read() == 1) {
-                        canBeOpen[i][i1] = true;
+                        temp[i][i1] = true;
                     } else {
-                        canBeOpen[i][i1] = false;
+                        temp[i][i1] = false;
                     }
                 }
             }
@@ -1290,6 +1563,8 @@ public class SaoLei implements ActionListener, MouseListener {
             writer.write(borderHeadHeight);
             writer.write(fontSize);
             writer.write(picSize);
+            writer.write(frameWidth);
+            writer.write(frameHeight);
 
             for (int i = 0; i < ROW; i++) {
                 for (int j = 0; j < COL; j++) {
