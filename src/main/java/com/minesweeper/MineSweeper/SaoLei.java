@@ -122,16 +122,20 @@ public class SaoLei implements ActionListener, MouseListener {
         JButton pvp = new JButton("双人对战");
         JButton pve = new JButton("人机对战");
         JButton background = new JButton("背景故事");
+        JButton loadSaving = new JButton("载入存档");
         Font font1 = new Font("等线", Font.BOLD, 20);
         pvp.setFont(font1);
         pve.setFont(font1);
         background.setFont(font1);
-        pvp.setBounds(300,300,200,50);
-        pve.setBounds(300,400,200,50);
-        background.setBounds(300,500,200,50);
+        loadSaving.setFont(font1);
+        pvp.setBounds(300,270,200,50);
+        pve.setBounds(300,350,200,50);
+        loadSaving.setBounds(300,430,200,50);
+        background.setBounds(300,510,200,50);
         frame1.add(pvp);
         frame1.add(pve);
         frame1.add(background);
+        frame1.add(loadSaving);
         pvp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -149,7 +153,11 @@ public class SaoLei implements ActionListener, MouseListener {
         background.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setBackground();
+                try {
+                    setBackground();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             }
         });
 
@@ -374,22 +382,39 @@ public class SaoLei implements ActionListener, MouseListener {
         });
     }
 
-    public void setBackground() {
+    public void setBackground() throws IOException {
         JFrame backgroundFrame = new JFrame("Background");
-        backgroundFrame.setLayout(null);
+        //backgroundFrame.setLayout(null);
         backgroundFrame.setSize(700, 550);
         backgroundFrame.setResizable(false);
         backgroundFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         backgroundFrame.setLocationRelativeTo(null);
         backgroundFrame.setVisible(true);
 
-        JTextField backgroundText = new JTextField();
-        backgroundText.setText("asdfasd");
+
+        Container container = backgroundFrame.getContentPane();
+
+        BufferedReader reader = new BufferedReader(new FileReader("D:\\MineSweeper\\src\\main\\java\\com\\minesweeper\\MineSweeper\\背景故事"));
+        String line = reader.readLine();
+        String all = "";
+        while(line != null) {
+            all += line + "\n";
+
+            line = reader.readLine();
+        }
+        JTextArea backgroundText = new JTextArea(all);
         Font font1 = new Font("等线", Font.BOLD, 20);
         backgroundText.setFont(font1);
         backgroundText.setBounds(50,30,600,450);
+        backgroundText.setLineWrap(true);
 
-        backgroundFrame.add(backgroundText);
+
+        JScrollPane sp = new JScrollPane(backgroundText);
+        container.add(sp);
+
+
+
+
     }
 
     public void addLei() {
