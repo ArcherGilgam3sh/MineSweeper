@@ -39,8 +39,12 @@ public class SaoLei implements ActionListener, MouseListener {
     ImageIcon image105 = new ImageIcon("105.png");
     ImageIcon image106 = new ImageIcon("106.png");
     ImageIcon image107 = new ImageIcon("107.png");
-    ImageIcon man = new ImageIcon("man.png");
-    ImageIcon woman = new ImageIcon("woman.png");
+    ImageIcon character1Icon = new ImageIcon("圣骑士2.png");
+    ImageIcon character2Icon = new ImageIcon("术士2.png");
+    ImageIcon character3Icon = new ImageIcon("牧师2.png");
+    ImageIcon character4Icon = new ImageIcon("盗贼2.png");
+    ImageIcon player1Icon = new ImageIcon();
+    ImageIcon player2Icon = new ImageIcon();
 
 
     //数据结构
@@ -250,7 +254,7 @@ public class SaoLei implements ActionListener, MouseListener {
                 } else {
                     maxAction = Integer.parseInt(str);
                     frame2.dispose();
-                    setFrame5();
+                    setFrame3();
                 }
             }
         });
@@ -279,20 +283,23 @@ public class SaoLei implements ActionListener, MouseListener {
         frame3.setVisible(true);
 
         JButton character1 = new JButton();
+        character1.setIcon(character1Icon);
         character1.setBounds(50,200,150,350);
         character1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                player1Icon = character1Icon;
                 frame3.dispose();
             }
         });
+        frame3.add(character1);
 
 
 
         JButton character2 = new JButton();
         JButton character3 = new JButton();
         JButton character4 = new JButton();
+
 
     }
 
@@ -682,10 +689,10 @@ public class SaoLei implements ActionListener, MouseListener {
     }
 
     public void setEast() {
-        Image image = woman.getImage();
-        image = image.getScaledInstance(woman.getIconWidth() / picSize, woman.getIconHeight() / picSize, Image.SCALE_SMOOTH);
-        woman = new ImageIcon(image);
-        JButton eastTestBtn = new JButton(woman);//调试中 ZFH
+        Image image = character2Icon.getImage();
+        image = image.getScaledInstance(character2Icon.getIconWidth() / picSize, character2Icon.getIconHeight() / picSize, Image.SCALE_SMOOTH);
+        character2Icon = new ImageIcon(image);
+        JButton eastTestBtn = new JButton(character2Icon);//调试中 ZFH
 
 
         int skillCD = 3;
@@ -728,10 +735,10 @@ public class SaoLei implements ActionListener, MouseListener {
     }
 
     public void setWest() {
-        Image image = man.getImage();
-        image = image.getScaledInstance(man.getIconWidth() / picSize, man.getIconHeight() / picSize, Image.SCALE_SMOOTH);
-        man = new ImageIcon(image);
-        JButton westTestBtn = new JButton(man);//调试中 ZFHs
+        Image image = character1Icon.getImage();
+        image = image.getScaledInstance(character1Icon.getIconWidth() / picSize, character1Icon.getIconHeight() / picSize, Image.SCALE_SMOOTH);
+        character1Icon = new ImageIcon(image);
+        JButton westTestBtn = new JButton(character1Icon);//调试中 ZFHs
 
 
         int skillCD = 3;
