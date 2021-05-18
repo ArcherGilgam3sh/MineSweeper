@@ -248,6 +248,10 @@ public class SaoLei implements ActionListener, MouseListener {
 
                     setHeader();//设置头部
 
+                    setEast();
+
+                    setWest();
+
                 /*
                 if(p1==1){
                     player1Icon=character1Icon;
@@ -1050,6 +1054,10 @@ public class SaoLei implements ActionListener, MouseListener {
         savingMenu.setFont(font1);
         menuBar.add(savingMenu);
 
+        JMenu backMenu = new JMenu("返回初始界面");
+        backMenu.setFont(font1);
+        menuBar.add(backMenu);
+
         JMenuItem cheatingButton1 = new JMenuItem("开启作弊");
         cheatingMenu.add(cheatingButton1);
         cheatingButton1.setFont(font1);
@@ -1161,6 +1169,18 @@ public class SaoLei implements ActionListener, MouseListener {
         });
         frame.setJMenuBar(menuBar);
         frame.setVisible(true);
+
+        JMenuItem back = new JMenuItem("确认返回");
+        backMenu.add(back);
+        back.setFont(font1);
+        back.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {//todo: 把雷区全部掀开
+                frame.dispose();
+                setFrame1();
+            }
+        });
+
     }
 
     //设计框体头部
@@ -1216,7 +1236,7 @@ public class SaoLei implements ActionListener, MouseListener {
 
 
         a1.setText("得分: " + score2);
-        b1.setText("剩余步数: " + 0);
+        b1.setText("剩余步数: " + actionLeft);
         c11.setText("损坏镐子：" + brokenPickaxe2);
         d1.setText("技能CD（剩余回合数）: " + play2SkillCD);
         Font font1 = new Font("等线", Font.BOLD, fontSize);
@@ -1290,7 +1310,7 @@ public class SaoLei implements ActionListener, MouseListener {
         GridBagConstraints c5 = new GridBagConstraints(0, 4, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 1, 1);
 
         a2.setText("得分: " + score1);
-        b2.setText("剩余步数: " + 0);
+        b2.setText("剩余步数: " + actionLeft);
         c22.setText("损坏镐子：" + brokenPickaxe1);
         d2.setText("技能CD（剩余回合数）: " + play1SkillCD);
         Font font1 = new Font("等线", Font.BOLD, fontSize);
