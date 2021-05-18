@@ -74,7 +74,8 @@ public class SaoLei implements ActionListener, MouseListener {
     int picSize;
     int frameWidth;
     int frameHeight;
-    int skillCD = 0;
+    int play1SkillCD = 0;
+    int play2SkillCD = 0;
     int p1 = 0;
     int p2 = 0;
     JButton bannerBtn = new JButton(bannerIcon);
@@ -1006,10 +1007,10 @@ public class SaoLei implements ActionListener, MouseListener {
         GridBagConstraints c5 = new GridBagConstraints(0, 4, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 1, 1);
 
 
-        a1.setText("金子数: " + score1);
+        a1.setText("金子数: " + score2);
         b1.setText("剩余步数: " + 0);
-        c11.setText("损坏镐子：" + brokenPickaxe1);
-        d1.setText("技能CD（剩余回合数）: " + skillCD);
+        c11.setText("损坏镐子：" + brokenPickaxe2);
+        d1.setText("技能CD（剩余回合数）: " + play2SkillCD);
         Font font1 = new Font("等线", Font.BOLD, fontSize);
         a1.setFont(font1);
         b1.setFont(font1);
@@ -1032,19 +1033,28 @@ public class SaoLei implements ActionListener, MouseListener {
         eastTestBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(p2==1){
-                    actionCount--;
-                    //更新剩余步数
-                }else if(p2==2){
-                    brokenPickaxe2--;
-                    //更新失误数
-                }else if(p2==3){
-                    score2=score2*2;
-                    //只能用一次， 更新分数
-                }else if(p2==4){
-                    score2=score2+100;
-                    score1=score1-100;
-                    //更新双方分数
+                if (play2SkillCD == 0) {
+                    if(p2==1){
+                        actionCount--;
+                        //更新剩余步数
+                        actionLeft = maxAction - actionCount;
+                        b1.setText("剩余步数: " + actionLeft);
+                    }else if(p2==2){
+                        brokenPickaxe2--;
+                        //更新失误数
+                        c11.setText("损坏镐子：" + brokenPickaxe2);
+                    }else if(p2==3){
+                        score2=score2*2;
+                        //只能用一次， 更新分数
+                        a1.setText("金子数: " + score2);
+                    }else if(p2==4){
+                        score2=score2+100;
+                        score1=score1-100;
+                        //更新双方分数
+                        a1.setText("金子数: " + score2);
+                        a2.setText("金子数: " + score1);
+                    }
+                    play2SkillCD = 5;
                 }
             }
         });
@@ -1068,7 +1078,7 @@ public class SaoLei implements ActionListener, MouseListener {
         a2.setText("金子数: " + score1);
         b2.setText("剩余步数: " + 0);
         c22.setText("损坏镐子：" + brokenPickaxe1);
-        d2.setText("技能CD（剩余回合数）: " + skillCD);
+        d2.setText("技能CD（剩余回合数）: " + play1SkillCD);
         Font font1 = new Font("等线", Font.BOLD, fontSize);
         a2.setFont(font1);
         b2.setFont(font1);
@@ -1091,19 +1101,28 @@ public class SaoLei implements ActionListener, MouseListener {
         westTestBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(p1==1){
-                    actionCount--;
-                    //更新剩余步数
-                }else if(p1==2){
-                    brokenPickaxe1--;
-                    //更新失误数
-                }else if(p1==3){
-                    score1=score1*2;
-                    //只能用一次， 更新分数
-                }else if(p1==4){
-                    score1=score1+100;
-                    score2=score2-100;
-                    //更新双方分数
+                if (play1SkillCD == 0){
+                    if(p1==1){
+                        actionCount--;
+                        //更新剩余步数
+                        actionLeft = maxAction - actionCount;
+                        b2.setText("剩余步数: " + actionLeft);
+                    }else if(p1==2){
+                        brokenPickaxe1--;
+                        //更新失误数
+                        c22.setText("损坏镐子：" + brokenPickaxe1);
+                    }else if(p1==3){
+                        score1=score1*2;
+                        //只能用一次， 更新分数
+                        a2.setText("金子数: " + score1);
+                    }else if(p1==4){
+                        score1=score1+100;
+                        score2=score2-100;
+                        //更新双方分数
+                        a1.setText("金子数: " + score2);
+                        a2.setText("金子数: " + score1);
+                    }
+                    play1SkillCD = 5;
                 }
             }
         });
@@ -1173,6 +1192,19 @@ public class SaoLei implements ActionListener, MouseListener {
                             clickTimes++;
                         } else {
                             lose(i,i1);
+                            actionLeft = maxAction - actionCount;
+                            if (player == 0){
+                                if(actionCount == 0) {
+                                    b1.setText("剩余步数: " + 0);
+                                }
+                                b2.setText("剩余步数: " + actionLeft);
+                            }
+                            if (player == 1) {
+                                if(actionCount == 0) {
+                                    b2.setText("剩余步数: " + 0);
+                                }
+                                b1.setText("剩余步数: " + actionLeft);
+                            }
                         }
                     } else {
                         if(canBeOpen[i][i1]){
@@ -1253,7 +1285,15 @@ public class SaoLei implements ActionListener, MouseListener {
                 Container container = dialog.getContentPane();
                 JLabel label = new JLabel("请交换玩家", flagIcon, SwingConstants.CENTER);
                 container.add(label);
-
+                if(player == 0) {
+                    if (play1SkillCD != 0) {
+                        play1SkillCD--;
+                    }
+                } else {
+                    if (play2SkillCD != 0) {
+                        play2SkillCD--;
+                    }
+                }
 
                 return false;
             } else {
@@ -1296,10 +1336,18 @@ public class SaoLei implements ActionListener, MouseListener {
     }
 
     public void lose(int i, int i1) {//踩到雷后爆雷
+        if(player == 0) {
+            score1--;
+            a2.setText("金子数: " + score1);
+        } else {
+            score2--;
+            a1.setText("金子数: " + score2);
+        }
         JButton btn = buttons[i][i1];
         btn.setIcon(null);
         btn.setIcon(flagIcon);
         JOptionPane.showMessageDialog(frame, "可惜你把金子敲碎了 ┭┮﹏┭┮", "可惜了", JOptionPane.PLAIN_MESSAGE);
+        checkActionCount();
     }
 
     public void openCell(int i, int j) {
@@ -1400,6 +1448,8 @@ public class SaoLei implements ActionListener, MouseListener {
         score2 = 0;
         brokenPickaxe1 = 0;
         brokenPickaxe2 = 0;
+        play1SkillCD = 0;
+        play2SkillCD = 0;
 
         //状态栏恢复
         unopened = ROW * COL;//未开的数量
@@ -1409,14 +1459,14 @@ public class SaoLei implements ActionListener, MouseListener {
         label2.setText("已开：" + opened);
         label3.setText("用时：" + seconds + "s");
 
-        a1.setText("金子数: " + score1);
+        a1.setText("金子数: " + score2);
         b1.setText("剩余步数: " + 0);
-        c11.setText("损坏镐子：" + brokenPickaxe1);
-        d1.setText("技能CD（剩余回合数）: " + skillCD);
+        c11.setText("损坏镐子：" + brokenPickaxe2);
+        d1.setText("技能CD（剩余回合数）: " + play2SkillCD);
         a2.setText("金子数: " + score1);
         b2.setText("剩余步数: " + 0);
         c22.setText("损坏镐子：" + brokenPickaxe1);
-        d2.setText("技能CD（剩余回合数）: " + skillCD);
+        d2.setText("技能CD（剩余回合数）: " + play1SkillCD);
 
         addLei();
         timer.start();
