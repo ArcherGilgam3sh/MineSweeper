@@ -648,7 +648,7 @@ public class SaoLei implements ActionListener, MouseListener {
                 LeiCount = 10;
                 borderWestWidth = 160;
                 borderEastWidth = 160;
-                borderHeadHeight = 100;
+                borderHeadHeight = 150;
                 fontSize = 13;
                 picSize = 3;
                 frameWidth = 680;
@@ -690,7 +690,7 @@ public class SaoLei implements ActionListener, MouseListener {
                 LeiCount = 40;
                 borderWestWidth = 200;
                 borderEastWidth = 200;
-                borderHeadHeight = 100;
+                borderHeadHeight = 150;
                 fontSize = 15;
                 picSize = 2;
                 frameWidth = 1040;
@@ -732,7 +732,7 @@ public class SaoLei implements ActionListener, MouseListener {
                 LeiCount = 99;
                 borderWestWidth = 250;
                 borderEastWidth = 250;
-                borderHeadHeight = 100;
+                borderHeadHeight = 150;
                 fontSize = 20;
                 picSize = 2;
                 frameWidth = 1700;
