@@ -23,6 +23,7 @@ public class SaoLei implements ActionListener, MouseListener {
     ImageIcon winIcon = new ImageIcon("win.png");
     ImageIcon win_flagIcon = new ImageIcon("win_flag.png");
     ImageIcon flagIcon = new ImageIcon("goldAfterOpen.png");
+    ImageIcon exchangePlayer = new ImageIcon("交换玩家.png");
     ImageIcon afterOpen = new ImageIcon("afterOpen.png");
     ImageIcon afterOpen1 = new ImageIcon("1.png");
     ImageIcon afterOpen2 = new ImageIcon("2.png");
@@ -375,7 +376,6 @@ public class SaoLei implements ActionListener, MouseListener {
         jl.setOpaque(true);
         jl.setBackground(Color.WHITE);
         jl.setBounds(150, 250, 250, 50);
-        frame2.add(jt);
         jl.setFont(font1);
         frame2.add(jl);
 
@@ -423,7 +423,7 @@ public class SaoLei implements ActionListener, MouseListener {
 
         frame3.setLayout(null);
         JPanel imagePanel;
-        ImageIcon background = new ImageIcon("D:\\MineSweeper\\进入界面 (1).png");
+        ImageIcon background = new ImageIcon("玩家1选择英雄界面.png");
         JLabel label = new JLabel(background);
         label.setBounds(0, 0, background.getIconWidth(), background.getIconHeight());
         imagePanel = (JPanel) frame3.getContentPane();
@@ -438,13 +438,6 @@ public class SaoLei implements ActionListener, MouseListener {
         frame3.setLocationRelativeTo(null);
         frame3.setVisible(true);
 
-        Font font1 = new Font("等线", Font.BOLD, 50);
-        JLabel jLabel = new JLabel("player1   请选择你的英雄");
-        jLabel.setBounds(50,25,500,50);
-        jLabel.setOpaque(true);
-        //jLabel.setBackground();
-        jLabel.setFont(font1);
-        frame3.add(jLabel);
 
         JButton character1 = new JButton();
         ImageIcon newCharacter1Icon = new ImageIcon("圣骑士3.png");
@@ -515,7 +508,7 @@ public class SaoLei implements ActionListener, MouseListener {
 
         frame3.setLayout(null);
         JPanel imagePanel;
-        ImageIcon background = new ImageIcon("D:\\MineSweeper\\进入界面 (1).png");
+        ImageIcon background = new ImageIcon("玩家2选择英雄界面.png");
         JLabel label = new JLabel(background);
         label.setBounds(0, 0, background.getIconWidth(), background.getIconHeight());
         imagePanel = (JPanel) frame3.getContentPane();
@@ -529,14 +522,6 @@ public class SaoLei implements ActionListener, MouseListener {
         frame3.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame3.setLocationRelativeTo(null);
         frame3.setVisible(true);
-
-        Font font1 = new Font("等线", Font.BOLD, 50);
-        JLabel jLabel = new JLabel("player2   请选择你的英雄");
-        jLabel.setBounds(50,25,500,50);
-        jLabel.setOpaque(true);
-        //jLabel.setBackground();
-        jLabel.setFont(font1);
-        frame3.add(jLabel);
 
         JButton character1 = new JButton();
         ImageIcon newCharacter1Icon = new ImageIcon("圣骑士3.png");
@@ -623,20 +608,24 @@ public class SaoLei implements ActionListener, MouseListener {
         JButton difficulty1 = new JButton("简单难度");
         JButton difficulty2 = new JButton("中等难度");
         JButton difficulty3 = new JButton("困难难度");
+        JButton difficulty4 = new JButton("自定义难度");
         JButton back = new JButton("返回");
         Font font1 = new Font("等线", Font.BOLD, 20);
         difficulty1.setFont(font1);
         difficulty2.setFont(font1);
         difficulty3.setFont(font1);
+        difficulty4.setFont(font1);
         back.setFont(font1);
-        difficulty1.setBounds(300, 125, 200, 50);
-        difficulty2.setBounds(300, 275, 200, 50);
-        difficulty3.setBounds(300, 425, 200, 50);
+        difficulty1.setBounds(300, 90, 200, 50);
+        difficulty2.setBounds(300, 230, 200, 50);
+        difficulty3.setBounds(300, 370, 200, 50);
+        difficulty4.setBounds(300, 510, 200, 50);
         back.setBounds(10, 10, 100, 50);
 
         frame5.add(difficulty1);
         frame5.add(difficulty2);
         frame5.add(difficulty3);
+        frame5.add(difficulty4);
         frame5.add(back);
 
         difficulty1.addActionListener(new ActionListener() {
@@ -765,11 +754,169 @@ public class SaoLei implements ActionListener, MouseListener {
             }
         });
 
+        difficulty4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame5.dispose();
+                setFrame6();
+            }
+        });
+
         back.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame5.dispose();
                 setFrame2();
+            }
+        });
+    }
+
+    public void setFrame6() {
+        JFrame frame6 = new JFrame("Golden Rush");
+        frame6.setLayout(null);
+
+        JPanel imagePanel;
+        ImageIcon background = new ImageIcon("D:\\MineSweeper\\进入界面 (1).png");
+        JLabel label = new JLabel(background);
+        label.setBounds(0, 0, background.getIconWidth(), background.getIconHeight());
+        imagePanel = (JPanel) frame6.getContentPane();
+        imagePanel.setOpaque(false);
+        imagePanel.setLayout(null);
+        frame6.getLayeredPane().setLayout(null);
+        frame6.getLayeredPane().add(label, new Integer(Integer.MIN_VALUE));
+
+        frame6.setSize(800, 650);
+        frame6.setResizable(false);
+        frame6.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame6.setLocationRelativeTo(null);
+        frame6.setVisible(true);
+
+        JTextField jt1 = new JTextField();
+        jt1.setBounds(430, 150, 100, 50);
+        frame6.add(jt1);
+
+        Font font1 = new Font("等线", Font.BOLD, 20);
+        JLabel jl1 = new JLabel("请设置行数（0-24）:");
+        jl1.setOpaque(true);
+        jl1.setBackground(Color.WHITE);
+        jl1.setBounds(150, 150, 210, 50);
+        jl1.setFont(font1);
+        frame6.add(jl1);
+
+        JTextField jt2 = new JTextField();
+        jt2.setBounds(430, 300, 100, 50);
+        frame6.add(jt2);
+
+        JLabel jl2 = new JLabel("请设置列数（0-30）:");
+        jl2.setOpaque(true);
+        jl2.setBackground(Color.WHITE);
+        jl2.setBounds(150, 300, 210, 50);
+        jl2.setFont(font1);
+        frame6.add(jl2);
+
+        JTextField jt3 = new JTextField();
+        jt3.setBounds(430, 450, 100, 50);
+        frame6.add(jt3);
+
+        JLabel jl3 = new JLabel("请设置金子数:");
+        jl3.setOpaque(true);
+        jl3.setBackground(Color.WHITE);
+        jl3.setBounds(150, 450, 210, 50);
+        jl3.setFont(font1);
+        frame6.add(jl3);
+
+        JButton jb = new JButton("确定");
+        jb.setBounds(350, 550, 100, 50);
+        frame6.add(jb);
+        jb.setFont(font1);
+        jb.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String str1 = jt1.getText();
+                if (str1.equals("")) {
+                    Object[] options = {"OK ", "CANCEL "};
+                    JOptionPane.showOptionDialog(null, "您还没有输入 ", "提示", JOptionPane.DEFAULT_OPTION,
+                            JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+                } else if (Integer.parseInt(str1) > 24 || Integer.parseInt(str1) < 0) {
+                    Object[] options = {"OK ", "CANCEL "};
+                    JOptionPane.showOptionDialog(null, "您的输入不正确 ", "提示", JOptionPane.DEFAULT_OPTION,
+                            JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+                } else {
+                    ROW = Integer.parseInt(str1);
+                }
+
+                String str2 = jt2.getText();
+                if (str2.equals("")) {
+                    Object[] options = {"OK ", "CANCEL "};
+                    JOptionPane.showOptionDialog(null, "您还没有输入 ", "提示", JOptionPane.DEFAULT_OPTION,
+                            JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+                } else if (Integer.parseInt(str2) > 30 || Integer.parseInt(str2) < 0) {
+                    Object[] options = {"OK ", "CANCEL "};
+                    JOptionPane.showOptionDialog(null, "您的输入不正确 ", "提示", JOptionPane.DEFAULT_OPTION,
+                            JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+                } else {
+                    COL = Integer.parseInt(str2);
+                }
+
+                String str3 = jt3.getText();
+                if (str3.equals("")) {
+                    Object[] options = {"OK ", "CANCEL "};
+                    JOptionPane.showOptionDialog(null, "您还没有输入 ", "提示", JOptionPane.DEFAULT_OPTION,
+                            JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+                } else if (Integer.parseInt(str3) > Integer.parseInt(str1) * Integer.parseInt(str2) / 2 || Integer.parseInt(str3) < 0) {
+                    Object[] options = {"OK ", "CANCEL "};
+                    JOptionPane.showOptionDialog(null, "您的输入不正确 ", "提示", JOptionPane.DEFAULT_OPTION,
+                            JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+                } else {
+                    LeiCount = Integer.parseInt(str3);
+
+                }
+
+                frame6.dispose();
+
+                borderWestWidth = 160;
+                borderEastWidth = 160;
+                borderHeadHeight = 150;
+                fontSize = 13;
+                picSize = 3;
+                frameWidth = 40 * COL + borderEastWidth + borderWestWidth;
+                frameHeight = 40 * ROW + borderHeadHeight;
+
+                frame.setSize(frameWidth, frameHeight);
+                frame.setResizable(false);
+                frame.setLocationRelativeTo(null);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setLayout(new BorderLayout());
+
+                setMenu();//设置菜单
+
+                setHeader();//设置头部
+
+                setEast();//调试中 ZFH
+
+                setWest();//调试中 ZFH
+
+                //setSouth();//调试中 ZFH
+
+                addLei();//放雷
+
+                setButtons();//设置按钮和未开的图标
+
+                timer.start();//别忘了最开始也要开始Timer
+
+                frame.setVisible(true);
+            }
+        });
+
+        JButton back = new JButton("back");
+        back.setFont(font1);
+        back.setBounds(10, 10, 100, 50);
+        frame6.add(back);
+        back.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame6.dispose();
+                setFrame5();
             }
         });
     }
@@ -1007,7 +1154,7 @@ public class SaoLei implements ActionListener, MouseListener {
         GridBagConstraints c5 = new GridBagConstraints(0, 4, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 1, 1);
 
 
-        a1.setText("金子数: " + score2);
+        a1.setText("得分: " + score2);
         b1.setText("剩余步数: " + 0);
         c11.setText("损坏镐子：" + brokenPickaxe2);
         d1.setText("技能CD（剩余回合数）: " + play2SkillCD);
@@ -1048,13 +1195,14 @@ public class SaoLei implements ActionListener, MouseListener {
                         //只能用一次， 更新分数
                         a1.setText("金子数: " + score2);
                     }else if(p2==4){
-                        score2=score2+100;
-                        score1=score1-100;
+                        score2=score2+1;
+                        score1=score1-1;
                         //更新双方分数
-                        a1.setText("金子数: " + score2);
-                        a2.setText("金子数: " + score1);
+                        a1.setText("得分: " + score2);
+                        a2.setText("得分: " + score1);
                     }
                     play2SkillCD = 5;
+                    d1.setText("技能CD（剩余回合数）: " + play2SkillCD);
                 }
             }
         });
@@ -1075,7 +1223,7 @@ public class SaoLei implements ActionListener, MouseListener {
         GridBagConstraints c4 = new GridBagConstraints(0, 3, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 1, 1);
         GridBagConstraints c5 = new GridBagConstraints(0, 4, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 1, 1);
 
-        a2.setText("金子数: " + score1);
+        a2.setText("得分: " + score1);
         b2.setText("剩余步数: " + 0);
         c22.setText("损坏镐子：" + brokenPickaxe1);
         d2.setText("技能CD（剩余回合数）: " + play1SkillCD);
@@ -1119,10 +1267,11 @@ public class SaoLei implements ActionListener, MouseListener {
                         score1=score1+100;
                         score2=score2-100;
                         //更新双方分数
-                        a1.setText("金子数: " + score2);
-                        a2.setText("金子数: " + score1);
+                        a1.setText("得分: " + score2);
+                        a2.setText("得分: " + score1);
                     }
                     play1SkillCD = 5;
+                    d2.setText("技能CD（剩余回合数）: " + play1SkillCD);
                 }
             }
         });
@@ -1263,9 +1412,10 @@ public class SaoLei implements ActionListener, MouseListener {
                 actionCount=0;
                 JDialog dialog = new JDialog();
                 dialog.setVisible(true);
-                dialog.setBounds(500, 300, 500, 500);
+                dialog.setSize(500,500);
+                dialog.setLocationRelativeTo(null);
                 Container container = dialog.getContentPane();
-                JLabel label = new JLabel("请交换玩家", flagIcon, SwingConstants.CENTER);
+                JLabel label = new JLabel("请交换玩家", exchangePlayer, SwingConstants.CENTER);
                 container.add(label);
 
                 return true;
@@ -1281,17 +1431,26 @@ public class SaoLei implements ActionListener, MouseListener {
 
                 JDialog dialog = new JDialog();
                 dialog.setVisible(true);
-                dialog.setBounds(500, 300, 500, 500);
+                dialog.setSize(500,500);
+                dialog.setLocationRelativeTo(null);
                 Container container = dialog.getContentPane();
-                JLabel label = new JLabel("请交换玩家", flagIcon, SwingConstants.CENTER);
+                JLabel label = new JLabel("请交换玩家", exchangePlayer, SwingConstants.CENTER);
                 container.add(label);
                 if(player == 0) {
-                    if (play1SkillCD != 0) {
-                        play1SkillCD--;
+                    if (p1 == 3) {
+                        play1SkillCD = 10000;
+                    } else {
+                        if (play1SkillCD != 0) {
+                            play1SkillCD--;
+                        }
                     }
                 } else {
-                    if (play2SkillCD != 0) {
-                        play2SkillCD--;
+                    if (p2 == 3) {
+                        play2SkillCD = 10000;
+                    } else {
+                        if (play2SkillCD != 0) {
+                            play2SkillCD--;
+                        }
                     }
                 }
 
@@ -1338,10 +1497,10 @@ public class SaoLei implements ActionListener, MouseListener {
     public void lose(int i, int i1) {//踩到雷后爆雷
         if(player == 0) {
             score1--;
-            a2.setText("金子数: " + score1);
+            a2.setText("得分: " + score1);
         } else {
             score2--;
-            a1.setText("金子数: " + score2);
+            a1.setText("得分: " + score2);
         }
         JButton btn = buttons[i][i1];
         btn.setIcon(null);
@@ -1459,11 +1618,11 @@ public class SaoLei implements ActionListener, MouseListener {
         label2.setText("已开：" + opened);
         label3.setText("用时：" + seconds + "s");
 
-        a1.setText("金子数: " + score2);
+        a1.setText("得分: " + score2);
         b1.setText("剩余步数: " + 0);
         c11.setText("损坏镐子：" + brokenPickaxe2);
         d1.setText("技能CD（剩余回合数）: " + play2SkillCD);
-        a2.setText("金子数: " + score1);
+        a2.setText("得分: " + score1);
         b2.setText("剩余步数: " + 0);
         c22.setText("损坏镐子：" + brokenPickaxe1);
         d2.setText("技能CD（剩余回合数）: " + play1SkillCD);
@@ -1486,11 +1645,11 @@ public class SaoLei implements ActionListener, MouseListener {
 
                         if (player == 0) {
                             score1++;
-                            a2.setText("金子数: " + score1);
+                            a2.setText("得分: " + score1);
                         }
                         if (player == 1) {
                             score2++;
-                            a1.setText("金子数: " + score2);
+                            a1.setText("得分: " + score2);
                         }
 
 
