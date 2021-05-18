@@ -250,7 +250,12 @@ public class SaoLei implements ActionListener, MouseListener {
 
                     setHeader();//设置头部
 
-
+                    if(score1==65535){
+                        score1=-1;
+                    }
+                    if(score2==65535){
+                        score2=-1;
+                    }
                 /*
                 if(p1==1){
                     player1Icon=character1Icon;
@@ -314,6 +319,27 @@ public class SaoLei implements ActionListener, MouseListener {
                         }
                     }
                     frame.add(con,BorderLayout.CENTER);
+
+                    setHeader();
+                    if (p1 == 1) {
+                        player1Icon = character1Icon;
+                    } else if (p1 == 2){
+                        player1Icon = character2Icon;
+                    } else if (p1 == 3){
+                        player1Icon = character3Icon;
+                    } else if (p1 == 4){
+                        player1Icon = character4Icon;
+                    }
+
+                    if (p2 == 1) {
+                        player2Icon = character1Icon;
+                    } else if (p2 == 2){
+                        player2Icon = character2Icon;
+                    } else if (p2 == 3){
+                        player2Icon = character3Icon;
+                    } else if (p2 == 4){
+                        player2Icon = character4Icon;
+                    }
 
                     setEast();//调试中 ZFH
 
@@ -1795,7 +1821,7 @@ public class SaoLei implements ActionListener, MouseListener {
                         JDialog dialog = new JDialog();
                         dialog.setLocationRelativeTo(null);
                         dialog.setVisible(true);
-                        dialog.setBounds(500, 300, 500, 500);
+                        dialog.setSize(500,500);
                         Container container = dialog.getContentPane();
                         JLabel label = new JLabel("", brokenTool, SwingConstants.CENTER);
                         container.add(label);
