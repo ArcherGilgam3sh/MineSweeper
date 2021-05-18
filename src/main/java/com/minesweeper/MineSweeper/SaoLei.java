@@ -1197,22 +1197,27 @@ public class SaoLei implements ActionListener, MouseListener {
                         //更新剩余步数
                         actionLeft = maxAction - actionCount;
                         b1.setText("剩余步数: " + actionLeft);
+                        play2SkillCD = 5;
                     }else if(p2==2){
                         brokenPickaxe2--;
                         //更新失误数
                         c11.setText("损坏镐子：" + brokenPickaxe2);
+                        play2SkillCD = 5;
                     }else if(p2==3){
                         score2=score2*2;
                         //只能用一次， 更新分数
-                        a1.setText("金子数: " + score2);
+                        a1.setText("得分: " + score2);
+                        play2SkillCD = 100;
+                        d1.setText("技能CD（剩余回合数）: " + play2SkillCD);
                     }else if(p2==4){
                         score2=score2+1;
                         score1=score1-1;
                         //更新双方分数
                         a1.setText("得分: " + score2);
                         a2.setText("得分: " + score1);
+                        play2SkillCD = 5;
                     }
-                    play2SkillCD = 5;
+
                     d1.setText("技能CD（剩余回合数）: " + play2SkillCD);
                 }
             }
@@ -1266,22 +1271,26 @@ public class SaoLei implements ActionListener, MouseListener {
                         //更新剩余步数
                         actionLeft = maxAction - actionCount;
                         b2.setText("剩余步数: " + actionLeft);
+                        play1SkillCD = 5;
                     }else if(p1==2){
                         brokenPickaxe1--;
                         //更新失误数
                         c22.setText("损坏镐子：" + brokenPickaxe1);
+                        play1SkillCD = 5;
                     }else if(p1==3){
                         score1=score1*2;
                         //只能用一次， 更新分数
-                        a2.setText("金子数: " + score1);
+                        a2.setText("得分: " + score1);
+                        play1SkillCD = 100;
+                        d2.setText("技能CD（剩余回合数）: " + play1SkillCD);
                     }else if(p1==4){
                         score1=score1+100;
                         score2=score2-100;
                         //更新双方分数
                         a1.setText("得分: " + score2);
                         a2.setText("得分: " + score1);
+                        play1SkillCD = 5;
                     }
-                    play1SkillCD = 5;
                     d2.setText("技能CD（剩余回合数）: " + play1SkillCD);
                 }
             }
@@ -1434,22 +1443,14 @@ public class SaoLei implements ActionListener, MouseListener {
                 JLabel label = new JLabel("请交换玩家", exchangePlayer, SwingConstants.CENTER);
                 container.add(label);
                 if(player == 0) {
-                    if (p1 == 3) {
-                        play1SkillCD = 10000;
-                    } else {
-                        if (play1SkillCD != 0) {
-                            play1SkillCD--;
-                            d2.setText("技能CD（剩余回合数）: " + play1SkillCD);
-                        }
+                    if (play1SkillCD != 0) {
+                        play1SkillCD--;
+                        d2.setText("技能CD（剩余回合数）: " + play1SkillCD);
                     }
                 } else {
-                    if (p2 == 3) {
-                        play2SkillCD = 10000;
-                    } else {
-                        if (play2SkillCD != 0) {
-                            play2SkillCD--;
-                            d1.setText("技能CD（剩余回合数）: " + play1SkillCD);
-                        }
+                    if (play2SkillCD != 0) {
+                        play2SkillCD--;
+                        d1.setText("技能CD（剩余回合数）: " + play2SkillCD);
                     }
                 }
 
