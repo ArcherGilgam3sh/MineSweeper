@@ -2071,8 +2071,8 @@ public class SaoLei implements ActionListener, MouseListener {
     public void VideoPlayer() {
         JDialog dialog = new JDialog();
         dialog.setLocationRelativeTo(null);
-        dialog.setSize(500,500);
         dialog.setVisible(true);
+        dialog.setBounds(500, 300, 500, 500);
         Container container = dialog.getContentPane();
 
 
