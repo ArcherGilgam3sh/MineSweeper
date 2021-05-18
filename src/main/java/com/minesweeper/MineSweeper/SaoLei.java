@@ -308,8 +308,6 @@ public class SaoLei implements ActionListener, MouseListener {
                     }
                     frame.add(con,BorderLayout.CENTER);
 
-
-
                     setEast();//调试中 ZFH
 
                     setWest();//调试中 ZFH
@@ -318,7 +316,7 @@ public class SaoLei implements ActionListener, MouseListener {
 
                     frame.setVisible(true);
                 }else{
-
+                    JOptionPane.showMessageDialog(frame, "存档格式有误或损坏", "错误", JOptionPane.PLAIN_MESSAGE);
                 }
 
             }
