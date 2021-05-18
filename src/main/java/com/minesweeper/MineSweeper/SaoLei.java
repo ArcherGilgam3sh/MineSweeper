@@ -1233,22 +1233,8 @@ public class SaoLei implements ActionListener, MouseListener {
                         }
                         openOpenCell();
                         clickTimes++;
-                        checkWin();//判断胜利
-
-                /*
-                此处为尝试加入操作次数统计
-                以及双人操作的切换
-                 */
-                        /*
-                        if (checkActionCount(i,i1)) {
-                            System.out.println("Player" + (player + 1) + "已经操作" + actionCount + "/" + maxAction + "次");
-                        } else {
-                            System.out.println("已经操作" + maxAction + "/" + maxAction + "次");
-                            System.out.println("Player" + (player + 1) + "'s turn!");
-                        }
-
-                         */
                     }
+                    checkWin();
                     return;
                 }
             }
@@ -1306,7 +1292,8 @@ public class SaoLei implements ActionListener, MouseListener {
         int count = 0;
         for (int i = 0; i < ROW; i++) {
             for (int i1 = 0; i1 < COL; i1++) {
-                if (canBeOpen[i][i1]) count++;
+                if (canBeOpen[i][i1]&&data[i][i1]==-1)
+                    count++;
             }
         }
         if (count == 0) {
@@ -1331,14 +1318,13 @@ public class SaoLei implements ActionListener, MouseListener {
 
                 }
             }
-        }else if((count)<Math.abs(score1-score2)){
-            if(score1>score2){
-                bannerBtn.setIcon(winIcon);
-                JOptionPane.showMessageDialog(frame, "player1,你赢了 ヽ(✿ﾟ▽ﾟ)ノ\n点击Banner重新开始", "赢了", JOptionPane.PLAIN_MESSAGE);
-            }else if(score2>score1){
-                bannerBtn.setIcon(winIcon);
-                JOptionPane.showMessageDialog(frame, "player2,你赢了 ヽ(✿ﾟ▽ﾟ)ノ\n点击Banner重新开始", "赢了", JOptionPane.PLAIN_MESSAGE);
-            }
+        }else if(count<score1-score2){
+            bannerBtn.setIcon(winIcon);
+            JOptionPane.showMessageDialog(frame, "player1,你赢了 ヽ(✿ﾟ▽ﾟ)ノ\n点击Banner重新开始", "赢了", JOptionPane.PLAIN_MESSAGE);
+
+        }else if(count<score2-score1){
+            bannerBtn.setIcon(winIcon);
+            JOptionPane.showMessageDialog(frame, "player2,你赢了 ヽ(✿ﾟ▽ﾟ)ノ\n点击Banner重新开始", "赢了", JOptionPane.PLAIN_MESSAGE);
         }
 
     }
@@ -1356,6 +1342,7 @@ public class SaoLei implements ActionListener, MouseListener {
         btn.setIcon(flagIcon);
         JOptionPane.showMessageDialog(frame, "可惜你把金子敲碎了 ┭┮﹏┭┮", "可惜了", JOptionPane.PLAIN_MESSAGE);
         checkActionCount();
+        canBeOpen[i][i1]=false;
     }
 
     public void openCell(int i, int j) {
@@ -1577,6 +1564,7 @@ public class SaoLei implements ActionListener, MouseListener {
                 }
             }
         }
+        checkWin();
     }
 
     @Override
