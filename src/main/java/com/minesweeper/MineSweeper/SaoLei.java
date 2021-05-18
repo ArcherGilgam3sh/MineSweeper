@@ -996,8 +996,6 @@ public class SaoLei implements ActionListener, MouseListener {
         player2Icon = new ImageIcon(image);
         JButton eastTestBtn = new JButton(player2Icon);
 
-
-
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setPreferredSize(new Dimension(borderEastWidth, 200));
 
@@ -1030,6 +1028,26 @@ public class SaoLei implements ActionListener, MouseListener {
         bannerBtn.setBackground(Color.white);
 
         frame.add(panel, BorderLayout.EAST);
+
+        eastTestBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(p2==1){
+                    actionCount--;
+                    //更新剩余步数
+                }else if(p2==2){
+                    brokenPickaxe2--;
+                    //更新失误数
+                }else if(p2==3){
+                    score2=score2*2;
+                    //只能用一次， 更新分数
+                }else if(p2==4){
+                    score2=score2+100;
+                    score1=score1-100;
+                    //更新双方分数
+                }
+            }
+        });
     }
 
     public void setWest() {
@@ -1069,6 +1087,26 @@ public class SaoLei implements ActionListener, MouseListener {
         bannerBtn.setBackground(Color.white);
 
         frame.add(panel, BorderLayout.WEST);
+
+        westTestBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(p1==1){
+                    actionCount--;
+                    //更新剩余步数
+                }else if(p1==2){
+                    brokenPickaxe1--;
+                    //更新失误数
+                }else if(p1==3){
+                    score1=score1*2;
+                    //只能用一次， 更新分数
+                }else if(p1==4){
+                    score1=score1+100;
+                    score2=score2-100;
+                    //更新双方分数
+                }
+            }
+        });
     }//调试中 DYK
 
     public void setSouth() {
