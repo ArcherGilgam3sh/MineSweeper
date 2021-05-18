@@ -75,6 +75,8 @@ public class SaoLei implements ActionListener, MouseListener {
     int frameWidth;
     int frameHeight;
     int skillCD = 0;
+    int p1 = 0;
+    int p2 = 0;
     JButton bannerBtn = new JButton(bannerIcon);
     JButton southTestBtn = new JButton(bannerIcon);//调试中 ZFH
     Boolean isPvE= false;
@@ -451,6 +453,7 @@ public class SaoLei implements ActionListener, MouseListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 player1Icon = character1Icon;
+                p1 = 1;
                 frame3.dispose();
                 setFrame4();
             }
@@ -465,6 +468,7 @@ public class SaoLei implements ActionListener, MouseListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 player1Icon = character2Icon;
+                p1 = 2;
                 frame3.dispose();
                 setFrame4();
             }
@@ -479,6 +483,7 @@ public class SaoLei implements ActionListener, MouseListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 player1Icon = character3Icon;
+                p1 = 3;
                 frame3.dispose();
                 setFrame4();
             }
@@ -493,6 +498,7 @@ public class SaoLei implements ActionListener, MouseListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 player1Icon = character4Icon;
+                p1 = 4;
                 frame3.dispose();
                 setFrame4();
             }
@@ -539,6 +545,7 @@ public class SaoLei implements ActionListener, MouseListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 player2Icon = character1Icon;
+                p2 = 1;
                 frame3.dispose();
                 setFrame5();
             }
@@ -553,6 +560,7 @@ public class SaoLei implements ActionListener, MouseListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 player2Icon = character2Icon;
+                p2 = 2;
                 frame3.dispose();
                 setFrame5();
             }
@@ -567,6 +575,7 @@ public class SaoLei implements ActionListener, MouseListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 player2Icon = character3Icon;
+                p2 = 3;
                 frame3.dispose();
                 setFrame5();
             }
@@ -581,6 +590,7 @@ public class SaoLei implements ActionListener, MouseListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 player2Icon = character4Icon;
+                p2 = 4;
                 frame3.dispose();
                 setFrame5();
             }
@@ -984,10 +994,11 @@ public class SaoLei implements ActionListener, MouseListener {
         Image image = player2Icon.getImage();
         image = image.getScaledInstance(player2Icon.getIconWidth() / picSize, player2Icon.getIconHeight() / picSize, Image.SCALE_SMOOTH);
         player2Icon = new ImageIcon(image);
-        JButton eastTestBtn = new JButton(player2Icon);//调试中 ZFH
+        JButton eastTestBtn = new JButton(player2Icon);
 
 
-        JPanel panel = new JPanel(new GridBagLayout());//设置画布
+
+        JPanel panel = new JPanel(new GridBagLayout());
         panel.setPreferredSize(new Dimension(borderEastWidth, 200));
 
         GridBagConstraints c1 = new GridBagConstraints(0, 0, 4, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
@@ -1123,7 +1134,7 @@ public class SaoLei implements ActionListener, MouseListener {
                             openOpenCell();
                             clickTimes++;
                         } else {
-                            lose();
+                            lose(i,i1);
                         }
                     } else {
                         if(canBeOpen[i][i1]){
@@ -1246,45 +1257,10 @@ public class SaoLei implements ActionListener, MouseListener {
 
     }
 
-    public void lose() {//踩到雷后爆雷
-        timer.stop();//踩雷后时间停止
-        for (int i = 0; i < ROW; i++) {
-            for (int i1 = 0; i1 < COL; i1++) {
-                if (canBeOpen[i][i1]) {
-                    JButton btn = buttons[i][i1];
-                    if (data[i][i1] == LeiCode) {
-                        canBeOpen[i][i1] = false;
-                        btn.setIcon(bombIcon);
-                        btn.setDisabledIcon(bombIcon);
-                    } else {
-                        btn.setIcon(null);//清除icon
-                        canBeOpen[i][i1] = false;
-                        btn.setOpaque(true);//设置不透明
-
-                        if (data[i][i1] == 0) {
-                            btn.setIcon(afterOpen);//背景换为碎石
-                        } else if (data[i][i1] == 1) {
-                            btn.setIcon(afterOpen1);
-                        } else if (data[i][i1] == 2) {
-                            btn.setIcon(afterOpen2);
-                        } else if (data[i][i1] == 3) {
-                            btn.setIcon(afterOpen3);
-                        } else if (data[i][i1] == 4) {
-                            btn.setIcon(afterOpen4);
-                        } else if (data[i][i1] == 5) {
-                            btn.setIcon(afterOpen5);
-                        } else if (data[i][i1] == 6) {
-                            btn.setIcon(afterOpen6);
-                        } else if (data[i][i1] == 7) {
-                            btn.setIcon(afterOpen7);
-                        } else if (data[i][i1] == 8) {
-                            btn.setIcon(afterOpen8);
-                        }
-                        //btn.setText(data[i][i1] + "");//填入数字
-                    }
-                }
-            }
-        }
+    public void lose(int i, int i1) {//踩到雷后爆雷
+        JButton btn = buttons[i][i1];
+        btn.setIcon(null);
+        btn.setIcon(flagIcon);
         JOptionPane.showMessageDialog(frame, "可惜你把金子敲碎了 ┭┮﹏┭┮", "可惜了", JOptionPane.PLAIN_MESSAGE);
     }
 
@@ -1426,7 +1402,7 @@ public class SaoLei implements ActionListener, MouseListener {
                         }
                         if (player == 1) {
                             score2++;
-                            a1.setText("金子数: " + score1);
+                            a1.setText("金子数: " + score2);
                         }
 
 
@@ -1481,7 +1457,7 @@ public class SaoLei implements ActionListener, MouseListener {
                         }
                         if (player == 1) {
                             brokenPickaxe2++;
-                            c11.setText("损坏镐子：" + brokenPickaxe1);
+                            c11.setText("损坏镐子：" + brokenPickaxe2);
                         }
 
                         checkActionCount();
