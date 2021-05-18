@@ -1224,15 +1224,26 @@ public class SaoLei implements ActionListener, MouseListener {
         }
         if (count == LeiCount) {
             timer.stop();//胜利后时间停止
-            for (int i = 0; i < ROW; i++) {
-                for (int i1 = 0; i1 < COL; i1++) {
-                    if (canBeOpen[i][i1]) {
-                        buttons[i][i1].setIcon(win_flagIcon);
-                    }
+            if (score1 > score2) {
+                bannerBtn.setIcon(winIcon);
+                JOptionPane.showMessageDialog(frame, "player1,你赢了 ヽ(✿ﾟ▽ﾟ)ノ\n点击Banner重新开始", "赢了", JOptionPane.PLAIN_MESSAGE);
+            }
+            if(score2 > score1) {
+                bannerBtn.setIcon(winIcon);
+                JOptionPane.showMessageDialog(frame, "player2,你赢了 ヽ(✿ﾟ▽ﾟ)ノ\n点击Banner重新开始", "赢了", JOptionPane.PLAIN_MESSAGE);
+            }
+            if (score1 == score2) {
+                if (brokenPickaxe1 < brokenPickaxe2) {
+                    bannerBtn.setIcon(winIcon);
+                    JOptionPane.showMessageDialog(frame, "player1,你赢了 ヽ(✿ﾟ▽ﾟ)ノ\n点击Banner重新开始", "赢了", JOptionPane.PLAIN_MESSAGE);
+                } else if (brokenPickaxe2 < brokenPickaxe1) {
+                    bannerBtn.setIcon(winIcon);
+                    JOptionPane.showMessageDialog(frame, "player2,你赢了 ヽ(✿ﾟ▽ﾟ)ノ\n点击Banner重新开始", "赢了", JOptionPane.PLAIN_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(frame, "你们都这么强的吗？居然打平了 Σ( ° △ °|||)︴\n点击Banner重新开始", "平局", JOptionPane.PLAIN_MESSAGE);
+
                 }
             }
-            bannerBtn.setIcon(winIcon);
-            JOptionPane.showMessageDialog(frame, "你赢了，Yeah\n点击Banner重新开始", "赢了", JOptionPane.PLAIN_MESSAGE);
         }
 
     }
