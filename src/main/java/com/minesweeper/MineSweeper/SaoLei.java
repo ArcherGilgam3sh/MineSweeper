@@ -222,18 +222,27 @@ public class SaoLei implements ActionListener, MouseListener {
             public void actionPerformed(ActionEvent e) {
                 Read();
 
-                frame.setSize(frameWidth, frameHeight);
-                frame.setResizable(false);
-                frame.setLocationRelativeTo(null);
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setLayout(new BorderLayout());
+                for (int i = 0; i < ROW; i++) {
+                    for (int i1 = 0; i1 < COL; i1++) {
+                        if(data[i][i1]==65535){
+                            data[i][i1]=-1;
+                        }
+                    }
+                }
 
-                player1Icon=character1Icon;
-                player2Icon=character2Icon;
+                if(checkData()){
+                    frame.setSize(frameWidth, frameHeight);
+                    frame.setResizable(false);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    frame.setLayout(new BorderLayout());
 
-                setMenu();//设置菜单
+                    player1Icon=character1Icon;
+                    player2Icon=character2Icon;
 
-                setHeader();//设置头部
+                    setMenu();//设置菜单
+
+                    setHeader();//设置头部
 
                 /*
                 if(p1==1){
@@ -258,66 +267,77 @@ public class SaoLei implements ActionListener, MouseListener {
 
                  */
 
-                for (int i = 0; i < ROW; i++) {
-                    for (int i1 = 0; i1 < COL; i1++) {
-                        if(data[i][i1]==65535){
-                            data[i][i1]=-1;
-                        }
-                    }
-                }
-
-                con=new Container();
-                con.setLayout(new GridLayout(ROW,COL));
-                for (int i = 0; i < ROW; i++) {
-                    for (int i1 = 0; i1 < COL; i1++) {
-                        JButton btn=new JButton();
-                        btn.setOpaque(true);
-                        btn.setBackground(Color.GRAY);//设置背景色
-                        if(canBeOpen[i][i1]){
-                            btn.setIcon(guessIcon);
-                        }else{
-                            if(data[i][i1]==-1){
-                                btn.setIcon(flagIcon);
+                    con=new Container();
+                    con.setLayout(new GridLayout(ROW,COL));
+                    for (int i = 0; i < ROW; i++) {
+                        for (int i1 = 0; i1 < COL; i1++) {
+                            JButton btn=new JButton();
+                            btn.setOpaque(true);
+                            btn.setBackground(Color.GRAY);//设置背景色
+                            if(canBeOpen[i][i1]){
+                                btn.setIcon(guessIcon);
                             }else{
-                                if (data[i][i1] == 0) {
-                                    btn.setIcon(afterOpen);//背景换为碎石
-                                } else if (data[i][i1] == 1) {
-                                    btn.setIcon(afterOpen1);
-                                } else if (data[i][i1] == 2) {
-                                    btn.setIcon(afterOpen2);
-                                } else if (data[i][i1] == 3) {
-                                    btn.setIcon(afterOpen3);
-                                } else if (data[i][i1] == 4) {
-                                    btn.setIcon(afterOpen4);
-                                } else if (data[i][i1] == 5) {
-                                    btn.setIcon(afterOpen5);
-                                } else if (data[i][i1] == 6) {
-                                    btn.setIcon(afterOpen6);
-                                } else if (data[i][i1] == 7) {
-                                    btn.setIcon(afterOpen7);
-                                } else if (data[i][i1] == 8) {
-                                    btn.setIcon(afterOpen8);
+                                if(data[i][i1]==-1){
+                                    btn.setIcon(flagIcon);
+                                }else{
+                                    if (data[i][i1] == 0) {
+                                        btn.setIcon(afterOpen);//背景换为碎石
+                                    } else if (data[i][i1] == 1) {
+                                        btn.setIcon(afterOpen1);
+                                    } else if (data[i][i1] == 2) {
+                                        btn.setIcon(afterOpen2);
+                                    } else if (data[i][i1] == 3) {
+                                        btn.setIcon(afterOpen3);
+                                    } else if (data[i][i1] == 4) {
+                                        btn.setIcon(afterOpen4);
+                                    } else if (data[i][i1] == 5) {
+                                        btn.setIcon(afterOpen5);
+                                    } else if (data[i][i1] == 6) {
+                                        btn.setIcon(afterOpen6);
+                                    } else if (data[i][i1] == 7) {
+                                        btn.setIcon(afterOpen7);
+                                    } else if (data[i][i1] == 8) {
+                                        btn.setIcon(afterOpen8);
+                                    }
                                 }
                             }
+                            con.add(btn);
+                            buttons[i][i1]=btn;
+                            setListener(btn);
                         }
-                        con.add(btn);
-                        buttons[i][i1]=btn;
-                        setListener(btn);
                     }
+                    frame.add(con,BorderLayout.CENTER);
+
+
+
+                    setEast();//调试中 ZFH
+
+                    setWest();//调试中 ZFH
+
+                    timer.start();//别忘了最开始也要开始Timer
+
+                    frame.setVisible(true);
+                }else{
+
                 }
-                frame.add(con,BorderLayout.CENTER);
 
-
-
-                setEast();//调试中 ZFH
-
-                setWest();//调试中 ZFH
-
-                timer.start();//别忘了最开始也要开始Timer
-
-                frame.setVisible(true);
             }
         });
+    }
+
+    public boolean checkData(){
+        for (int i = 0; i < ROW; i++) {
+            for (int j = 0; j < COL; j++) {
+                if(canBeOpen.length != data.length||canBeOpen[i].length!=data[i].length){
+                    return false;
+                }else if(data[i][j]>8||data[i][j]<-1){
+                    return false;
+                }else if(frameWidth<0&&frameHeight<0){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public void setListener(JButton btn){
