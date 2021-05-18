@@ -1269,7 +1269,7 @@ public class SaoLei implements ActionListener, MouseListener {
                 if (canBeOpen[i][i1]) count++;
             }
         }
-        if (count == LeiCount) {
+        if (count == 0) {
             timer.stop();//胜利后时间停止
             if (score1 > score2) {
                 bannerBtn.setIcon(winIcon);
@@ -1290,6 +1290,14 @@ public class SaoLei implements ActionListener, MouseListener {
                     JOptionPane.showMessageDialog(frame, "你们都这么强的吗？居然打平了 Σ( ° △ °|||)︴\n点击Banner重新开始", "平局", JOptionPane.PLAIN_MESSAGE);
 
                 }
+            }
+        }else if((count)<Math.abs(score1-score2)){
+            if(score1>score2){
+                bannerBtn.setIcon(winIcon);
+                JOptionPane.showMessageDialog(frame, "player1,你赢了 ヽ(✿ﾟ▽ﾟ)ノ\n点击Banner重新开始", "赢了", JOptionPane.PLAIN_MESSAGE);
+            }else if(score2>score1){
+                bannerBtn.setIcon(winIcon);
+                JOptionPane.showMessageDialog(frame, "player2,你赢了 ヽ(✿ﾟ▽ﾟ)ノ\n点击Banner重新开始", "赢了", JOptionPane.PLAIN_MESSAGE);
             }
         }
 
