@@ -1418,7 +1418,9 @@ public class SaoLei implements ActionListener, MouseListener {
 
                         VideoPlayer();
 
-                    } else if (canBeOpen[i][i1]) {
+                    }
+
+                    else if (canBeOpen[i][i1]) {
                         buttons[i][i1].setIcon(null);
                         JButton btn = buttons[i][i1];
                         canBeOpen[i][i1] = false;
