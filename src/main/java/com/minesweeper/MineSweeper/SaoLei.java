@@ -46,6 +46,7 @@ public class SaoLei implements ActionListener, MouseListener {
     ImageIcon character4Icon = new ImageIcon("盗贼2.png");
     ImageIcon player1Icon = new ImageIcon();
     ImageIcon player2Icon = new ImageIcon();
+    ImageIcon brokenTool = new ImageIcon("损坏镐子.png");
 
 
     //数据结构
@@ -180,7 +181,7 @@ public class SaoLei implements ActionListener, MouseListener {
 
         JButton pvp = new JButton("双人对战");
         JButton pve = new JButton("人机对战");
-        JButton backgroundButton = new JButton("背景故事");
+        JButton backgroundButton = new JButton("游戏介绍");
         JButton loadSaving = new JButton("载入存档");
         Font font1 = new Font("等线", Font.BOLD, 20);
         pvp.setFont(font1);
@@ -1791,7 +1792,13 @@ public class SaoLei implements ActionListener, MouseListener {
                             b1.setText("剩余步数: " + actionLeft);
                         }
 
-                        VideoPlayer();
+                        JDialog dialog = new JDialog();
+                        dialog.setLocationRelativeTo(null);
+                        dialog.setVisible(true);
+                        dialog.setBounds(500, 300, 500, 500);
+                        Container container = dialog.getContentPane();
+                        JLabel label = new JLabel("", brokenTool, SwingConstants.CENTER);
+                        container.add(label);
 
                     }
                 }
@@ -2037,6 +2044,7 @@ public class SaoLei implements ActionListener, MouseListener {
 
     public void VideoPlayer() {
         JDialog dialog = new JDialog();
+        dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
         dialog.setBounds(500, 300, 500, 500);
         Container container = dialog.getContentPane();
