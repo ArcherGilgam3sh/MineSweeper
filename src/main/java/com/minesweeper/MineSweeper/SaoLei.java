@@ -1508,8 +1508,7 @@ public class SaoLei implements ActionListener, MouseListener {
     }
 
     public void RandomOpen() {
-        int row = (int)(Math.random()*ROW);
-        int col = (int)(Math.random()*COL);
+
 
         int left = (int)(Math.random()*maxAction)+1;//1-5
         int right = maxAction - left;//1-5
@@ -1522,6 +1521,12 @@ public class SaoLei implements ActionListener, MouseListener {
             }
 
              */
+            int row = (int)(Math.random()*ROW);
+            int col = (int)(Math.random()*COL);
+            while(!canBeOpen[row][col]){
+                row = (int)(Math.random()*ROW);
+                col = (int)(Math.random()*COL);
+            }
             openCell(row, col);
             openOpenCell();
         }
@@ -1534,7 +1539,14 @@ public class SaoLei implements ActionListener, MouseListener {
             }
 
             */
+            int row = (int)(Math.random()*ROW);
+            int col = (int)(Math.random()*COL);
+            while(!canBeOpen[row][col]){
+                row = (int)(Math.random()*ROW);
+                col = (int)(Math.random()*COL);
+            }
             rightClick(buttons[row][col]);
+
         }
     }
 
