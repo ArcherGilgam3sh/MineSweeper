@@ -1067,7 +1067,6 @@ public class SaoLei implements ActionListener, MouseListener {
                         if (canBeOpen[i][i1]) {
                             JButton btn = buttons[i][i1];
                             if (data[i][i1] == LeiCode) {
-                                canBeOpen[i][i1] = false;
                                 btn.setIcon(bombIcon);
                                 btn.setDisabledIcon(bombIcon);
                             }
@@ -1116,10 +1115,9 @@ public class SaoLei implements ActionListener, MouseListener {
                     for (int i1 = 0; i1 < COL; i1++) {
                         if (canBeOpen[i][i1]) {
                             JButton btn = buttons[i][i1];
-                            if (data[i][i1] == LeiCode) {
-                                canBeOpen[i][i1] = false;
-                                btn.setIcon(bombIcon);
-                                btn.setDisabledIcon(bombIcon);
+                            if (data[i][i1] == LeiCode&&canBeOpen[i][i1]) {
+                                btn.setIcon(guessIcon);
+                                btn.setDisabledIcon(guessIcon);
                             }
                             /*
                             else {
