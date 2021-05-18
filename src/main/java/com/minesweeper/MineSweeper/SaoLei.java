@@ -832,17 +832,21 @@ public class SaoLei implements ActionListener, MouseListener {
         jb.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                boolean done;
                 String str1 = jt1.getText();
                 if (str1.equals("")) {
                     Object[] options = {"OK ", "CANCEL "};
                     JOptionPane.showOptionDialog(null, "您还没有输入 ", "提示", JOptionPane.DEFAULT_OPTION,
                             JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+                    done = false;
                 } else if (Integer.parseInt(str1) > 24 || Integer.parseInt(str1) < 0) {
                     Object[] options = {"OK ", "CANCEL "};
                     JOptionPane.showOptionDialog(null, "您的输入不正确 ", "提示", JOptionPane.DEFAULT_OPTION,
                             JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+                    done = false;
                 } else {
                     ROW = Integer.parseInt(str1);
+                    done = true;
                 }
 
                 String str2 = jt2.getText();
@@ -850,12 +854,15 @@ public class SaoLei implements ActionListener, MouseListener {
                     Object[] options = {"OK ", "CANCEL "};
                     JOptionPane.showOptionDialog(null, "您还没有输入 ", "提示", JOptionPane.DEFAULT_OPTION,
                             JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+                    done = false;
                 } else if (Integer.parseInt(str2) > 30 || Integer.parseInt(str2) < 0) {
                     Object[] options = {"OK ", "CANCEL "};
                     JOptionPane.showOptionDialog(null, "您的输入不正确 ", "提示", JOptionPane.DEFAULT_OPTION,
                             JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+                    done = false;
                 } else {
                     COL = Integer.parseInt(str2);
+                    done = true;
                 }
 
                 String str3 = jt3.getText();
@@ -863,48 +870,52 @@ public class SaoLei implements ActionListener, MouseListener {
                     Object[] options = {"OK ", "CANCEL "};
                     JOptionPane.showOptionDialog(null, "您还没有输入 ", "提示", JOptionPane.DEFAULT_OPTION,
                             JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+                    done = false;
                 } else if (Integer.parseInt(str3) > Integer.parseInt(str1) * Integer.parseInt(str2) / 2 || Integer.parseInt(str3) < 0) {
                     Object[] options = {"OK ", "CANCEL "};
                     JOptionPane.showOptionDialog(null, "您的输入不正确 ", "提示", JOptionPane.DEFAULT_OPTION,
                             JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+                    done = false;
                 } else {
                     LeiCount = Integer.parseInt(str3);
-
+                    done = true;
                 }
 
-                frame6.dispose();
+                if (done) {
+                    frame6.dispose();
 
-                borderWestWidth = 160;
-                borderEastWidth = 160;
-                borderHeadHeight = 150;
-                fontSize = 13;
-                picSize = 3;
-                frameWidth = 40 * COL + borderEastWidth + borderWestWidth;
-                frameHeight = 40 * ROW + borderHeadHeight;
+                    borderWestWidth = 160;
+                    borderEastWidth = 160;
+                    borderHeadHeight = 150;
+                    fontSize = 13;
+                    picSize = 3;
+                    frameWidth = 40 * COL + borderEastWidth + borderWestWidth;
+                    frameHeight = 40 * ROW + borderHeadHeight;
 
-                frame.setSize(frameWidth, frameHeight);
-                frame.setResizable(false);
-                frame.setLocationRelativeTo(null);
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setLayout(new BorderLayout());
+                    frame.setSize(frameWidth, frameHeight);
+                    frame.setResizable(false);
+                    frame.setLocationRelativeTo(null);
+                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    frame.setLayout(new BorderLayout());
 
-                setMenu();//设置菜单
+                    setMenu();//设置菜单
 
-                setHeader();//设置头部
+                    setHeader();//设置头部
 
-                setEast();//调试中 ZFH
+                    setEast();//调试中 ZFH
 
-                setWest();//调试中 ZFH
+                    setWest();//调试中 ZFH
 
-                //setSouth();//调试中 ZFH
+                    //setSouth();//调试中 ZFH
 
-                addLei();//放雷
+                    addLei();//放雷
 
-                setButtons();//设置按钮和未开的图标
+                    setButtons();//设置按钮和未开的图标
 
-                timer.start();//别忘了最开始也要开始Timer
+                    timer.start();//别忘了最开始也要开始Timer
 
-                frame.setVisible(true);
+                    frame.setVisible(true);
+                }
             }
         });
 
@@ -1428,6 +1439,7 @@ public class SaoLei implements ActionListener, MouseListener {
                     } else {
                         if (play1SkillCD != 0) {
                             play1SkillCD--;
+                            d2.setText("技能CD（剩余回合数）: " + play1SkillCD);
                         }
                     }
                 } else {
@@ -1436,6 +1448,7 @@ public class SaoLei implements ActionListener, MouseListener {
                     } else {
                         if (play2SkillCD != 0) {
                             play2SkillCD--;
+                            d1.setText("技能CD（剩余回合数）: " + play1SkillCD);
                         }
                     }
                 }
@@ -1458,19 +1471,15 @@ public class SaoLei implements ActionListener, MouseListener {
         if (count == 0) {
             timer.stop();//胜利后时间停止
             if (score1 > score2) {
-                bannerBtn.setIcon(winIcon);
                 JOptionPane.showMessageDialog(frame, "player1,你赢了 ヽ(✿ﾟ▽ﾟ)ノ\n点击Banner重新开始", "赢了", JOptionPane.PLAIN_MESSAGE);
             }
             if(score2 > score1) {
-                bannerBtn.setIcon(winIcon);
                 JOptionPane.showMessageDialog(frame, "player2,你赢了 ヽ(✿ﾟ▽ﾟ)ノ\n点击Banner重新开始", "赢了", JOptionPane.PLAIN_MESSAGE);
             }
             if (score1 == score2) {
                 if (brokenPickaxe1 < brokenPickaxe2) {
-                    bannerBtn.setIcon(winIcon);
                     JOptionPane.showMessageDialog(frame, "player1,你赢了 ヽ(✿ﾟ▽ﾟ)ノ\n点击Banner重新开始", "赢了", JOptionPane.PLAIN_MESSAGE);
                 } else if (brokenPickaxe2 < brokenPickaxe1) {
-                    bannerBtn.setIcon(winIcon);
                     JOptionPane.showMessageDialog(frame, "player2,你赢了 ヽ(✿ﾟ▽ﾟ)ノ\n点击Banner重新开始", "赢了", JOptionPane.PLAIN_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(frame, "你们都这么强的吗？居然打平了 Σ( ° △ °|||)︴\n点击Banner重新开始", "平局", JOptionPane.PLAIN_MESSAGE);
@@ -1478,11 +1487,9 @@ public class SaoLei implements ActionListener, MouseListener {
                 }
             }
         }else if(count<score1-score2){
-            bannerBtn.setIcon(winIcon);
             JOptionPane.showMessageDialog(frame, "player1,你赢了 ヽ(✿ﾟ▽ﾟ)ノ\n点击Banner重新开始", "赢了", JOptionPane.PLAIN_MESSAGE);
 
         }else if(count<score2-score1){
-            bannerBtn.setIcon(winIcon);
             JOptionPane.showMessageDialog(frame, "player2,你赢了 ヽ(✿ﾟ▽ﾟ)ノ\n点击Banner重新开始", "赢了", JOptionPane.PLAIN_MESSAGE);
         }
 
