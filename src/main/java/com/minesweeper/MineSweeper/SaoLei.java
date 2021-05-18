@@ -224,6 +224,7 @@ public class SaoLei implements ActionListener, MouseListener {
         loadSaving.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                frame1.dispose();
                 Read();
 
                 for (int i = 0; i < ROW; i++) {
@@ -248,9 +249,6 @@ public class SaoLei implements ActionListener, MouseListener {
 
                     setHeader();//设置头部
 
-                    setEast();
-
-                    setWest();
 
                 /*
                 if(p1==1){
@@ -1916,6 +1914,10 @@ public class SaoLei implements ActionListener, MouseListener {
             picSize = in.read();
             frameWidth = in.read();
             frameHeight = in.read();
+            play1SkillCD = in.read();
+            play2SkillCD = in.read();
+            p1 = in.read();
+            p2 = in.read();
             /*
             p1=in.read();
             p2=in.read();
@@ -1986,6 +1988,10 @@ public class SaoLei implements ActionListener, MouseListener {
             writer.write(picSize);
             writer.write(frameWidth);
             writer.write(frameHeight);
+            writer.write(play1SkillCD);
+            writer.write(play2SkillCD);
+            writer.write(p1);
+            writer.write(p2);
             /*
             if(player1Icon.getImage().equals(character1Icon)){
                 writer.write(1);
