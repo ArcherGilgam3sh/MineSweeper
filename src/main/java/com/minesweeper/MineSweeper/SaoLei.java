@@ -15,38 +15,38 @@ import java.text.SimpleDateFormat;
 import java.util.Random;
 
 public class SaoLei implements ActionListener, MouseListener {
-    JFrame frame = new JFrame("Golden Rush");
-    ImageIcon bannerIcon = new ImageIcon("banner.png");//头部图片（可用于reset）
-    ImageIcon guessIcon = new ImageIcon("guess.png");//未开区域的图片
-    ImageIcon bombIcon = new ImageIcon("bomb.png");
-    ImageIcon failIcon = new ImageIcon("fail.png");
-    ImageIcon winIcon = new ImageIcon("win.png");
-    ImageIcon win_flagIcon = new ImageIcon("win_flag.png");
-    ImageIcon flagIcon = new ImageIcon("goldAfterOpen.png");
-    ImageIcon exchangePlayer = new ImageIcon("交换玩家.png");
-    ImageIcon afterOpen = new ImageIcon("afterOpen.png");
-    ImageIcon afterOpen1 = new ImageIcon("1.png");
-    ImageIcon afterOpen2 = new ImageIcon("2.png");
-    ImageIcon afterOpen3 = new ImageIcon("3.png");
-    ImageIcon afterOpen4 = new ImageIcon("4.png");
-    ImageIcon afterOpen5 = new ImageIcon("5.png");
-    ImageIcon afterOpen6 = new ImageIcon("6.png");
-    ImageIcon afterOpen7 = new ImageIcon("7.png");
-    ImageIcon afterOpen8 = new ImageIcon("8.png");
-    ImageIcon image101 = new ImageIcon("101.png");
-    ImageIcon image102 = new ImageIcon("102.png");
-    ImageIcon image103 = new ImageIcon("103.png");
-    ImageIcon image104 = new ImageIcon("104.png");
-    ImageIcon image105 = new ImageIcon("105.png");
-    ImageIcon image106 = new ImageIcon("106.png");
-    ImageIcon image107 = new ImageIcon("107.png");
-    ImageIcon character1Icon = new ImageIcon("圣骑士2.png");
-    ImageIcon character2Icon = new ImageIcon("术士2.png");
-    ImageIcon character3Icon = new ImageIcon("牧师2.png");
-    ImageIcon character4Icon = new ImageIcon("盗贼2.png");
+    JFrame frame = new JFrame("D:/MineSweeper/Golden Rush");
+    ImageIcon bannerIcon = new ImageIcon("D:/MineSweeper/banner.png");//头部图片（可用于reset）
+    ImageIcon guessIcon = new ImageIcon("D:/MineSweeper/guess.png");//未开区域的图片
+    ImageIcon bombIcon = new ImageIcon("D:/MineSweeper/bomb.png");
+    ImageIcon failIcon = new ImageIcon("D:/MineSweeper/fail.png");
+    ImageIcon winIcon = new ImageIcon("D:/MineSweeper/win.png");
+    ImageIcon win_flagIcon = new ImageIcon("D:/MineSweeper/win_flag.png");
+    ImageIcon flagIcon = new ImageIcon("D:/MineSweeper/goldAfterOpen.png");
+    ImageIcon exchangePlayer = new ImageIcon("D:/MineSweeper/交换玩家.png");
+    ImageIcon afterOpen = new ImageIcon("D:/MineSweeper/afterOpen.png");
+    ImageIcon afterOpen1 = new ImageIcon("D:/MineSweeper/1.png");
+    ImageIcon afterOpen2 = new ImageIcon("D:/MineSweeper/2.png");
+    ImageIcon afterOpen3 = new ImageIcon("D:/MineSweeper/3.png");
+    ImageIcon afterOpen4 = new ImageIcon("D:/MineSweeper/4.png");
+    ImageIcon afterOpen5 = new ImageIcon("D:/MineSweeper/5.png");
+    ImageIcon afterOpen6 = new ImageIcon("D:/MineSweeper/6.png");
+    ImageIcon afterOpen7 = new ImageIcon("D:/MineSweeper/7.png");
+    ImageIcon afterOpen8 = new ImageIcon("D:/MineSweeper/8.png");
+    ImageIcon image101 = new ImageIcon("D:/MineSweeper/101.png");
+    ImageIcon image102 = new ImageIcon("D:/MineSweeper/102.png");
+    ImageIcon image103 = new ImageIcon("D:/MineSweeper/103.png");
+    ImageIcon image104 = new ImageIcon("D:/MineSweeper/104.png");
+    ImageIcon image105 = new ImageIcon("D:/MineSweeper/105.png");
+    ImageIcon image106 = new ImageIcon("D:/MineSweeper/106.png");
+    ImageIcon image107 = new ImageIcon("D:/MineSweeper/107.png");
+    ImageIcon character1Icon = new ImageIcon("D:/MineSweeper/圣骑士2.png");
+    ImageIcon character2Icon = new ImageIcon("D:/MineSweeper/术士2.png");
+    ImageIcon character3Icon = new ImageIcon("D:/MineSweeper/牧师2.png");
+    ImageIcon character4Icon = new ImageIcon("D:/MineSweeper/盗贼2.png");
     ImageIcon player1Icon = new ImageIcon();
     ImageIcon player2Icon = new ImageIcon();
-    ImageIcon brokenTool = new ImageIcon("损坏镐子.png");
+    ImageIcon brokenTool = new ImageIcon("D:/MineSweeper/损坏镐子.png");
 
 
     //数据结构
@@ -99,46 +99,9 @@ public class SaoLei implements ActionListener, MouseListener {
     Container con = new Container();
 
     public SaoLei() throws MalformedURLException, InterruptedException {
-        /*
-        new Thread(()->{while(true) {playMusic();}
-        }).start();
-         */
-
         setFrame1();
         music();
-
     }
-
-    /*
-    private void playMusic() {
-        try {
-            AudioInputStream ais = AudioSystem.getAudioInputStream(new File("D:/MineSweeper/Music1.wav"));    //绝对路径
-            AudioFormat aif = ais.getFormat();
-            final SourceDataLine sdl;
-            DataLine.Info info = new DataLine.Info(SourceDataLine.class, aif);
-            sdl = (SourceDataLine) AudioSystem.getLine(info);
-            sdl.open(aif);
-            sdl.start();
-            FloatControl fc = (FloatControl) sdl.getControl(FloatControl.Type.MASTER_GAIN);
-            // value可以用来设置音量，从0-2.0
-            double value = 2;
-            float dB = (float) (Math.log(value == 0.0 ? 0.0001 : value) / Math.log(10.0) * 20.0);
-            fc.setValue(dB);
-            int nByte = 0;
-            final int SIZE = 1024 * 64;
-            byte[] buffer = new byte[SIZE];
-
-            while (nByte != -1) {
-                nByte = ais.read(buffer, 0, SIZE);
-                sdl.write(buffer, 0, nByte);
-            }
-            sdl.stop();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-     */
 
     public void music() throws InterruptedException, MalformedURLException {
         File file = new File("D:/MineSweeper/Music1.wav");
@@ -452,7 +415,7 @@ public class SaoLei implements ActionListener, MouseListener {
 
         frame3.setLayout(null);
         JPanel imagePanel;
-        ImageIcon background = new ImageIcon("玩家1选择英雄界面.png");
+        ImageIcon background = new ImageIcon("D:/MineSweeper/玩家1选择英雄界面.png");
         JLabel label = new JLabel(background);
         label.setBounds(0, 0, background.getIconWidth(), background.getIconHeight());
         imagePanel = (JPanel) frame3.getContentPane();
@@ -469,7 +432,7 @@ public class SaoLei implements ActionListener, MouseListener {
 
 
         JButton character1 = new JButton();
-        ImageIcon newCharacter1Icon = new ImageIcon("圣骑士3.png");
+        ImageIcon newCharacter1Icon = new ImageIcon("D:/MineSweeper/圣骑士3.png");
         character1.setIcon(newCharacter1Icon);
         character1.setBounds(40,200,150,350);
         character1.addActionListener(new ActionListener() {
@@ -484,7 +447,7 @@ public class SaoLei implements ActionListener, MouseListener {
         frame3.add(character1);
 
         JButton character2 = new JButton();
-        ImageIcon newCharacter2Icon = new ImageIcon("术士3.png");
+        ImageIcon newCharacter2Icon = new ImageIcon("D:/MineSweeper/术士3.png");
         character2.setIcon(newCharacter2Icon);
         character2.setBounds(230,200,150,350);
         character2.addActionListener(new ActionListener() {
@@ -499,7 +462,7 @@ public class SaoLei implements ActionListener, MouseListener {
         frame3.add(character2);
 
         JButton character3 = new JButton();
-        ImageIcon newCharacter3Icon = new ImageIcon("牧师3.png");
+        ImageIcon newCharacter3Icon = new ImageIcon("D:/MineSweeper/牧师3.png");
         character3.setIcon(newCharacter3Icon);
         character3.setBounds(420,200,150,350);
         character3.addActionListener(new ActionListener() {
@@ -514,7 +477,7 @@ public class SaoLei implements ActionListener, MouseListener {
         frame3.add(character3);
 
         JButton character4 = new JButton();
-        ImageIcon newCharacter4Icon = new ImageIcon("盗贼3.png");
+        ImageIcon newCharacter4Icon = new ImageIcon("D:/MineSweeper/盗贼3.png");
         character4.setIcon(newCharacter4Icon);
         character4.setBounds(610,200,150,350);
         character4.addActionListener(new ActionListener() {
@@ -537,7 +500,7 @@ public class SaoLei implements ActionListener, MouseListener {
 
         frame3.setLayout(null);
         JPanel imagePanel;
-        ImageIcon background = new ImageIcon("玩家2选择英雄界面.png");
+        ImageIcon background = new ImageIcon("D:/MineSweeper/玩家2选择英雄界面.png");
         JLabel label = new JLabel(background);
         label.setBounds(0, 0, background.getIconWidth(), background.getIconHeight());
         imagePanel = (JPanel) frame3.getContentPane();
@@ -553,7 +516,7 @@ public class SaoLei implements ActionListener, MouseListener {
         frame3.setVisible(true);
 
         JButton character1 = new JButton();
-        ImageIcon newCharacter1Icon = new ImageIcon("圣骑士3.png");
+        ImageIcon newCharacter1Icon = new ImageIcon("D:/MineSweeper/圣骑士3.png");
         character1.setIcon(newCharacter1Icon);
         character1.setBounds(40,200,150,350);
         character1.addActionListener(new ActionListener() {
@@ -568,7 +531,7 @@ public class SaoLei implements ActionListener, MouseListener {
         frame3.add(character1);
 
         JButton character2 = new JButton();
-        ImageIcon newCharacter2Icon = new ImageIcon("术士3.png");
+        ImageIcon newCharacter2Icon = new ImageIcon("D:/MineSweeper/术士3.png");
         character2.setIcon(newCharacter2Icon);
         character2.setBounds(230,200,150,350);
         character2.addActionListener(new ActionListener() {
@@ -583,7 +546,7 @@ public class SaoLei implements ActionListener, MouseListener {
         frame3.add(character2);
 
         JButton character3 = new JButton();
-        ImageIcon newCharacter3Icon = new ImageIcon("牧师3.png");
+        ImageIcon newCharacter3Icon = new ImageIcon("D:/MineSweeper/牧师3.png");
         character3.setIcon(newCharacter3Icon);
         character3.setBounds(420,200,150,350);
         character3.addActionListener(new ActionListener() {
@@ -598,7 +561,7 @@ public class SaoLei implements ActionListener, MouseListener {
         frame3.add(character3);
 
         JButton character4 = new JButton();
-        ImageIcon newCharacter4Icon = new ImageIcon("盗贼3.png");
+        ImageIcon newCharacter4Icon = new ImageIcon("D:/MineSweeper/盗贼3.png");
         character4.setIcon(newCharacter4Icon);
         character4.setBounds(610,200,150,350);
         character4.addActionListener(new ActionListener() {
